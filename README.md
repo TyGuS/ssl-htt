@@ -18,7 +18,7 @@ We recommend installing with [OPAM](https://opam.ocaml.org/doc/Install.html).
 ```
 opam repo add coq-released https://coq.inria.fr/opam/released
 opam pin add coq-htt git+https://github.com/TyGuS/htt\#master --no-action --yes
-opam pin add coq-ssl-htt git+https://github.com/yasunariw/ssl-htt\#master --no-action --yes
+opam pin add coq-ssl-htt git+https://github.com/TyGuS/ssl-htt\#master --no-action --yes
 opam install coq coq-mathcomp-ssreflect coq-fcsl-pcm coq-htt coq-ssl-htt
 ```
 

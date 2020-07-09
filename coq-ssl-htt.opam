@@ -9,10 +9,10 @@ authors: [
   "Yasunari Watanabe"
   "Ilya Sergey"
 ]
-homepage: "https://github.com/yasunariw/ssl-htt"
-bug-reports: "https://github.com/yasunariw/ssl-htt"
-dev-repo: "git+https://github.com/yasunariw/ssl-htt.git"
-synopsis: "HTT bindings for SSL"
+homepage: "https://github.com/TyGuS/ssl-htt"
+bug-reports: "https://github.com/TyGuS/ssl-htt"
+dev-repo: "git+https://github.com/TyGuS/ssl-htt.git"
+synopsis: "HTT tactics for SSL"
 license: "GPL-3.0"
 description: ""
 
@@ -32,5 +32,5 @@ tags: [
   "logpath:SSL"
 ]
 url {
-  src: "git+https://github.com/yasunariw/ssl-htt.git"
+  src: "git+https://github.com/TyGuS/ssl-htt.git"
 }
