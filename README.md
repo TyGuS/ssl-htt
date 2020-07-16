@@ -4,9 +4,9 @@ Coq tactics for the [HTT](https://github.com/imdea-software/htt) framework to su
 
 ## Requirements
 
-- [Coq](https://coq.inria.fr/) (>= "8.9.0" & < "8.12~")
-- [Mathematical Components](http://math-comp.github.io/math-comp/) `ssreflect` (>= "1.10.0" & < "1.11~")
-- [FCSL PCM library](https://github.com/imdea-software/fcsl-pcm) (>= "1.0.0" & < "1.3~")
+* [Coq](https://coq.inria.fr/download) (>= "8.10.0" & < "8.12~")
+* [Mathematical Components](http://math-comp.github.io/math-comp/) `ssreflect` (>= "1.10.0" & < "1.12~")
+* [FCSL-PCM](https://github.com/imdea-software/fcsl-pcm) (>= "1.0.0" & < "1.3~")
 - [Hoare Type Theory](https://github.com/TyGuS/htt)
 
 ## Installing
