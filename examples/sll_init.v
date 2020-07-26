@@ -84,14 +84,10 @@ ssl_write.
 ssl_write_post p.
 
 ssl_emp.
-move:H_valid2. rewrite joinC joinA. rewrite defPtUnO; case/andP. move=> H_pnotnull _.
 exists (n :: s2).
-split=>//=.
-apply: subset_singleton=>//.
-  
-constructor 2=>//=.
-exists nxt.
-exists s2, n.
-exists h''.
+ssl_emp_post.
+
+unfold_constructor 2;
+exists nxt, s2, n, h'';
 ssl_emp_post.
 Qed.

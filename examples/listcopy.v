@@ -16,21 +16,6 @@ Inductive lseg (x : ptr) (s : seq nat) (h : heap) : Prop :=
     s = [:: v] ++ s1 /\ h = x :-> v \+ x .+ 1 :-> nxt \+ heap_lseg_alpha_513 /\ lseg nxt s1 heap_lseg_alpha_513
 .
 
-Lemma lseg_heap_unify :
-  forall h h' x s,
-    lseg x s h -> lseg x s h' -> h = h'.
-Proof.
-  intros h h' x s Hh Hh'.
-  case: Hh=>cond; case: Hh'=>cond'=>//=.
-  - by move=>[_ ->] [_ ->].
-  - move/eqP in cond; move/eqP in cond'; intuition.
-  - move/eqP in cond; move/eqP in cond'; intuition.
-  - move=>[nxt] [s1] [v] [h''] Hh.
-    move=>[nxt'] [s1'] [v'] [h'''] Hh'.
-Admitted.
-
-
-
 (*
 void listcopy(loc r) []
 {true ; r :-> x ** lseg(x, S)<_alpha_519>}
@@ -106,8 +91,8 @@ Next Obligation.
   case: (H_lseg_alpha_519); rewrite H_cond=>//= _.
   move=>[phi_lseg_alpha_519].
   move=>[sigma_lseg_alpha_519].
-  ssl_emp.
   rewrite sigma_lseg_alpha_519 in H_lseg_alpha_519.
+  ssl_emp.
   exists x2, empty, empty.
   ssl_emp_post.
 
@@ -122,23 +107,17 @@ Next Obligation.
   ssl_read.
 
   ssl_write.
-  put_to_head heap_lseg_alpha_513x2.
-  put_to_head (x2 :-> nxtx22).
-  rewrite -?joinA.
-  rewrite (joinA _ heap_lseg_alpha_513x2).
-  apply: bnd_seq.
-  apply: (gh_ex (nxtx22, s1x2)).
-  apply: val_do=>//=.
-  store_valid_hyps.    
-  exists heap_lseg_alpha_513x2. hhauto.
 
-  move=>_ h'.  
+  ssl_call_pre (x2 :-> nxtx22 \+ heap_lseg_alpha_513x2).
+  ssl_call (nxtx22, s1x2).
+  exists heap_lseg_alpha_513x2.
+  ssl_emp_post.
+
+  move=>_ ?.  
   move=>[yx22] [heap_lseg_alpha_520x2] [heap_lseg_alpha_521x2].
-  move=>[sigma_lseg_alpha_513x2 [H_lseg_alpha_520x2 H_lseg_alpha_521x2]]=>//=.
-  rewrite ?joinA.
-  store_valid_hyps.
+  move=>[-> [H_lseg_alpha_520x2 H_lseg_alpha_521x2]]=>//=.
+  store_valid.
 
-  rewrite sigma_lseg_alpha_513x2.
   ssl_read.
   ssl_alloc y2.
   ssl_write. ssl_write_post r.
@@ -146,25 +125,20 @@ Next Obligation.
   ssl_write. ssl_write_post x2.
   ssl_write. ssl_write_post y2.
 
-  rewrite unitL.
-  apply: val_ret.
-  rewrite ?unitL.
-  move=>H_valid1 H_valid2 H_valid3 H_valid4.
-
+  ssl_emp.
   exists y2.
-  exists heap_lseg_alpha_519.
-  exists ( y2 :-> vx22 \+ y2 .+ 1 :-> yx22 \+ heap_lseg_alpha_521x2).
-  split.
-  rewrite sigma_lseg_alpha_519.
-  rewrite ?joinA.
-  rewrite (lseg_heap_unify heap_lseg_alpha_513x2 heap_lseg_alpha_520x2 nxtx22 s1x2 H_lseg_alpha_513x2 H_lseg_alpha_520x2).
-  hhauto.
-  split; auto.
-  constructor 2.
-  - move:(H_valid4).
-    put_to_head (y2 :-> vx22).
-    rewrite defPtUnO; case/andP. auto.
-  - exists yx22, s1x2, vx22.
-    exists heap_lseg_alpha_521x2.
-    split; auto.
+  exists (x2 :-> vx22 \+ x2 .+ 1 :-> nxtx22 \+ heap_lseg_alpha_520x2).
+  exists (y2 :-> vx22 \+ y2 .+ 1 :-> yx22 \+ heap_lseg_alpha_521x2).
+  ssl_emp_post.
+
+  unfold_constructor 2;
+  exists nxtx22, s1x2, vx22;
+  exists heap_lseg_alpha_520x2;
+  ssl_emp_post.
+
+  unfold_constructor 2;
+  exists yx22, s1x2, vx22;
+  exists heap_lseg_alpha_521x2;
+  ssl_emp_post.
 Qed.
+

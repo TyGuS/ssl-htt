@@ -46,14 +46,14 @@ ssl_write_post (y2 .+ 1).
 ssl_write.
 ssl_write_post y2.
 ssl_emp;
-exists (y2), ([:: x] ++ nil);
+exists (y2), ([:: x]);
 exists (y2 :-> x \+ y2 .+ 1 :-> null);
 ssl_emp_post.
-constructor 2=>//;
+unfold_constructor 2;
 exists 0, nil, x;
 exists empty;
 ssl_emp_post.
-constructor 1=>//;
+unfold_constructor 1;
 ssl_emp_post.
 
 Qed.
