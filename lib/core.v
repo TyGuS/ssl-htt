@@ -105,33 +105,47 @@ move/H=>//.
 Qed.
 
 Ltac ssl_emp_post :=
-  rewrite ?unitL ?unitR;
-  repeat match goal with
-  | [|- _ /\ _] => split=>//
-  | [|- ?h = _] =>
-    match type of h with
-    | (PCM.sort heapPCM) => rewrite ?unitL; rewrite ?unitR; hhauto
-    | (PCM.sort (union_map_classPCM heapUMC)) => rewrite ?unitL; rewrite ?unitR; hhauto
-    | _ => auto
-    end
-  | [H: is_true (_ <= _) |- _] => case: ltngtP H=>//
-  | [H: (_ <= _) = false |- _] => case: ltngtP H=>//
-  | [H: {subset ?s1 <= ?s2} |- {subset _ :: ?s1 <= ?s2}] => apply: subset_singleton=>//
-   end.
+  match goal with
+  | [|- verify _ _ _] => idtac
+  | _ => rewrite ?unitL ?unitR;
+         repeat split=>//;
+         repeat match goal with
+                | [|- _ /\ _] => split=>//
+                | [|- ?h = _] => match type of h with
+                                 | (PCM.sort heapPCM) => hhauto
+                                 | (PCM.sort (union_map_classPCM heapUMC)) => hhauto
+                                 | _ => auto
+                                 end
+                | [H: is_true (_ <= _) |- _] => case: ltngtP H=>//
+                | [H: (_ <= _) = false |- _] => case: ltngtP H=>//
+                | [H: {subset ?s1 <= ?s2} |- {subset _ :: ?s1 <= ?s2}] => apply: subset_singleton=>//
+                end
+  end.
 
 Ltac unfold_constructor n :=
-  match n with
-  | 1 => constructor 1=>//
-  | 2 => constructor 2=>//
-  | 3 => constructor 3=>//
-  | _ => constructor=>//
-  end;
   match goal with
-  | [|- is_true (_ != ptr_nat 0)] => assert_not_null
-  | _ => idtac
+  | [|- verify _ _ _] => idtac
+  | _ => match n with
+         | 1 => constructor 1=>//
+         | 2 => constructor 2=>//
+         | 3 => constructor 3=>//
+         | _ => constructor=>//
+         end;
+         match goal with
+         | [|- is_true (_ != ptr_nat 0)] => assert_not_null
+         | _ => idtac
+         end
   end.
 
 Ltac ssl_ghostelim_pre := try apply: ghR; move=>h.
 
 Ltac ssl_ghostelim_post := store_valid.
 
+Ltac ssl_open := case: ifP=> H_cond.
+Ltac ssl_open_post H :=
+  case H;
+  match goal with
+  | [H_cond: is_true (_ == _) |- _] => move/eqP in H_cond; rewrite->H_cond in *=>//=
+  | [H_cond: (_ == _) = false |- _] => rewrite->H_cond=>//=
+  end;
+  move=>_.
