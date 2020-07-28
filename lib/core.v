@@ -108,7 +108,7 @@ Ltac ssl_emp_post :=
   match goal with
   | [|- verify _ _ _] => idtac
   | _ => rewrite ?unitL ?unitR;
-         repeat split=>//;
+         repeat split=>//=;
          repeat match goal with
                 | [|- _ /\ _] => split=>//
                 | [|- ?h = _] => match type of h with
@@ -149,3 +149,5 @@ Ltac ssl_open_post H :=
   | [H_cond: (_ == _) = false |- _] => rewrite->H_cond=>//=
   end;
   move=>_.
+
+Ltac ssl_program_simpl := Tactics.program_simpl.

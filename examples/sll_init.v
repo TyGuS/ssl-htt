@@ -7,87 +7,96 @@ Require Import stmod stsep stlog stlogR.
 From SSL
 Require Import core.
 
-Lemma subset_singleton :
-    forall (s1: seq nat) (x: nat),
-      {subset s1 <= [::x]} -> {subset x :: s1 <= [::x]}.
-intros.
-move=>n.
-rewrite inE; move/orP. case.
-move/eqP=>->. by rewrite inE eqxx.
-move/H=>//.
-Qed.
-
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | sll0 of x == 0 of
     s = nil /\ h = empty
 | sll1 of x != 0 of
   exists nxt s1 v,
-  exists h',
-    s = [:: v] ++ s1 /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h' /\ sll nxt s1 h'
-.
+  exists h_sll513,
+    s = [:: v] ++ s1 /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll513 /\ sll nxt s1 h_sll513.
+
 
 Definition sll_init_type :=
-  forall (arg: ptr * nat),
-    {(s : seq nat)},
+  forall (vprogs : ptr * nat),
+  {(vghosts : seq nat)},
     STsep (
       fun h =>
-       let: (a, b) := arg in
-        sll a s h,
-        [vfun (_: unit) h =>
-                let: (a, b) := arg in
-
-       exists s1,
-          {subset s1 <= [:: b]} /\ sll a s1 h      ]).
+        let: (x, v) := vprogs in
+        let: (s) := vghosts in
+        exists h_sll514,
+          h = h_sll514 /\ sll x s h_sll514,
+      [vfun (_: unit) h =>
+        let: (x, v) := vprogs in
+        let: (s) := vghosts in
+        exists s1,
+        exists h_sll515,
+          {subset s1 <= [:: v]} /\ h = h_sll515 /\ sll x s1 h_sll515
+      ]).
 
 Program Definition sll_init : sll_init_type :=
-  Fix (fun (sll_init : sll_init_type) arg =>
-         let: (a, b) := arg in
-         Do (
-             if a == 0
-             then ret tt
-             else
-               n <-- @read ptr (a .+ 1);
-               sll_init (n, b);;
-               a ::= b;;
-               ret tt
-   )).
+  Fix (fun (sll_init : sll_init_type) vprogs =>
+  let: (x, v) := vprogs in
+    Do (
+  if x == 0
+  then
+    ret tt
+  else
+    nxtx2 <-- @read ptr (x .+ 1);
+    sll_init (nxtx2, v);;
+    x ::= v;;
+    ret tt
+    )).
+
+Obligation Tactic := intro; move=>[x v]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
-move=>s//=.
-move=>H_sll.
-move=>H_valid.
-case: ifP=>H_cond.
-
-case H_sll; rewrite H_cond=>//= _.
-move=>[sll_phi].
-move=>[->].
-ssl_emp.
-exists nil.
+move=>s.
+move=>[h_sll514].
+move=>[sigma_root].
+rewrite->sigma_root in *.
+move=>H_sll514.
+ssl_ghostelim_post.
+ssl_open.
+ssl_open_post H_sll514.
+move=>[phi_sll514].
+move=>[sigma_sll514].
+rewrite->sigma_sll514 in *.
+ssl_emp;
+exists (nil);
+exists (empty);
 ssl_emp_post.
-constructor 1=>//.
-
-case H_sll; rewrite H_cond=>//= _.
-move=>[nxt] [s1] [v].
-move=>[h'].
-move=>[sll_phi].
-move=>[->].
-move=>H_sll0.
+unfold_constructor 1;
+ssl_emp_post.
+ssl_open_post H_sll514.
+move=>[(*nxtx*) nxtx2] [s1x] [vx].
+move=>[h_sll513x].
+move=>[phi_sll514].
+move=>[sigma_sll514].
+rewrite->sigma_sll514 in *.
+move=>H_sll513x.
 ssl_read.
-put_to_head h'.
-apply: bnd_seq.
-apply: (gh_ex s1).
-apply: val_do=>//= _ h''.
-move=>[s2] [H_subseq H_sll1].
-move=>H_valid0.
-
+(*ssl_read.*)
+ssl_call_pre (h_sll513x).
+ssl_call (s1x).
+exists (h_sll513x);
+ssl_emp_post.
+move=>h_call1550077777.
+move=>[s11].
+move=>[h_sll5151].
+move=>[phi_call1550077777].
+move=>[sigma_call1550077777].
+rewrite->sigma_call1550077777 in *.
+move=>H_sll5151.
+store_valid.
 ssl_write.
-ssl_write_post p.
-
-ssl_emp.
-exists (n :: s2).
+ssl_write_post x.
+ssl_emp;
+exists ([:: v] ++ s11);
+exists (x :-> v \+ x .+ 1 :-> nxtx2 \+ h_sll5151);
 ssl_emp_post.
-
 unfold_constructor 2;
-exists nxt, s2, n, h'';
+exists (nxtx2), (s11), (v);
+exists (h_sll5151);
 ssl_emp_post.
+
 Qed.
