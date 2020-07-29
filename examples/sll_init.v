@@ -68,14 +68,13 @@ ssl_emp_post.
 unfold_constructor 1;
 ssl_emp_post.
 ssl_open_post H_sll514.
-move=>[(*nxtx*) nxtx2] [s1x] [vx].
+move=>[nxtx2] [s1x] [vx].
 move=>[h_sll513x].
 move=>[phi_sll514].
 move=>[sigma_sll514].
 rewrite->sigma_sll514 in *.
 move=>H_sll513x.
 ssl_read.
-(*ssl_read.*)
 ssl_call_pre (h_sll513x).
 ssl_call (s1x).
 exists (h_sll513x);

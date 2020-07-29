@@ -54,7 +54,7 @@ Program Definition listcopy : listcopy_type :=
 Obligation Tactic := intro; move=>r; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
-move=>[(* x *) x2 s].
+move=>[x2 s].
 move=>[h_lseg516].
 move=>[sigma_root].
 rewrite->sigma_root in *.
@@ -76,7 +76,7 @@ ssl_emp_post.
 unfold_constructor 1;
 ssl_emp_post.
 ssl_open_post H_lseg516.
-move=>[(* nxtx2 *)nxtx22] [s1x2] [(* vx2 *) vx22].
+move=>[nxtx22] [s1x2] [vx22].
 move=>[h_lseg515x2].
 move=>[phi_lseg516].
 move=>[sigma_lseg516].
@@ -90,7 +90,7 @@ ssl_call (nxtx22, s1x2).
 exists (h_lseg515x2);
 ssl_emp_post.
 move=>h_call1043136427.
-move=>[(* y1 *) y12].
+move=>[y12].
 move=>[h_lseg5171] [h_lseg5181].
 move=>[sigma_call1043136427].
 rewrite->sigma_call1043136427 in *.
