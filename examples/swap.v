@@ -10,31 +10,32 @@ Require Import core.
 Definition swap_type :=
   forall (vprogs : ptr * ptr),
   {(vghosts : ptr * ptr)},
-    STsep (
-      fun h =>
-        let: (x, y) := vprogs in
-        let: (a, b) := vghosts in
-          h = x :-> a \+ y :-> b,
-      [vfun (_: unit) h =>
-        let: (x, y) := vprogs in
-        let: (a, b) := vghosts in
-          h = x :-> b \+ y :-> a
-      ]).
+  STsep (
+    fun h =>
+      let: (x, y) := vprogs in
+      let: (a, b) := vghosts in
+      h = x :-> a \+ y :-> b,
+    [vfun (_: unit) h =>
+      let: (x, y) := vprogs in
+      let: (a, b) := vghosts in
+      h = x :-> b \+ y :-> a
+    ]).
 Program Definition swap : swap_type :=
-  fun vprogs =>
-  let: (x, y) := vprogs in
+  Fix (fun (swap : swap_type) vprogs =>
+    let: (x, y) := vprogs in
     Do (
-  a2 <-- @read ptr x;
-  b2 <-- @read ptr y;
-  x ::= b2;;
-  y ::= a2;;
-  ret tt    ).
-Obligation Tactic := move=>[x y]; ssl_program_simpl.
+      a2 <-- @read ptr x;
+      b2 <-- @read ptr y;
+      x ::= b2;;
+      y ::= a2;;
+      ret tt
+    )).
+Obligation Tactic := intro; move=>[x y]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
-move=>[a b].
-move=>[sigma_root].
-rewrite->sigma_root in *.
+move=>[a2 b2].
+move=>[sigma_self].
+rewrite->sigma_self in *.
 ssl_ghostelim_post.
 ssl_read.
 ssl_read.
