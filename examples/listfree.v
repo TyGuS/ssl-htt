@@ -58,7 +58,7 @@ move=>[phi_lseg514].
 move=>[sigma_lseg514].
 rewrite->sigma_lseg514 in *.
 ssl_emp;
-ssl_emp_post.
+sslauto.
 ssl_open_post H_lseg514.
 move=>[vx2] [s1x] [nxtx2].
 move=>[h_lseg513x].
@@ -70,7 +70,7 @@ ssl_read.
 ssl_call_pre (h_lseg513x).
 ssl_call (s1x).
 exists (h_lseg513x);
-ssl_emp_post.
+sslauto.
 move=>h_call1.
 move=>[sigma_call1].
 rewrite->sigma_call1 in *.
@@ -78,6 +78,6 @@ store_valid.
 ssl_dealloc.
 ssl_dealloc.
 ssl_emp;
-ssl_emp_post.
+sslauto.
 
 Qed.

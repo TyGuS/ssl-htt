@@ -70,11 +70,11 @@ ssl_emp;
 exists (0);
 exists (empty);
 exists (empty);
-ssl_emp_post.
+sslauto.
 unfold_constructor 1;
-ssl_emp_post.
+sslauto.
 unfold_constructor 1;
-ssl_emp_post.
+sslauto.
 ssl_open_post H_lseg516.
 move=>[vx22] [s1x2] [nxtx22].
 move=>[h_lseg515x2].
@@ -88,7 +88,7 @@ ssl_write.
 ssl_call_pre (r :-> nxtx22 \+ h_lseg515x2).
 ssl_call (nxtx22, s1x2).
 exists (h_lseg515x2);
-ssl_emp_post.
+sslauto.
 move=>h_call2.
 move=>[y12].
 move=>[h_lseg5171] [h_lseg5181].
@@ -108,14 +108,14 @@ ssl_emp;
 exists (y2);
 exists (x2 :-> vx22 \+ x2 .+ 1 :-> nxtx22 \+ h_lseg5171);
 exists (y2 :-> vx22 \+ y2 .+ 1 :-> y12 \+ h_lseg5181);
-ssl_emp_post.
+sslauto.
 unfold_constructor 2;
 exists (vx22), (s1x2), (nxtx22);
 exists (h_lseg5171);
-ssl_emp_post.
+sslauto.
 unfold_constructor 2;
 exists (vx22), (s1x2), (y12);
 exists (h_lseg5181);
-ssl_emp_post.
+sslauto.
 
 Qed.

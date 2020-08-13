@@ -83,6 +83,24 @@ move/eqP=>->. by rewrite inE eqxx.
 move/H=>//.
 Qed.
 
+Ltac sslauto :=
+  (* Various strategies to solve all parts of the current goal except the predicate applications  *)
+  match goal with
+  | [|- verify _ _ _] => idtac
+  | _ => rewrite ?unitL ?unitR;
+         repeat split=>//=;
+         repeat match goal with
+                | [|- _ /\ _] => split=>//
+                | [|- ?h = _] => match type of h with
+                                 | (PCM.sort heapPCM) => hhauto
+                                 | (PCM.sort (union_map_classPCM heapUMC)) => hhauto
+                                 | _ => auto
+                                 end
+                | [H: is_true (_ <= _) |- _] => case: ltngtP H=>//
+                | [H: (_ <= _) = false |- _] => case: ltngtP H=>//
+                | [H: {subset ?s1 <= ?s2} |- {subset _ :: ?s1 <= ?s2}] => apply: subset_singleton=>//
+                end
+  end.
 
 (***********)
 (* Tactics *)
@@ -125,7 +143,6 @@ Ltac ssl_dealloc :=
   end
 .
 
-
 (* Call Rule *)
 Ltac ssl_call_pre_aux h :=
   match h with
@@ -152,25 +169,6 @@ Tactic Notation "ssl_call" constr(ex) := ssl_call' ex.
 
 (* Emp Rule *)
 Ltac ssl_emp := apply: val_ret; rewrite ?unitL; store_valid; move=>//.
-
-Ltac ssl_emp_post :=
-  (* Various strategies to solve all parts of the current goal except the predicate applications  *)
-  match goal with
-  | [|- verify _ _ _] => idtac
-  | _ => rewrite ?unitL ?unitR;
-         repeat split=>//=;
-         repeat match goal with
-                | [|- _ /\ _] => split=>//
-                | [|- ?h = _] => match type of h with
-                                 | (PCM.sort heapPCM) => hhauto
-                                 | (PCM.sort (union_map_classPCM heapUMC)) => hhauto
-                                 | _ => auto
-                                 end
-                | [H: is_true (_ <= _) |- _] => case: ltngtP H=>//
-                | [H: (_ <= _) = false |- _] => case: ltngtP H=>//
-                | [H: {subset ?s1 <= ?s2} |- {subset _ :: ?s1 <= ?s2}] => apply: subset_singleton=>//
-                end
-  end.
 
 (* Open Rule *)
 Ltac ssl_open := case: ifP=> H_cond.

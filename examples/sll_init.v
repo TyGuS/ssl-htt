@@ -61,9 +61,9 @@ rewrite->sigma_sll527 in *.
 ssl_emp;
 exists (nil);
 exists (empty);
-ssl_emp_post.
+sslauto.
 unfold_constructor 1;
-ssl_emp_post.
+sslauto.
 ssl_open_post H_sll527.
 move=>[vx2] [s1x] [nxtx2].
 move=>[h_sll526x].
@@ -75,7 +75,7 @@ ssl_read.
 ssl_call_pre (h_sll526x).
 ssl_call (s1x).
 exists (h_sll526x);
-ssl_emp_post.
+sslauto.
 move=>h_call6.
 move=>[s11].
 move=>[h_sll5281].
@@ -89,10 +89,10 @@ ssl_write_post x.
 ssl_emp;
 exists ([:: v] ++ s11);
 exists (x :-> v \+ x .+ 1 :-> nxtx2 \+ h_sll5281);
-ssl_emp_post.
+sslauto.
 unfold_constructor 2;
 exists (v), (s11), (nxtx2);
 exists (h_sll5281);
-ssl_emp_post.
+sslauto.
 
 Qed.

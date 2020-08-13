@@ -61,7 +61,7 @@ move=>[phi_tree521].
 move=>[sigma_tree521].
 rewrite->sigma_tree521 in *.
 ssl_emp;
-ssl_emp_post.
+sslauto.
 ssl_open_post H_tree521.
 move=>[vx2] [s1x] [s2x] [lx2] [rx2].
 move=>[h_tree519x] [h_tree520x].
@@ -74,7 +74,7 @@ ssl_read.
 ssl_call_pre (h_tree519x).
 ssl_call (s1x).
 exists (h_tree519x);
-ssl_emp_post.
+sslauto.
 move=>h_call3.
 move=>[sigma_call3].
 rewrite->sigma_call3 in *.
@@ -82,7 +82,7 @@ store_valid.
 ssl_call_pre (h_tree520x).
 ssl_call (s2x).
 exists (h_tree520x);
-ssl_emp_post.
+sslauto.
 move=>h_call4.
 move=>[sigma_call4].
 rewrite->sigma_call4 in *.
@@ -91,6 +91,6 @@ ssl_dealloc.
 ssl_dealloc.
 ssl_dealloc.
 ssl_emp;
-ssl_emp_post.
+sslauto.
 
 Qed.

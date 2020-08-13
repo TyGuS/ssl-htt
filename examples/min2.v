@@ -41,11 +41,11 @@ ssl_write.
 ssl_write_post r.
 ssl_emp;
 exists (x);
-ssl_emp_post.
+sslauto.
 ssl_write.
 ssl_write_post r.
 ssl_emp;
 exists (y);
-ssl_emp_post.
+sslauto.
 
 Qed.
