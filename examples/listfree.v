@@ -9,11 +9,11 @@ Require Import core.
 
 Inductive lseg (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | lseg1 of x == 0 of
-  s = nil /\ h = empty
+  perm_eq (s) (nil) /\ h = empty
 | lseg2 of ~~ (x == 0) of
-  exists v s1 nxt,
-  exists h_lseg513,
-  s = [:: v] ++ s1 /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg513 /\ lseg nxt s1 h_lseg513.
+  exists (v : nat) (s1 : seq nat) nxt,
+  exists h_lseg_nxts1_513,
+  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_513 /\ lseg nxt s1 h_lseg_nxts1_513.
 
 Definition listfree_type :=
   forall (vprogs : ptr),
@@ -22,8 +22,8 @@ Definition listfree_type :=
     fun h =>
       let: (x) := vprogs in
       let: (s) := vghosts in
-      exists h_lseg514,
-      h = h_lseg514 /\ lseg x s h_lseg514,
+      exists h_lseg_xs_514,
+      h = h_lseg_xs_514 /\ lseg x s h_lseg_xs_514,
     [vfun (_: unit) h =>
       let: (x) := vprogs in
       let: (s) := vghosts in
@@ -47,33 +47,33 @@ Obligation Tactic := intro; move=>x; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
 move=>s.
-move=>[h_lseg514].
+ex_elim h_lseg_xs_514.
 move=>[sigma_self].
-rewrite->sigma_self in *.
-move=>H_lseg514.
+subst.
+move=>H_lseg_xs_514.
 ssl_ghostelim_post.
 ssl_open.
-ssl_open_post H_lseg514.
-move=>[phi_lseg514].
-move=>[sigma_lseg514].
-rewrite->sigma_lseg514 in *.
+ssl_open_post H_lseg_xs_514.
+move=>[phi_lseg_xs_514].
+move=>[sigma_lseg_xs_514].
+subst.
 ssl_emp;
 sslauto.
-ssl_open_post H_lseg514.
-move=>[vx2] [s1x] [nxtx2].
-move=>[h_lseg513x].
-move=>[phi_lseg514].
-move=>[sigma_lseg514].
-rewrite->sigma_lseg514 in *.
-move=>H_lseg513x.
+ssl_open_post H_lseg_xs_514.
+ex_elim vx2 s1x nxtx2.
+ex_elim h_lseg_nxtx2s1x_513x.
+move=>[phi_lseg_xs_514].
+move=>[sigma_lseg_xs_514].
+subst.
+move=>H_lseg_nxtx2s1x_513x.
 ssl_read.
-ssl_call_pre (h_lseg513x).
+ssl_call_pre (h_lseg_nxtx2s1x_513x).
 ssl_call (s1x).
-exists (h_lseg513x);
+exists (h_lseg_nxtx2s1x_513x);
 sslauto.
 move=>h_call1.
 move=>[sigma_call1].
-rewrite->sigma_call1 in *.
+subst.
 store_valid.
 ssl_dealloc.
 ssl_dealloc.

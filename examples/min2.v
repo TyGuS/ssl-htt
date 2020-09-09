@@ -34,15 +34,15 @@ Obligation Tactic := intro; move=>[[r x] y]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
 move=>[sigma_self].
-rewrite->sigma_self in *.
+subst.
 ssl_ghostelim_post.
 ssl_abduce_branch.
-ssl_write.
+ssl_write r.
 ssl_write_post r.
 ssl_emp;
 exists (x);
 sslauto.
-ssl_write.
+ssl_write r.
 ssl_write_post r.
 ssl_emp;
 exists (y);

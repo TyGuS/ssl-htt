@@ -7,32 +7,32 @@ Require Import stmod stsep stlog stlogR.
 From SSL
 Require Import core.
 
-Inductive lseg (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| lseg1 of x == 0 of
+Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
+| sll1 of x == 0 of
   perm_eq (s) (nil) /\ h = empty
-| lseg2 of ~~ (x == 0) of
+| sll2 of ~~ (x == 0) of
   exists (v : nat) (s1 : seq nat) nxt,
-  exists h_lseg_nxts1_515,
-  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_515 /\ lseg nxt s1 h_lseg_nxts1_515.
+  exists h_sll_nxts1_528,
+  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_528 /\ sll nxt s1 h_sll_nxts1_528.
 
-Definition listcopy_type :=
+Definition sll_copy_type :=
   forall (vprogs : ptr),
   {(vghosts : ptr * seq nat)},
   STsep (
     fun h =>
       let: (r) := vprogs in
       let: (x, s) := vghosts in
-      exists h_lseg_xs_516,
-      h = r :-> x \+ h_lseg_xs_516 /\ lseg x s h_lseg_xs_516,
+      exists h_sll_xs_a,
+      h = r :-> x \+ h_sll_xs_a /\ sll x s h_sll_xs_a,
     [vfun (_: unit) h =>
       let: (r) := vprogs in
       let: (x, s) := vghosts in
       exists y,
-      exists h_lseg_xs_517 h_lseg_ys_518,
-      h = r :-> y \+ h_lseg_xs_517 \+ h_lseg_ys_518 /\ lseg x s h_lseg_xs_517 /\ lseg y s h_lseg_ys_518
+      exists h_sll_xs_a h_sll_ys_b,
+      h = r :-> y \+ h_sll_xs_a \+ h_sll_ys_b /\ sll x s h_sll_xs_a /\ sll y s h_sll_ys_b
     ]).
-Program Definition listcopy : listcopy_type :=
-  Fix (fun (listcopy : listcopy_type) vprogs =>
+Program Definition sll_copy : sll_copy_type :=
+  Fix (fun (sll_copy : sll_copy_type) vprogs =>
     let: (r) := vprogs in
     Do (
       x2 <-- @read ptr r;
@@ -43,7 +43,7 @@ Program Definition listcopy : listcopy_type :=
         vx22 <-- @read nat x2;
         nxtx22 <-- @read ptr (x2 .+ 1);
         r ::= nxtx22;;
-        listcopy (r);;
+        sll_copy (r);;
         y12 <-- @read ptr r;
         y2 <-- allocb null 2;
         r ::= y2;;
@@ -55,16 +55,16 @@ Obligation Tactic := intro; move=>r; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
 move=>[x2 s].
-ex_elim h_lseg_x2s_516.
+ex_elim h_sll_x2s_a.
 move=>[sigma_self].
 subst.
-move=>H_lseg_x2s_516.
+move=>H_sll_x2s_a.
 ssl_ghostelim_post.
 ssl_read.
 ssl_open.
-ssl_open_post H_lseg_x2s_516.
-move=>[phi_lseg_x2s_516].
-move=>[sigma_lseg_x2s_516].
+ssl_open_post H_sll_x2s_a.
+move=>[phi_sll_x2s_a].
+move=>[sigma_sll_x2s_a].
 subst.
 ssl_emp;
 exists (0);
@@ -75,26 +75,26 @@ unfold_constructor 1;
 sslauto.
 unfold_constructor 1;
 sslauto.
-ssl_open_post H_lseg_x2s_516.
+ssl_open_post H_sll_x2s_a.
 ex_elim vx22 s1x2 nxtx22.
-ex_elim h_lseg_nxtx22s1x2_515x2.
-move=>[phi_lseg_x2s_516].
-move=>[sigma_lseg_x2s_516].
+ex_elim h_sll_nxtx22s1x2_528x2.
+move=>[phi_sll_x2s_a].
+move=>[sigma_sll_x2s_a].
 subst.
-move=>H_lseg_nxtx22s1x2_515x2.
+move=>H_sll_nxtx22s1x2_528x2.
 ssl_read.
 ssl_read.
 ssl_write r.
-ssl_call_pre (r :-> nxtx22 \+ h_lseg_nxtx22s1x2_515x2).
+ssl_call_pre (r :-> nxtx22 \+ h_sll_nxtx22s1x2_528x2).
 ssl_call (nxtx22, s1x2).
-exists (h_lseg_nxtx22s1x2_515x2);
+exists (h_sll_nxtx22s1x2_528x2);
 sslauto.
-move=>h_call2.
+move=>h_call7.
 ex_elim y12.
-ex_elim h_lseg_nxtx22s1x2_5171 h_lseg_y12s1x2_5181.
-move=>[sigma_call2].
+ex_elim h_sll_nxtx22s1x2_528x2 h_sll_y12s1x2_b1.
+move=>[sigma_call7].
 subst.
-move=>[H_lseg_nxtx22s1x2_5171 H_lseg_y12s1x2_5181].
+move=>[H_sll_nxtx22s1x2_528x2 H_sll_y12s1x2_b1].
 store_valid.
 ssl_read.
 ssl_alloc y2.
@@ -106,16 +106,16 @@ ssl_write y2.
 ssl_write_post y2.
 ssl_emp;
 exists (y2);
-exists (x2 :-> vx22 \+ x2 .+ 1 :-> nxtx22 \+ h_lseg_nxtx22s1x2_5171);
-exists (y2 :-> vx22 \+ y2 .+ 1 :-> y12 \+ h_lseg_y12s1x2_5181);
+exists (x2 :-> vx22 \+ x2 .+ 1 :-> nxtx22 \+ h_sll_nxtx22s1x2_528x2);
+exists (y2 :-> vx22 \+ y2 .+ 1 :-> y12 \+ h_sll_y12s1x2_b1);
 sslauto.
 unfold_constructor 2;
 exists (vx22), (s1x2), (nxtx22);
-exists (h_lseg_nxtx22s1x2_5171);
+exists (h_sll_nxtx22s1x2_528x2);
 sslauto.
 unfold_constructor 2;
 exists (vx22), (s1x2), (y12);
-exists (h_lseg_y12s1x2_5181);
+exists (h_sll_y12s1x2_b1);
 sslauto.
 
 Qed.

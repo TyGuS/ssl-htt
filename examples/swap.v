@@ -35,13 +35,13 @@ Next Obligation.
 ssl_ghostelim_pre.
 move=>[a2 b2].
 move=>[sigma_self].
-rewrite->sigma_self in *.
+subst.
 ssl_ghostelim_post.
 ssl_read.
 ssl_read.
-ssl_write.
+ssl_write x.
 ssl_write_post x.
-ssl_write.
+ssl_write y.
 ssl_write_post y.
 ssl_emp;
 sslauto.
