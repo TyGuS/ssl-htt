@@ -11,9 +11,17 @@ Inductive tree (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | tree1 of x == 0 of
   perm_eq (s) (nil) /\ h = empty
 | tree2 of ~~ (x == 0) of
-  exists (v : nat) (s1 : seq nat) (s2 : seq nat) l r,
-  exists h_tree_ls1_521 h_tree_rs2_522,
-  perm_eq (s) ([:: v] ++ s1 ++ s2) /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_tree_ls1_521 \+ h_tree_rs2_522 /\ tree l s1 h_tree_ls1_521 /\ tree r s2 h_tree_rs2_522.
+  exists (v : nat) (s1 : seq nat) (s2 : seq nat) (l : ptr) (r : ptr),
+  exists h_tree_ls1_523 h_tree_rs2_524,
+  perm_eq (s) ([:: v] ++ s1 ++ s2) /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_tree_ls1_523 \+ h_tree_rs2_524 /\ tree l s1 h_tree_ls1_523 /\ tree r s2 h_tree_rs2_524.
+
+Inductive treeN (x : ptr) (n : nat) (h : heap) : Prop :=
+| treeN1 of x == 0 of
+  n == 0 /\ h = empty
+| treeN2 of ~~ (x == 0) of
+  exists (n1 : nat) (n2 : nat) (l : ptr) (r : ptr) (v : ptr),
+  exists h_treeN_ln1_525 h_treeN_rn2_526,
+  n == 1 + n1 + n2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_treeN_ln1_525 \+ h_treeN_rn2_526 /\ treeN l n1 h_treeN_ln1_525 /\ treeN r n2 h_treeN_rn2_526.
 
 Definition tree_copy_type :=
   forall (vprogs : ptr),
@@ -82,38 +90,38 @@ unfold_constructor 1;
 sslauto.
 ssl_open_post H_tree_x2s_a.
 ex_elim vx22 s1x2 s2x2 lx22 rx22.
-ex_elim h_tree_lx22s1x2_521x2 h_tree_rx22s2x2_522x2.
+ex_elim h_tree_lx22s1x2_523x2 h_tree_rx22s2x2_524x2.
 move=>[phi_tree_x2s_a].
 move=>[sigma_tree_x2s_a].
 subst.
-move=>[H_tree_lx22s1x2_521x2 H_tree_rx22s2x2_522x2].
+move=>[H_tree_lx22s1x2_523x2 H_tree_rx22s2x2_524x2].
 ssl_read.
 ssl_read.
 ssl_read.
 ssl_write r.
-ssl_call_pre (r :-> lx22 \+ h_tree_lx22s1x2_521x2).
+ssl_call_pre (r :-> lx22 \+ h_tree_lx22s1x2_523x2).
 ssl_call (lx22, s1x2).
-exists (h_tree_lx22s1x2_521x2);
+exists (h_tree_lx22s1x2_523x2);
 sslauto.
-move=>h_call3.
+move=>h_call5.
 ex_elim y12.
-ex_elim h_tree_lx22s1x2_521x2 h_tree_y12s1x2_521x2.
-move=>[sigma_call3].
+ex_elim h_tree_lx22s1x2_523x2 h_tree_y12s1x2_523x2.
+move=>[sigma_call5].
 subst.
-move=>[H_tree_lx22s1x2_521x2 H_tree_y12s1x2_521x2].
+move=>[H_tree_lx22s1x2_523x2 H_tree_y12s1x2_523x2].
 store_valid.
 ssl_read.
 ssl_write r.
-ssl_call_pre (r :-> rx22 \+ h_tree_rx22s2x2_522x2).
+ssl_call_pre (r :-> rx22 \+ h_tree_rx22s2x2_524x2).
 ssl_call (rx22, s2x2).
-exists (h_tree_rx22s2x2_522x2);
+exists (h_tree_rx22s2x2_524x2);
 sslauto.
-move=>h_call4.
+move=>h_call6.
 ex_elim y22.
-ex_elim h_tree_rx22s2x2_522x2 h_tree_y22s2x2_522x2.
-move=>[sigma_call4].
+ex_elim h_tree_rx22s2x2_524x2 h_tree_y22s2x2_524x2.
+move=>[sigma_call6].
 subst.
-move=>[H_tree_rx22s2x2_522x2 H_tree_y22s2x2_522x2].
+move=>[H_tree_rx22s2x2_524x2 H_tree_y22s2x2_524x2].
 store_valid.
 ssl_read.
 ssl_alloc y3.
@@ -127,18 +135,18 @@ ssl_write y3.
 ssl_write_post y3.
 ssl_emp;
 exists (y3);
-exists (x2 :-> vx22 \+ x2 .+ 1 :-> lx22 \+ x2 .+ 2 :-> rx22 \+ h_tree_lx22s1x2_521x2 \+ h_tree_rx22s2x2_522x2);
-exists (y3 :-> vx22 \+ y3 .+ 1 :-> y12 \+ y3 .+ 2 :-> y22 \+ h_tree_y12s1x2_521x2 \+ h_tree_y22s2x2_522x2);
+exists (x2 :-> vx22 \+ x2 .+ 1 :-> lx22 \+ x2 .+ 2 :-> rx22 \+ h_tree_lx22s1x2_523x2 \+ h_tree_rx22s2x2_524x2);
+exists (y3 :-> vx22 \+ y3 .+ 1 :-> y12 \+ y3 .+ 2 :-> y22 \+ h_tree_y12s1x2_523x2 \+ h_tree_y22s2x2_524x2);
 sslauto.
 unfold_constructor 2;
 exists (vx22), (s1x2), (s2x2), (lx22), (rx22);
-exists (h_tree_lx22s1x2_521x2);
-exists (h_tree_rx22s2x2_522x2);
+exists (h_tree_lx22s1x2_523x2);
+exists (h_tree_rx22s2x2_524x2);
 sslauto.
 unfold_constructor 2;
 exists (vx22), (s1x2), (s2x2), (y12), (y22);
-exists (h_tree_y12s1x2_521x2);
-exists (h_tree_y22s2x2_522x2);
+exists (h_tree_y12s1x2_523x2);
+exists (h_tree_y22s2x2_524x2);
 sslauto.
 
 Qed.

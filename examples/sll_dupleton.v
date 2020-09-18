@@ -9,11 +9,11 @@ Require Import core.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | sll1 of x == 0 of
-  s = nil /\ h = empty
+  perm_eq (s) (nil) /\ h = empty
 | sll2 of ~~ (x == 0) of
-  exists v s1 nxt,
-  exists h_sll513,
-  s = [:: v] ++ s1 /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll513 /\ sll nxt s1 h_sll513.
+  exists (v : nat) (s1 : seq nat) (nxt : ptr),
+  exists h_sll_nxts1_532,
+  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_532 /\ sll nxt s1 h_sll_nxts1_532.
 
 Definition sll_dupleton_type :=
   forall (vprogs : nat * nat * ptr),
@@ -26,9 +26,9 @@ Definition sll_dupleton_type :=
     [vfun (_: unit) h =>
       let: (x, y, r) := vprogs in
       let: (a) := vghosts in
-      exists (elems : seq nat) z,
-      exists h_sll514,
-      elems = [:: x; y] /\ h = r :-> z \+ h_sll514 /\ sll z elems h_sll514
+      exists elems z,
+      exists h_sll_zelems_533,
+      perm_eq (elems) ([:: x; y]) /\ h = r :-> z \+ h_sll_zelems_533 /\ sll z elems h_sll_zelems_533
     ]).
 Program Definition sll_dupleton : sll_dupleton_type :=
   Fix (fun (sll_dupleton : sll_dupleton_type) vprogs =>

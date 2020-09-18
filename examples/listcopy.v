@@ -11,7 +11,7 @@ Inductive lseg (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | lseg1 of x == 0 of
   perm_eq (s) (nil) /\ h = empty
 | lseg2 of ~~ (x == 0) of
-  exists (v : nat) (s1 : seq nat) nxt,
+  exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_lseg_nxts1_515,
   perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_515 /\ lseg nxt s1 h_lseg_nxts1_515.
 

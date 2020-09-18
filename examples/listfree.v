@@ -11,7 +11,7 @@ Inductive lseg (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | lseg1 of x == 0 of
   perm_eq (s) (nil) /\ h = empty
 | lseg2 of ~~ (x == 0) of
-  exists (v : nat) (s1 : seq nat) nxt,
+  exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_lseg_nxts1_513,
   perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_513 /\ lseg nxt s1 h_lseg_nxts1_513.
 
@@ -40,7 +40,7 @@ Program Definition listfree : listfree_type :=
         nxtx2 <-- @read ptr (x .+ 1);
         listfree (nxtx2);;
         dealloc x;;
-       dealloc (x .+ 1);;
+        dealloc (x .+ 1);;
         ret tt
     )).
 Obligation Tactic := intro; move=>x; ssl_program_simpl.
@@ -75,8 +75,8 @@ move=>h_call1.
 move=>[sigma_call1].
 subst.
 store_valid.
-ssl_dealloc.
-ssl_dealloc.
+ssl_dealloc (x).
+ssl_dealloc (x .+ 1).
 ssl_emp;
 sslauto.
 

@@ -11,9 +11,9 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | sll1 of x == 0 of
   perm_eq (s) (nil) /\ h = empty
 | sll2 of ~~ (x == 0) of
-  exists (v : nat) (s1 : seq nat) nxt,
-  exists h_sll_nxts1_528,
-  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_528 /\ sll nxt s1 h_sll_nxts1_528.
+  exists (v : nat) (s1 : seq nat) (nxt : ptr),
+  exists h_sll_nxts1_534,
+  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_534 /\ sll nxt s1 h_sll_nxts1_534.
 
 Definition sll_copy_type :=
   forall (vprogs : ptr),
@@ -77,24 +77,24 @@ unfold_constructor 1;
 sslauto.
 ssl_open_post H_sll_x2s_a.
 ex_elim vx22 s1x2 nxtx22.
-ex_elim h_sll_nxtx22s1x2_528x2.
+ex_elim h_sll_nxtx22s1x2_534x2.
 move=>[phi_sll_x2s_a].
 move=>[sigma_sll_x2s_a].
 subst.
-move=>H_sll_nxtx22s1x2_528x2.
+move=>H_sll_nxtx22s1x2_534x2.
 ssl_read.
 ssl_read.
 ssl_write r.
-ssl_call_pre (r :-> nxtx22 \+ h_sll_nxtx22s1x2_528x2).
+ssl_call_pre (r :-> nxtx22 \+ h_sll_nxtx22s1x2_534x2).
 ssl_call (nxtx22, s1x2).
-exists (h_sll_nxtx22s1x2_528x2);
+exists (h_sll_nxtx22s1x2_534x2);
 sslauto.
-move=>h_call7.
+move=>h_call9.
 ex_elim y12.
-ex_elim h_sll_nxtx22s1x2_528x2 h_sll_y12s1x2_b1.
-move=>[sigma_call7].
+ex_elim h_sll_nxtx22s1x2_534x2 h_sll_y12s1x2_b1.
+move=>[sigma_call9].
 subst.
-move=>[H_sll_nxtx22s1x2_528x2 H_sll_y12s1x2_b1].
+move=>[H_sll_nxtx22s1x2_534x2 H_sll_y12s1x2_b1].
 store_valid.
 ssl_read.
 ssl_alloc y2.
@@ -106,12 +106,12 @@ ssl_write y2.
 ssl_write_post y2.
 ssl_emp;
 exists (y2);
-exists (x2 :-> vx22 \+ x2 .+ 1 :-> nxtx22 \+ h_sll_nxtx22s1x2_528x2);
+exists (x2 :-> vx22 \+ x2 .+ 1 :-> nxtx22 \+ h_sll_nxtx22s1x2_534x2);
 exists (y2 :-> vx22 \+ y2 .+ 1 :-> y12 \+ h_sll_y12s1x2_b1);
 sslauto.
 unfold_constructor 2;
 exists (vx22), (s1x2), (nxtx22);
-exists (h_sll_nxtx22s1x2_528x2);
+exists (h_sll_nxtx22s1x2_534x2);
 sslauto.
 unfold_constructor 2;
 exists (vx22), (s1x2), (y12);
