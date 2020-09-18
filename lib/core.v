@@ -182,8 +182,9 @@ Ltac ssl_alloc x :=
   apply: bnd_allocbR=>x//=.
 
 (* Free Rule *)
-Ltac ssl_dealloc :=
+Ltac ssl_dealloc x :=
   apply: bnd_seq;
+  put_to_head_ptr x;
   match goal with
   | [|- context[_ :-> _ \+ _]] =>
     apply: val_dealloc=>//=_
@@ -224,7 +225,7 @@ Tactic Notation "ssl_call" constr(ex) := ssl_call' ex.
 Ltac ssl_emp := apply: val_ret; rewrite ?unitL; store_valid; move=>//.
 
 (* Open Rule *)
-Ltac ssl_open := case: ifP=> H_cond.
+Ltac ssl_open := let H := fresh "H_cond" in case: ifP=>H.
 Ltac ssl_open_post H :=
   case H;
   match goal with
