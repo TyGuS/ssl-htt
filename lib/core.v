@@ -61,8 +61,7 @@ Ltac store_valid :=
 
 (* If goal is to prove a pointer is not null, derive that fact from one of the heap validity assertions *)
 Ltac assert_not_null :=
-  match goal with
-  | [H: is_true (valid ?h) |- is_true (?x != ptr_nat 0)] =>
+  let derive H x := (
     rewrite ?joinA in H;
     rewrite -?(joinC (x :-> _)) in H;
     rewrite ?joinA in H;
@@ -70,7 +69,12 @@ Ltac assert_not_null :=
     rewrite defPtUnO;
     case/andP;
     let not_null := fresh "not_null" in move=>not_null _;
-    assumption
+    assumption) in
+  match goal with
+  | [H: is_true (valid ?h) |- is_true (?x != ptr_nat 0)] =>
+    derive H x
+  | [H: is_true (valid ?h) |- is_true (?x != 0)] =>
+    derive H x
   end.
 
 (* Unfold a constructor  *)
@@ -89,6 +93,7 @@ Ltac unfold_constructor n :=
          end;
          match goal with
          | [|- is_true (_ != ptr_nat 0)] => assert_not_null
+         | [|- is_true (_ != 0)] => assert_not_null
          | _ => idtac
          end
   end.
@@ -122,8 +127,14 @@ Ltac seqnatauto :=
     apply: subset_singleton=>//
   end.
 
+Ltac eq_bool_to_prop :=
+  repeat match goal with
+         | [H: is_true (_ == _) |- _] => move/eqP in H
+         end.
+
 (* Various strategies to solve all parts of the current goal except the predicate applications  *)
 Ltac sslauto :=
+  eq_bool_to_prop;
   subst;
   match goal with
   | [|- verify _ _ _] => idtac
