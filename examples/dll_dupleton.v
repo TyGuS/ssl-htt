@@ -78,11 +78,16 @@ ssl_write wz2.
 ssl_write_post wz2.
 ssl_emp;
 exists ([:: x; y]), (z2);
-exists (0 :-> y \+ 0 .+ 1 :-> wz2 \+ 0 .+ 2 :-> null \+ h_dll_wz2x_540z);
+exists (z2 :-> y \+ z2 .+ 1 :-> wz2 \+ z2 .+ 2 :-> null \+ wz2 :-> x \+ wz2 .+ 1 :-> null \+ wz2 .+ 2 :-> z2);
 sslauto.
 unfold_constructor 2;
 exists (y), ([:: x] ++ nil), (wz2);
-exists (h_dll_wz2x_540z);
+exists (wz2 :-> x \+ wz2 .+ 1 :-> null \+ wz2 .+ 2 :-> z2);
 sslauto.
-
+unfold_constructor 2;
+exists (x), (nil), (0);
+exists (empty);
+sslauto.
+unfold_constructor 1;
+sslauto.
 Qed.

@@ -7,6 +7,15 @@ Require Import stmod stsep stlog stlogR.
 From SSL
 Require Import core.
 
+(* TODO: how to prove this? *)
+Lemma foo (s1 s2 s3: seq nat) a b:
+perm_eq s1 (a :: s2) ->
+perm_eq s2 (b :: s3) ->
+perm_eq s1 [:: a, b & s3].
+Proof.
+Admitted.
+
+
 Inductive dll (x : ptr) (z : ptr) (s : seq nat) (h : heap) : Prop :=
 | dll1 of x == 0 of
   perm_eq (s) (nil) /\ h = empty
@@ -171,7 +180,8 @@ unfold_constructor 2;
 exists (vx22), ([:: vi122] ++ s1i12), (i12);
 exists (i12 :-> vi122 \+ i12 .+ 1 :-> wi122 \+ i12 .+ 2 :-> i2 \+ h_dll_wi122i12s1i12_513i12);
 sslauto.
-(**)admit.
+(* TODO: how to prove lemma foo? *)
+admit.
 unfold_constructor 2;
 exists (vi122), (s1i12), (wi122);
 exists (h_dll_wi122i12s1i12_513i12);

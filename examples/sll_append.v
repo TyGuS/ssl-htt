@@ -7,16 +7,6 @@ Require Import stmod stsep stlog stlogR.
 From SSL
 Require Import core.
 
-
-From mathcomp
-Require Import ssreflect ssrbool ssrnat eqtype seq ssrfun.
-From fcsl
-Require Import prelude pred pcm unionmap heap.
-From HTT
-Require Import stmod stsep stlog stlogR.
-From SSL
-Require Import core.
-
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | sll1 of x == 0 of
   perm_eq (s) (nil) /\ h = empty
@@ -120,12 +110,15 @@ ssl_write r.
 ssl_write_post r.
 ssl_emp;
 exists ([:: vx12] ++ s1x1 ++ s2), (x1);
+(* TODO: predicate assertion naming issue *)
 exists (x1 :-> vx12 \+ x1 .+ 1 :-> y12 \+ (*h_sll_y12s1x1s2_5161*) h_sll_y12s3_5161);
 sslauto.
-(* *)rewrite -cat_cons perm_cat2r perm_sym=>//=.
+(* TODO: add these as strategies for sslauto *)
+rewrite -cat_cons perm_cat2r perm_sym=>//=.
 unfold_constructor 2;
 exists (vx12), (s1x1 ++ s2), (y12);
 exists (h_sll_y12s3_5161);
 sslauto.
+(* TODO: add this to the hints database for sslauto instead of calling it directly *)
 apply: (sll_perm_eq _ s3)=>//=.
 Qed.
