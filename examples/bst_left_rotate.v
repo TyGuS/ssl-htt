@@ -101,9 +101,20 @@ exists (x :-> v2 \+ x .+ 1 :-> l2 \+ x .+ 2 :-> lr22 \+ h_bst_l2sz1lo1hi1_a \+ h
 exists (h_bst_rr22sz2r2lo2r2hi2r2_514r2).
 repeat split=>//=.
 
-(* TODO: Suslik magically solves this with CheckPost *) admit.
-move/eqP in phi_bst_l2sz1lo1hi1_a1; rewrite phi_bst_l2sz1lo1hi1_a1=>//=.
-rewrite (addnC 1) ?addnA; auto. (* why not solvable with ssreflect? *)
+(* TODO: need to extract this somehow *)
+destruct (hi1r2 <= v2) eqn:Heq1;
+destruct (vr22 <= lo1r2) eqn:Heq2;
+move=>//=.
+move: phi_bst_l2sz1lo1hi1_a4 phi_self_7.
+move/eqP=>->//=.
+move: Heq2.
+move: phi_bst_l2sz1lo1hi1_a4 phi_self_7.
+rewrite -Bool.negb_true_iff -ltnNge.
+move/eqP=>->//=Ha Hb.
+exact (ltnW (leq_ltn_trans Ha Hb)).
+
+move: phi_bst_l2sz1lo1hi1_a1; move/eqP ->. (* why not solvable with //= ? *)
+rewrite (addnC 1) ?addnA; auto.
 
 (* TODO: ptr_nat coercion issues *)
 Set Printing Coercions.
@@ -115,7 +126,10 @@ exists (v2), (lo1r2), (l2), (sz1), (lo1), (hi1), (lr22), (sz1r2), (hi1r2);
 exists (h_bst_l2sz1lo1hi1_a);
 exists (h_bst_lr22sz1r2lo1r2hi1r2_513r2).
 repeat split=>//=.
-(* TODO: need to show that lo2 = vr22 - how? *)
-admit.
+
+(* TODO: need to extract this somehow *)
+move/eqP in phi_bst_l2sz1lo1hi1_a4; rewrite phi_bst_l2sz1lo1hi1_a4 in phi_self_7.
+destruct (vr22 <= lo1r2) eqn:Heq1=>//=.
+exact (leq_trans phi_self_7 Heq1).
 
 Admitted.
