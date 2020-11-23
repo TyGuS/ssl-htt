@@ -37,8 +37,8 @@ move=>[a2 b2].
 move=>[sigma_self].
 subst.
 ssl_ghostelim_post.
-ssl_read.
-ssl_read.
+ssl_read x.
+ssl_read y.
 ssl_write x.
 ssl_write_post x.
 ssl_write y.

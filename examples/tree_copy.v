@@ -21,7 +21,7 @@ Inductive treeN (x : ptr) (n : nat) (h : heap) : Prop :=
 | treeN2 of ~~ (x == 0) of
   exists (n1 : nat) (n2 : nat) (l : ptr) (r : ptr) (v : ptr),
   exists h_treeN_ln1_525 h_treeN_rn2_526,
-  n == 1 + n1 + n2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_treeN_ln1_525 \+ h_treeN_rn2_526 /\ treeN l n1 h_treeN_ln1_525 /\ treeN r n2 h_treeN_rn2_526.
+  0 <= n1 /\ 0 <= n2 /\ n == 1 + n1 + n2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_treeN_ln1_525 \+ h_treeN_rn2_526 /\ treeN l n1 h_treeN_ln1_525 /\ treeN r n2 h_treeN_rn2_526.
 
 Definition tree_copy_type :=
   forall (vprogs : ptr),
@@ -73,7 +73,7 @@ move=>[sigma_self].
 subst.
 move=>H_tree_x2s_a.
 ssl_ghostelim_post.
-ssl_read.
+ssl_read r.
 ssl_open.
 ssl_open_post H_tree_x2s_a.
 move=>[phi_tree_x2s_a].
@@ -95,9 +95,9 @@ move=>[phi_tree_x2s_a].
 move=>[sigma_tree_x2s_a].
 subst.
 move=>[H_tree_lx22s1x2_523x2 H_tree_rx22s2x2_524x2].
-ssl_read.
-ssl_read.
-ssl_read.
+ssl_read x2.
+ssl_read (x2 .+ 1).
+ssl_read (x2 .+ 2).
 ssl_write r.
 ssl_call_pre (r :-> lx22 \+ h_tree_lx22s1x2_523x2).
 ssl_call (lx22, s1x2).
@@ -110,7 +110,7 @@ move=>[sigma_call5].
 subst.
 move=>[H_tree_lx22s1x2_523x2 H_tree_y12s1x2_523x2].
 store_valid.
-ssl_read.
+ssl_read r.
 ssl_write r.
 ssl_call_pre (r :-> rx22 \+ h_tree_rx22s2x2_524x2).
 ssl_call (rx22, s2x2).
@@ -123,7 +123,7 @@ move=>[sigma_call6].
 subst.
 move=>[H_tree_rx22s2x2_524x2 H_tree_y22s2x2_524x2].
 store_valid.
-ssl_read.
+ssl_read r.
 ssl_alloc y3.
 ssl_write r.
 ssl_write_post r.

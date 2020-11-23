@@ -85,8 +85,8 @@ move=>[phi_treeN_xn_a].
 move=>[sigma_treeN_xn_a].
 subst.
 move=>[H_treeN_lx2n1x2_521x H_treeN_rx2n2x2_522x].
-ssl_read.
-ssl_read.
+ssl_read (x .+ 1).
+ssl_read (x .+ 2).
 ssl_call_pre (r :-> null \+ h_treeN_lx2n1x2_521x).
 ssl_call (n1x2).
 exists (h_treeN_lx2n1x2_521x);
@@ -97,7 +97,7 @@ move=>[sigma_call3].
 subst.
 move=>H_treeN_lx2n1x2_521x.
 store_valid.
-ssl_read.
+ssl_read r.
 ssl_write r.
 ssl_call_pre (r :-> null \+ h_treeN_rx2n2x2_522x).
 ssl_call (n2x2).
@@ -109,7 +109,7 @@ move=>[sigma_call4].
 subst.
 move=>H_treeN_rx2n2x2_522x.
 store_valid.
-ssl_read.
+ssl_read r.
 ssl_write r.
 ssl_write_post r.
 ssl_emp;

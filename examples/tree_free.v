@@ -21,7 +21,7 @@ Inductive treeN (x : ptr) (n : nat) (h : heap) : Prop :=
 | treeN2 of ~~ (x == 0) of
   exists (n1 : nat) (n2 : nat) (l : ptr) (r : ptr) (v : ptr),
   exists h_treeN_ln1_529 h_treeN_rn2_530,
-  n == 1 + n1 + n2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_treeN_ln1_529 \+ h_treeN_rn2_530 /\ treeN l n1 h_treeN_ln1_529 /\ treeN r n2 h_treeN_rn2_530.
+  0 <= n1 /\ 0 <= n2 /\ n == 1 + n1 + n2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_treeN_ln1_529 \+ h_treeN_rn2_530 /\ treeN l n1 h_treeN_ln1_529 /\ treeN r n2 h_treeN_rn2_530.
 
 Definition tree_free_type :=
   forall (vprogs : ptr),
@@ -77,8 +77,8 @@ move=>[phi_tree_xs_531].
 move=>[sigma_tree_xs_531].
 subst.
 move=>[H_tree_lx2s1x_527x H_tree_rx2s2x_528x].
-ssl_read.
-ssl_read.
+ssl_read (x .+ 1).
+ssl_read (x .+ 2).
 ssl_call_pre (h_tree_lx2s1x_527x).
 ssl_call (s1x).
 exists (h_tree_lx2s1x_527x);

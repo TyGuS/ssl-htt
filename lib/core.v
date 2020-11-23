@@ -178,7 +178,9 @@ Ltac ssl_ghostelim_pre := try apply: ghR; move=>h//=.
 Ltac ssl_ghostelim_post := store_valid.
 
 (* Read Rule *)
-Ltac ssl_read := apply: bnd_readR=>/=.
+Ltac ssl_read from :=
+  put_to_head_ptr from;
+  apply: bnd_readR=>/=.
 
 (* Write Rule *)
 Ltac ssl_write x :=

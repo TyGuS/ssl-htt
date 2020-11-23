@@ -60,7 +60,7 @@ move=>[sigma_self].
 subst.
 move=>H_lseg_x2s_516.
 ssl_ghostelim_post.
-ssl_read.
+ssl_read r.
 ssl_open.
 ssl_open_post H_lseg_x2s_516.
 move=>[phi_lseg_x2s_516].
@@ -82,8 +82,8 @@ move=>[phi_lseg_x2s_516].
 move=>[sigma_lseg_x2s_516].
 subst.
 move=>H_lseg_nxtx22s1x2_515x2.
-ssl_read.
-ssl_read.
+ssl_read x2.
+ssl_read (x2 .+ 1).
 ssl_write r.
 ssl_call_pre (r :-> nxtx22 \+ h_lseg_nxtx22s1x2_515x2).
 ssl_call (nxtx22, s1x2).
@@ -96,7 +96,7 @@ move=>[sigma_call2].
 subst.
 move=>[H_lseg_nxtx22s1x2_5171 H_lseg_y12s1x2_5181].
 store_valid.
-ssl_read.
+ssl_read r.
 ssl_alloc y2.
 ssl_write r.
 ssl_write_post r.

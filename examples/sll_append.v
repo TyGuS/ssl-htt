@@ -89,7 +89,7 @@ move=>[phi_sll_x1s1_514].
 move=>[sigma_sll_x1s1_514].
 subst.
 move=>H_sll_nxtx12s1x1_513x1.
-ssl_read.
+ssl_read (x1 .+ 1).
 ssl_call_pre (r :-> x22 \+ h_sll_nxtx12s1x1_513x1 \+ h_sll_x22s2_515).
 ssl_call (s1x1, s2, x22).
 exists (h_sll_nxtx12s1x1_513x1);
@@ -103,7 +103,7 @@ move=>[sigma_call1].
 subst.
 move=>H_sll_y12s3_5161.
 store_valid.
-ssl_read.
+ssl_read r.
 ssl_write (x1 .+ 1).
 ssl_write_post (x1 .+ 1).
 ssl_write r.
