@@ -8,9 +8,6 @@ Require Import stmod stsep stlog stlogR.
 (* The empty heap *)
 Notation empty := Unit.
 
-(* Register the value 0 as null *)
-Coercion ptr_nat : nat >-> ptr.
-
 (* No-op at the end of a program branch *)
 Definition skip := ret tt.
 
@@ -71,9 +68,7 @@ Ltac assert_not_null :=
     let not_null := fresh "not_null" in move=>not_null _;
     assumption) in
   match goal with
-  | [H: is_true (valid ?h) |- is_true (?x != ptr_nat 0)] =>
-    derive H x
-  | [H: is_true (valid ?h) |- is_true (?x != 0)] =>
+  | [H: is_true (valid ?h) |- is_true (?x != null)] =>
     derive H x
   end.
 
@@ -92,8 +87,7 @@ Ltac unfold_constructor n :=
          | _ => constructor=>//
          end;
          match goal with
-         | [|- is_true (_ != ptr_nat 0)] => assert_not_null
-         | [|- is_true (_ != 0)] => assert_not_null
+         | [|- is_true (_ != null)] => assert_not_null
          | _ => idtac
          end
   end.
