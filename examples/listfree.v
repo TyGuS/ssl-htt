@@ -8,9 +8,9 @@ From SSL
 Require Import core.
 
 Inductive lseg (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| lseg1 of x == 0 of
+| lseg1 of x == null of
   perm_eq (s) (nil) /\ h = empty
-| lseg2 of ~~ (x == 0) of
+| lseg2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_lseg_nxts1_513,
   perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_513 /\ lseg nxt s1 h_lseg_nxts1_513.
@@ -33,7 +33,7 @@ Program Definition listfree : listfree_type :=
   Fix (fun (listfree : listfree_type) vprogs =>
     let: (x) := vprogs in
     Do (
-      if x == 0
+      if x == null
       then
         ret tt
       else

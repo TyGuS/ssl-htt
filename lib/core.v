@@ -92,7 +92,10 @@ Ltac unfold_constructor n :=
          end
   end.
 
-(* Reasoning about singleton subsets *)
+(* Theory about seq nats *)
+
+Create HintDb ssl_seqnat.
+
 Lemma subset_singleton :
     forall (s1: seq nat) (x: nat),
       {subset s1 <= [::x]} -> {subset x :: s1 <= [::x]}.
@@ -109,35 +112,42 @@ Proof. by move=>t s; move/perm_nilP. Qed.
 Lemma perm_eq_nil_l: forall (A: eqType) (s: seq A), perm_eq nil s -> s = nil.
 Proof. by move=>t s; rewrite perm_sym; move/perm_nilP. Qed.
 
-Ltac seqnatauto :=
-  repeat match goal with
-  | [H: is_true (perm_eq _ nil) |- _] =>
-    apply perm_eq_nil_r in H; subst
-  | [H: is_true (perm_eq nil _) |- _] =>
-    apply perm_eq_nil_l in H; subst
-  | [|- is_true (perm_eq ?s1 ?s2)] =>
-    apply/permP=>//=?; nat_add_eq
-  | [H: {subset ?s1 <= ?s2} |- {subset _ :: ?s1 <= ?s2}] =>
-    apply: subset_singleton=>//
+Hint Resolve subset_singleton : ssl_seqnat.
+Hint Extern 1 (is_true (perm_eq _ _)) =>
+  match goal with
+  | [H: is_true (perm_eq _ nil) |- _] => apply perm_eq_nil_r in H; subst
+  | [H: is_true (perm_eq nil _) |- _] => apply perm_eq_nil_l in H; subst
+  end : ssl_seqnat.
+Hint Extern 1 (is_true (perm_eq _ _)) => apply/permP=>//=?; nat_add_eq : ssl_seqnat.
+
+(* Theory about nats *)
+
+Create HintDb ssl_nat.
+
+Lemma leq_neg (x y : nat) : (x <= y) = false -> y <= x.
+Proof. by case: ltngtP=>//. Qed.
+
+Hint Resolve leq_neg : ssl_nat.
+
+(* Theory about heaps *)
+
+Create HintDb ssl_heap.
+
+Ltac hhauto' h :=
+  match type of h with
+  | PCM.sort heapPCM => hhauto
+  | PCM.sort (union_map_classPCM heapUMC) => hhauto
   end.
+
+Hint Extern 1 (?h = _) => hhauto' h : ssl_heap.
+
+(* Extend auto with additional strategies *)
 
 Ltac eq_bool_to_prop :=
   repeat match goal with
          | [H: is_true (_ == _) |- _] => move/eqP in H
          end.
 
-
-(* db *)
-
-Create HintDb ssl_seqnat.
-
-Hint Resolve perm_eq_nil_r : ssl_seqnat.
-Hint Resolve perm_eq_nil_l : ssl_seqnat.
-Hint Resolve subset_singleton : ssl_seqnat.
-Hint Extern 1 (is_true (perm_eq _ _)) => apply/permP=>//=?; nat_add_eq : ssl_seqnat.
-
-
-(* Various strategies to solve all parts of the current goal except the predicate applications  *)
 Ltac sslauto :=
   eq_bool_to_prop;
   subst;
@@ -145,17 +155,7 @@ Ltac sslauto :=
   | [|- verify _ _ _] => idtac
   | _ => rewrite ?unitL ?unitR;
          repeat split=>//=;
-         repeat match goal with
-                | [|- _ /\ _] => split=>//
-                | [|- ?h = _] => match type of h with
-                                 | (PCM.sort heapPCM) => hhauto
-                                 | (PCM.sort (union_map_classPCM heapUMC)) => hhauto
-                                 | _ => subst; auto
-                                 end
-                | [H: is_true (_ <= _) |- _] => case: ltngtP H=>//
-                | [H: (_ <= _) = false |- _] => case: ltngtP H=>//
-                | _ => auto with ssl_seqnat
-                end
+         auto with ssl_heap ssl_nat ssl_seqnat
   end.
 
 Ltac ex_elim1 A := try clear dependent A; move=>[A].

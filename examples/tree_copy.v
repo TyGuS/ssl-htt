@@ -8,17 +8,17 @@ From SSL
 Require Import core.
 
 Inductive tree (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| tree1 of x == 0 of
+| tree1 of x == null of
   perm_eq (s) (nil) /\ h = empty
-| tree2 of ~~ (x == 0) of
+| tree2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (s2 : seq nat) (l : ptr) (r : ptr),
   exists h_tree_ls1_523 h_tree_rs2_524,
   perm_eq (s) ([:: v] ++ s1 ++ s2) /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_tree_ls1_523 \+ h_tree_rs2_524 /\ tree l s1 h_tree_ls1_523 /\ tree r s2 h_tree_rs2_524.
 
 Inductive treeN (x : ptr) (n : nat) (h : heap) : Prop :=
-| treeN1 of x == 0 of
+| treeN1 of x == null of
   n == 0 /\ h = empty
-| treeN2 of ~~ (x == 0) of
+| treeN2 of ~~ (x == null) of
   exists (n1 : nat) (n2 : nat) (l : ptr) (r : ptr) (v : ptr),
   exists h_treeN_ln1_525 h_treeN_rn2_526,
   0 <= n1 /\ 0 <= n2 /\ n == 1 + n1 + n2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_treeN_ln1_525 \+ h_treeN_rn2_526 /\ treeN l n1 h_treeN_ln1_525 /\ treeN r n2 h_treeN_rn2_526.
@@ -44,7 +44,7 @@ Program Definition tree_copy : tree_copy_type :=
     let: (r) := vprogs in
     Do (
       x2 <-- @read ptr r;
-      if x2 == 0
+      if x2 == null
       then
         ret tt
       else
@@ -80,7 +80,7 @@ move=>[phi_tree_x2s_a].
 move=>[sigma_tree_x2s_a].
 subst.
 ssl_emp;
-exists (0);
+exists (null);
 exists (empty);
 exists (empty);
 sslauto.

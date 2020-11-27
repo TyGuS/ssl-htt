@@ -8,9 +8,9 @@ From SSL
 Require Import core.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| sll1 of x == 0 of
+| sll1 of x == null of
   perm_eq (s) (nil) /\ h = empty
-| sll2 of ~~ (x == 0) of
+| sll2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_sll_nxts1_543,
   perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_543 /\ sll nxt s1 h_sll_nxts1_543.
@@ -35,7 +35,7 @@ Program Definition sll_init : sll_init_type :=
   Fix (fun (sll_init : sll_init_type) vprogs =>
     let: (x, v) := vprogs in
     Do (
-      if x == 0
+      if x == null
       then
         ret tt
       else

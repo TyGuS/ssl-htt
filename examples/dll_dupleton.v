@@ -8,17 +8,17 @@ From SSL
 Require Import core.
 
 Inductive dll (x : ptr) (z : ptr) (s : seq nat) (h : heap) : Prop :=
-| dll1 of x == 0 of
+| dll1 of x == null of
   perm_eq (s) (nil) /\ h = empty
-| dll2 of ~~ (x == 0) of
+| dll2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (w : ptr),
   exists h_dll_wxs1_546,
   perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> w \+ x .+ 2 :-> z \+ h_dll_wxs1_546 /\ dll w x s1 h_dll_wxs1_546.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| sll1 of x == 0 of
+| sll1 of x == null of
   perm_eq (s) (nil) /\ h = empty
-| sll2 of ~~ (x == 0) of
+| sll2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_sll_nxts1_547,
   perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_547 /\ sll nxt s1 h_sll_nxts1_547.
@@ -36,7 +36,7 @@ Definition dll_dupleton_type :=
       let: (a) := vghosts in
       exists elems z,
       exists h_dll_zelems_548,
-      perm_eq (elems) ([:: x; y]) /\ h = r :-> z \+ h_dll_zelems_548 /\ dll z 0 elems h_dll_zelems_548
+      perm_eq (elems) ([:: x; y]) /\ h = r :-> z \+ h_dll_zelems_548 /\ dll z null elems h_dll_zelems_548
     ]).
 Program Definition dll_dupleton : dll_dupleton_type :=
   Fix (fun (dll_dupleton : dll_dupleton_type) vprogs =>
@@ -85,7 +85,7 @@ exists (y), ([:: x] ++ nil), (wz2);
 exists (wz2 :-> x \+ wz2 .+ 1 :-> null \+ wz2 .+ 2 :-> z2);
 sslauto.
 unfold_constructor 2;
-exists (x), (nil), (0);
+exists (x), (nil), (null);
 exists (empty);
 sslauto.
 unfold_constructor 1;

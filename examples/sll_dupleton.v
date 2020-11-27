@@ -8,9 +8,9 @@ From SSL
 Require Import core.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| sll1 of x == 0 of
+| sll1 of x == null of
   perm_eq (s) (nil) /\ h = empty
-| sll2 of ~~ (x == 0) of
+| sll2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_sll_nxts1_532,
   perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_532 /\ sll nxt s1 h_sll_nxts1_532.
@@ -71,7 +71,7 @@ exists (x), ([:: y] ++ nil), (nxtz2);
 exists (nxtz2 :-> y \+ nxtz2 .+ 1 :-> null);
 sslauto.
 unfold_constructor 2;
-exists (y), (nil), (0);
+exists (y), (nil), (null);
 exists (empty);
 sslauto.
 unfold_constructor 1;

@@ -8,17 +8,17 @@ From SSL
 Require Import core.
 
 Inductive tree (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| tree1 of x == 0 of
+| tree1 of x == null of
   perm_eq (s) (nil) /\ h = empty
-| tree2 of ~~ (x == 0) of
+| tree2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (s2 : seq nat) (l : ptr) (r : ptr),
   exists h_tree_ls1_527 h_tree_rs2_528,
   perm_eq (s) ([:: v] ++ s1 ++ s2) /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_tree_ls1_527 \+ h_tree_rs2_528 /\ tree l s1 h_tree_ls1_527 /\ tree r s2 h_tree_rs2_528.
 
 Inductive treeN (x : ptr) (n : nat) (h : heap) : Prop :=
-| treeN1 of x == 0 of
+| treeN1 of x == null of
   n == 0 /\ h = empty
-| treeN2 of ~~ (x == 0) of
+| treeN2 of ~~ (x == null) of
   exists (n1 : nat) (n2 : nat) (l : ptr) (r : ptr) (v : ptr),
   exists h_treeN_ln1_529 h_treeN_rn2_530,
   0 <= n1 /\ 0 <= n2 /\ n == 1 + n1 + n2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_treeN_ln1_529 \+ h_treeN_rn2_530 /\ treeN l n1 h_treeN_ln1_529 /\ treeN r n2 h_treeN_rn2_530.
@@ -41,7 +41,7 @@ Program Definition tree_free : tree_free_type :=
   Fix (fun (tree_free : tree_free_type) vprogs =>
     let: (x) := vprogs in
     Do (
-      if x == 0
+      if x == null
       then
         ret tt
       else
