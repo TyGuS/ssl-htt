@@ -126,6 +126,17 @@ Ltac eq_bool_to_prop :=
          | [H: is_true (_ == _) |- _] => move/eqP in H
          end.
 
+
+(* db *)
+
+Create HintDb ssl_seqnat.
+
+Hint Resolve perm_eq_nil_r : ssl_seqnat.
+Hint Resolve perm_eq_nil_l : ssl_seqnat.
+Hint Resolve subset_singleton : ssl_seqnat.
+Hint Extern 1 (is_true (perm_eq _ _)) => apply/permP=>//=?; nat_add_eq : ssl_seqnat.
+
+
 (* Various strategies to solve all parts of the current goal except the predicate applications  *)
 Ltac sslauto :=
   eq_bool_to_prop;
@@ -143,7 +154,7 @@ Ltac sslauto :=
                                  end
                 | [H: is_true (_ <= _) |- _] => case: ltngtP H=>//
                 | [H: (_ <= _) = false |- _] => case: ltngtP H=>//
-                | _ => seqnatauto
+                | _ => auto with ssl_seqnat
                 end
   end.
 
