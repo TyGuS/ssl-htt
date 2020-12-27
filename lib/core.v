@@ -96,23 +96,31 @@ Ltac unfold_constructor n :=
 
 Create HintDb ssl_seqnat.
 
-Lemma subset_singleton :
-    forall (s1: seq nat) (x: nat),
-      {subset s1 <= [::x]} -> {subset x :: s1 <= [::x]}.
+Lemma subset_singleton (A : eqType) (s1: seq A) (x: A):
+  {subset s1 <= [::x]} -> {subset x :: s1 <= [::x]}.
 Proof.
-move=>s1 x H n.
+move=>H n.
 rewrite inE; move/orP. case.
 move/eqP=>->. by rewrite inE eqxx.
 move/H=>//.
 Qed.
 
-Lemma perm_eq_nil_r: forall (A: eqType) (s: seq A), perm_eq s nil -> s = nil.
-Proof. by move=>t s; move/perm_nilP. Qed.
+Lemma perm_eq_trans_el (A: eqType) (s1 s2 s3: seq A) (a b : A):
+  perm_eq s1 (a :: s2) ->
+  perm_eq s2 (b :: s3)->
+  perm_eq s1 [:: a, b & s3].
+Proof.
+move=> /permP H1 /permP H2; apply/permP=>n; move: (H1 n)  (H2 n) => //= -> -> //=.
+Qed.
 
-Lemma perm_eq_nil_l: forall (A: eqType) (s: seq A), perm_eq nil s -> s = nil.
-Proof. by move=>t s; rewrite perm_sym; move/perm_nilP. Qed.
+Lemma perm_eq_nil_r (A: eqType) (s: seq A): perm_eq s nil -> s = nil.
+Proof. by move/perm_nilP. Qed.
+
+Lemma perm_eq_nil_l (A: eqType) (s: seq A): perm_eq nil s -> s = nil.
+Proof. by rewrite perm_sym; move/perm_nilP. Qed.
 
 Hint Resolve subset_singleton : ssl_seqnat.
+Hint Resolve perm_eq_trans_el : ssl_seqnat.
 Hint Extern 1 (is_true (perm_eq _ _)) =>
   match goal with
   | [H: is_true (perm_eq _ nil) |- _] => apply perm_eq_nil_r in H; subst
@@ -153,9 +161,14 @@ Ltac sslauto :=
   subst;
   match goal with
   | [|- verify _ _ _] => idtac
-  | _ => rewrite ?unitL ?unitR;
-         repeat split=>//=;
-         auto with ssl_heap ssl_nat ssl_seqnat
+  | _ =>
+    rewrite ?unitL ?unitR;
+    repeat split=>//=;
+    match goal with
+    | [|- context [perm_eq]] => eauto with ssl_heap ssl_nat ssl_seqnat
+    | [|- context [{subset _ <= _}]] => eauto with ssl_heap ssl_nat ssl_seqnat
+    | _ => auto with ssl_heap ssl_nat
+    end
   end.
 
 Ltac ex_elim1 A := try clear dependent A; move=>[A].
