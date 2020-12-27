@@ -128,6 +128,13 @@ Hint Extern 1 (is_true (perm_eq _ _)) =>
   end : ssl_seqnat.
 Hint Extern 1 (is_true (perm_eq _ _)) => apply/permP=>//=?; nat_add_eq : ssl_seqnat.
 
+Hint Rewrite <- cat_cons : ssl_seqnat.
+Hint Rewrite cat_cons : ssl_seqnat.
+Hint Rewrite perm_cat2r : ssl_seqnat.
+Lemma ssl_perm_sym (A: eqType) (x y: seq A): perm_eq x y -> perm_eq y x = perm_eq x y.
+Proof. by rewrite perm_sym. Qed.
+Hint Rewrite ssl_perm_sym using assumption: ssl_seqnat.
+
 (* Theory about nats *)
 
 Create HintDb ssl_nat.
@@ -149,6 +156,10 @@ Ltac hhauto' h :=
 
 Hint Extern 1 (?h = _) => hhauto' h : ssl_heap.
 
+(* Theory about predicates (to be filled by each certificate) *)
+
+Create HintDb ssl_pred.
+
 (* Extend auto with additional strategies *)
 
 Ltac eq_bool_to_prop :=
@@ -157,6 +168,7 @@ Ltac eq_bool_to_prop :=
          end.
 
 Ltac sslauto :=
+  let sslauto_seqnat := (eauto with ssl_heap ssl_nat ssl_seqnat; autorewrite with ssl_seqnat=>//=) in
   eq_bool_to_prop;
   subst;
   match goal with
@@ -165,10 +177,11 @@ Ltac sslauto :=
     rewrite ?unitL ?unitR;
     repeat split=>//=;
     match goal with
-    | [|- context [perm_eq]] => eauto with ssl_heap ssl_nat ssl_seqnat
-    | [|- context [{subset _ <= _}]] => eauto with ssl_heap ssl_nat ssl_seqnat
+    | [|- context [perm_eq]] => sslauto_seqnat
+    | [|- context [{subset _ <= _}]] => sslauto_seqnat
     | _ => auto with ssl_heap ssl_nat
-    end
+    end;
+    eauto with ssl_pred
   end.
 
 Ltac ex_elim1 A := try clear dependent A; move=>[A].

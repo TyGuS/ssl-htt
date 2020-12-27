@@ -16,22 +16,8 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
   perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_537 /\ sll nxt s1 h_sll_nxts1_537.
 
 (* TODO: autogenerate *)
-Lemma sll_perm_eq x s h s1 :
-  perm_eq s s1 -> sll x s h -> sll x s1 h.
-Proof.
-move=>Heq Hsll; sslauto.
-case: Hsll=>cond.
-move=>[Heq1 ->].
-constructor 1=>//=; sslauto.
-move=>[v] [s2] [nxt] [h'].
-move=>[Heq1 [-> Hssl]].
-constructor 2=>//=.
-exists v, s2, nxt, h'.
-sslauto.
-rewrite perm_sym in Heq.
-apply: (perm_trans Heq Heq1).
-Qed.
-(* end*)
+Hypothesis sll_perm_eq: forall s x h s1, perm_eq s s1 -> sll x s h -> sll x s1 h.
+Hint Resolve sll_perm_eq : ssl_pred.
 
 Definition sll_append_type :=
   forall (vprogs : ptr * ptr),
@@ -113,12 +99,8 @@ exists ([:: vx12] ++ s1x1 ++ s2), (x1);
 (* TODO: predicate assertion naming issue *)  
 exists (x1 :-> vx12 \+ x1 .+ 1 :-> y12 \+ (*h_sll_y12s1x1s2_5401*) h_sll_y12s3_5401);
 sslauto.
-(* TODO: add these as strategies for sslauto *)
-rewrite -cat_cons perm_cat2r perm_sym=>//=.
 unfold_constructor 2;
 exists (vx12), (s1x1 ++ s2), (y12);
 exists ((*h_sll_y12s1x1s2_5401*) h_sll_y12s3_5401);
 sslauto.
-(* TODO: add this to the hints database for sslauto instead of calling it directly *)
-apply: (sll_perm_eq _ s3)=>//=.
 Qed.
