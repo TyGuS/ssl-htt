@@ -160,6 +160,10 @@ Hint Extern 1 (?h = _) => hhauto' h : ssl_heap.
 
 Create HintDb ssl_pred.
 
+(* Theory about pure constraints (to be filled by each certificate) *)
+
+Create HintDb ssl_pure.
+
 (* Extend auto with additional strategies *)
 
 Ltac eq_bool_to_prop :=
@@ -181,7 +185,8 @@ Ltac sslauto :=
     | [|- context [{subset _ <= _}]] => sslauto_seqnat
     | _ => auto with ssl_heap ssl_nat
     end;
-    eauto with ssl_pred
+    eauto with ssl_pred;
+    eauto 2 with ssl_pure
   end.
 
 Ltac ex_elim1 A := try clear dependent A; move=>[A].
