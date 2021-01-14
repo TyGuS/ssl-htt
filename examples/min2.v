@@ -37,15 +37,20 @@ move=>[sigma_self].
 subst.
 ssl_ghostelim_post.
 ssl_abduce_branch.
+Hypothesis pure1 : forall x y, x <= y -> x <= x.
+Hint Resolve pure1: ssl_pure.
 ssl_write r.
 ssl_write_post r.
 ssl_emp;
 exists (x);
 sslauto.
+Hypothesis pure2 : forall y x, ~~ (x <= y) -> y <= x.
+Hint Resolve pure2: ssl_pure.
+Hypothesis pure3 : forall y x, ~~ (x <= y) -> y <= y.
+Hint Resolve pure3: ssl_pure.
 ssl_write r.
 ssl_write_post r.
 ssl_emp;
 exists (y);
 sslauto.
-
 Qed.

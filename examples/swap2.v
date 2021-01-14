@@ -13,11 +13,11 @@ Definition swap2_type :=
   STsep (
     fun h =>
       let: (x, z, y, t) := vprogs in
-      let: (q, a, b, c) := vghosts in
+      let: (a, c, b, q) := vghosts in
       h = x :-> a \+ y :-> c \+ z :-> b \+ t :-> q,
     [vfun (_: unit) h =>
       let: (x, z, y, t) := vprogs in
-      let: (q, a, b, c) := vghosts in
+      let: (a, c, b, q) := vghosts in
       h = x :-> q \+ z :-> c \+ t :-> a \+ y :-> b
     ]).
 Program Definition swap2 : swap2_type :=
@@ -37,7 +37,7 @@ Program Definition swap2 : swap2_type :=
 Obligation Tactic := intro; move=>[[[x z] y] t]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
-move=>[[[q2 a2] b2] c2].
+move=>[[[a2 c2] b2] q2].
 move=>[sigma_self].
 subst.
 ssl_ghostelim_post.
@@ -55,5 +55,4 @@ ssl_write t.
 ssl_write_post t.
 ssl_emp;
 sslauto.
-
 Qed.

@@ -9,11 +9,11 @@ Require Import core.
 
 Inductive tree (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | tree1 of x == null of
-  perm_eq (s) (nil) /\ h = empty
+  @perm_eq nat_eqType (s) (nil) /\ h = empty
 | tree2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (s2 : seq nat) (l : ptr) (r : ptr),
   exists h_tree_ls1_527 h_tree_rs2_528,
-  perm_eq (s) ([:: v] ++ s1 ++ s2) /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_tree_ls1_527 \+ h_tree_rs2_528 /\ tree l s1 h_tree_ls1_527 /\ tree r s2 h_tree_rs2_528.
+  @perm_eq nat_eqType (s) ([:: v] ++ s1 ++ s2) /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_tree_ls1_527 \+ h_tree_rs2_528 /\ tree l s1 h_tree_ls1_527 /\ tree r s2 h_tree_rs2_528.
 
 Inductive treeN (x : ptr) (n : nat) (h : heap) : Prop :=
 | treeN1 of x == null of
@@ -56,6 +56,8 @@ Program Definition tree_free : tree_free_type :=
     )).
 Obligation Tactic := intro; move=>x; ssl_program_simpl.
 Next Obligation.
+Hypothesis tree_perm_eq_trans16: forall x h s_1 s_2, perm_eq s_1 s_2 -> tree x s_1 h -> tree x s_2 h.
+Hint Resolve tree_perm_eq_trans16: ssl_pred.
 ssl_ghostelim_pre.
 move=>s.
 ex_elim h_tree_xs_531.
@@ -65,7 +67,7 @@ move=>H_tree_xs_531.
 ssl_ghostelim_post.
 ssl_open.
 ssl_open_post H_tree_xs_531.
-move=>[phi_tree_xs_531].
+move=>[phi_tree_xs_5310].
 move=>[sigma_tree_xs_531].
 subst.
 ssl_emp;
@@ -73,7 +75,7 @@ sslauto.
 ssl_open_post H_tree_xs_531.
 ex_elim vx2 s1x s2x lx2 rx2.
 ex_elim h_tree_lx2s1x_527x h_tree_rx2s2x_528x.
-move=>[phi_tree_xs_531].
+move=>[phi_tree_xs_5310].
 move=>[sigma_tree_xs_531].
 subst.
 move=>[H_tree_lx2s1x_527x H_tree_rx2s2x_528x].
@@ -83,22 +85,21 @@ ssl_call_pre (h_tree_lx2s1x_527x).
 ssl_call (s1x).
 exists (h_tree_lx2s1x_527x);
 sslauto.
-move=>h_call7.
-move=>[sigma_call7].
+move=>h_call1.
+move=>[sigma_call1].
 subst.
 store_valid.
 ssl_call_pre (h_tree_rx2s2x_528x).
 ssl_call (s2x).
 exists (h_tree_rx2s2x_528x);
 sslauto.
-move=>h_call8.
-move=>[sigma_call8].
+move=>h_call2.
+move=>[sigma_call2].
 subst.
 store_valid.
-ssl_dealloc (x).
+ssl_dealloc x.
 ssl_dealloc (x .+ 1).
 ssl_dealloc (x .+ 2).
 ssl_emp;
 sslauto.
-
 Qed.

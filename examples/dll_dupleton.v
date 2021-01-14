@@ -9,19 +9,19 @@ Require Import core.
 
 Inductive dll (x : ptr) (z : ptr) (s : seq nat) (h : heap) : Prop :=
 | dll1 of x == null of
-  perm_eq (s) (nil) /\ h = empty
+  @perm_eq nat_eqType (s) (nil) /\ h = empty
 | dll2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (w : ptr),
   exists h_dll_wxs1_546,
-  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> w \+ x .+ 2 :-> z \+ h_dll_wxs1_546 /\ dll w x s1 h_dll_wxs1_546.
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> w \+ x .+ 2 :-> z \+ h_dll_wxs1_546 /\ dll w x s1 h_dll_wxs1_546.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | sll1 of x == null of
-  perm_eq (s) (nil) /\ h = empty
+  @perm_eq nat_eqType (s) (nil) /\ h = empty
 | sll2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_sll_nxts1_547,
-  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_547 /\ sll nxt s1 h_sll_nxts1_547.
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_547 /\ sll nxt s1 h_sll_nxts1_547.
 
 Definition dll_dupleton_type :=
   forall (vprogs : nat * nat * ptr),
@@ -36,7 +36,7 @@ Definition dll_dupleton_type :=
       let: (a) := vghosts in
       exists elems z,
       exists h_dll_zelems_548,
-      perm_eq (elems) ([:: x; y]) /\ h = r :-> z \+ h_dll_zelems_548 /\ dll z null elems h_dll_zelems_548
+      @perm_eq nat_eqType (elems) ([:: x; y]) /\ h = r :-> z \+ h_dll_zelems_548 /\ dll z null elems h_dll_zelems_548
     ]).
 Program Definition dll_dupleton : dll_dupleton_type :=
   Fix (fun (dll_dupleton : dll_dupleton_type) vprogs =>
@@ -55,6 +55,10 @@ Program Definition dll_dupleton : dll_dupleton_type :=
     )).
 Obligation Tactic := intro; move=>[[x y] r]; ssl_program_simpl.
 Next Obligation.
+Hypothesis dll_perm_eq_trans32: forall x z h s_1 s_2, perm_eq s_1 s_2 -> dll x z s_1 h -> dll x z s_2 h.
+Hint Resolve dll_perm_eq_trans32: ssl_pred.
+Hypothesis sll_perm_eq_trans33: forall x h s_1 s_2, perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h.
+Hint Resolve sll_perm_eq_trans33: ssl_pred.
 ssl_ghostelim_pre.
 move=>a2.
 move=>[sigma_self].
@@ -72,6 +76,8 @@ ssl_write (wz2 .+ 1).
 ssl_write_post (wz2 .+ 1).
 ssl_write (wz2 .+ 2).
 ssl_write_post (wz2 .+ 2).
+Hypothesis pure34 : forall x y, @perm_eq nat_eqType ([:: x; y]) ([:: y] ++ [:: x]).
+Hint Resolve pure34: ssl_pure.
 ssl_write z2.
 ssl_write_post z2.
 ssl_write wz2.
@@ -90,5 +96,4 @@ exists (empty);
 sslauto.
 unfold_constructor 1;
 sslauto.
-
 Qed.

@@ -9,11 +9,11 @@ Require Import core.
 
 Inductive lseg (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | lseg1 of x == null of
-  perm_eq (s) (nil) /\ h = empty
+  @perm_eq nat_eqType (s) (nil) /\ h = empty
 | lseg2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_lseg_nxts1_513,
-  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_513 /\ lseg nxt s1 h_lseg_nxts1_513.
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_513 /\ lseg nxt s1 h_lseg_nxts1_513.
 
 Definition listfree_type :=
   forall (vprogs : ptr),
@@ -45,6 +45,8 @@ Program Definition listfree : listfree_type :=
     )).
 Obligation Tactic := intro; move=>x; ssl_program_simpl.
 Next Obligation.
+Hypothesis lseg_perm_eq_trans4: forall x h s_1 s_2, perm_eq s_1 s_2 -> lseg x s_1 h -> lseg x s_2 h.
+Hint Resolve lseg_perm_eq_trans4: ssl_pred.
 ssl_ghostelim_pre.
 move=>s.
 ex_elim h_lseg_xs_514.
@@ -54,7 +56,7 @@ move=>H_lseg_xs_514.
 ssl_ghostelim_post.
 ssl_open.
 ssl_open_post H_lseg_xs_514.
-move=>[phi_lseg_xs_514].
+move=>[phi_lseg_xs_5140].
 move=>[sigma_lseg_xs_514].
 subst.
 ssl_emp;
@@ -62,7 +64,7 @@ sslauto.
 ssl_open_post H_lseg_xs_514.
 ex_elim vx2 s1x nxtx2.
 ex_elim h_lseg_nxtx2s1x_513x.
-move=>[phi_lseg_xs_514].
+move=>[phi_lseg_xs_5140].
 move=>[sigma_lseg_xs_514].
 subst.
 move=>H_lseg_nxtx2s1x_513x.
@@ -75,9 +77,8 @@ move=>h_call1.
 move=>[sigma_call1].
 subst.
 store_valid.
-ssl_dealloc (x).
+ssl_dealloc x.
 ssl_dealloc (x .+ 1).
 ssl_emp;
 sslauto.
-
 Qed.

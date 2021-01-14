@@ -9,11 +9,11 @@ Require Import core.
 
 Inductive tree (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | tree1 of x == null of
-  perm_eq (s) (nil) /\ h = empty
+  @perm_eq nat_eqType (s) (nil) /\ h = empty
 | tree2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (s2 : seq nat) (l : ptr) (r : ptr),
   exists h_tree_ls1_523 h_tree_rs2_524,
-  perm_eq (s) ([:: v] ++ s1 ++ s2) /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_tree_ls1_523 \+ h_tree_rs2_524 /\ tree l s1 h_tree_ls1_523 /\ tree r s2 h_tree_rs2_524.
+  @perm_eq nat_eqType (s) ([:: v] ++ s1 ++ s2) /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_tree_ls1_523 \+ h_tree_rs2_524 /\ tree l s1 h_tree_ls1_523 /\ tree r s2 h_tree_rs2_524.
 
 Inductive treeN (x : ptr) (n : nat) (h : heap) : Prop :=
 | treeN1 of x == null of
@@ -66,6 +66,8 @@ Program Definition tree_copy : tree_copy_type :=
     )).
 Obligation Tactic := intro; move=>r; ssl_program_simpl.
 Next Obligation.
+Hypothesis tree_perm_eq_trans12: forall x h s_1 s_2, perm_eq s_1 s_2 -> tree x s_1 h -> tree x s_2 h.
+Hint Resolve tree_perm_eq_trans12: ssl_pred.
 ssl_ghostelim_pre.
 move=>[x2 s].
 ex_elim h_tree_x2s_a.
@@ -76,9 +78,11 @@ ssl_ghostelim_post.
 ssl_read r.
 ssl_open.
 ssl_open_post H_tree_x2s_a.
-move=>[phi_tree_x2s_a].
+move=>[phi_tree_x2s_a0].
 move=>[sigma_tree_x2s_a].
 subst.
+Hypothesis pure13 : @perm_eq nat_eqType (nil) (nil).
+Hint Resolve pure13: ssl_pure.
 ssl_emp;
 exists (null);
 exists (empty);
@@ -91,7 +95,7 @@ sslauto.
 ssl_open_post H_tree_x2s_a.
 ex_elim vx22 s1x2 s2x2 lx22 rx22.
 ex_elim h_tree_lx22s1x2_523x2 h_tree_rx22s2x2_524x2.
-move=>[phi_tree_x2s_a].
+move=>[phi_tree_x2s_a0].
 move=>[sigma_tree_x2s_a].
 subst.
 move=>[H_tree_lx22s1x2_523x2 H_tree_rx22s2x2_524x2].
@@ -103,10 +107,10 @@ ssl_call_pre (r :-> lx22 \+ h_tree_lx22s1x2_523x2).
 ssl_call (lx22, s1x2).
 exists (h_tree_lx22s1x2_523x2);
 sslauto.
-move=>h_call5.
+move=>h_call1.
 ex_elim y12.
 ex_elim h_tree_lx22s1x2_523x2 h_tree_y12s1x2_523x2.
-move=>[sigma_call5].
+move=>[sigma_call1].
 subst.
 move=>[H_tree_lx22s1x2_523x2 H_tree_y12s1x2_523x2].
 store_valid.
@@ -116,10 +120,10 @@ ssl_call_pre (r :-> rx22 \+ h_tree_rx22s2x2_524x2).
 ssl_call (rx22, s2x2).
 exists (h_tree_rx22s2x2_524x2);
 sslauto.
-move=>h_call6.
+move=>h_call2.
 ex_elim y22.
 ex_elim h_tree_rx22s2x2_524x2 h_tree_y22s2x2_524x2.
-move=>[sigma_call6].
+move=>[sigma_call2].
 subst.
 move=>[H_tree_rx22s2x2_524x2 H_tree_y22s2x2_524x2].
 store_valid.
@@ -131,6 +135,10 @@ ssl_write (y3 .+ 1).
 ssl_write_post (y3 .+ 1).
 ssl_write (y3 .+ 2).
 ssl_write_post (y3 .+ 2).
+Hypothesis pure14 : forall vx22 s1x2 s2x2, @perm_eq nat_eqType ([:: vx22] ++ s1x2 ++ s2x2) ([:: vx22] ++ s1x2 ++ s2x2).
+Hint Resolve pure14: ssl_pure.
+Hypothesis pure15 : forall vx22 s1x2 s2x2, @perm_eq nat_eqType ([:: vx22] ++ s1x2 ++ s2x2) ([:: vx22] ++ s1x2 ++ s2x2).
+Hint Resolve pure15: ssl_pure.
 ssl_write y3.
 ssl_write_post y3.
 ssl_emp;
@@ -148,5 +156,4 @@ exists (vx22), (s1x2), (s2x2), (y12), (y22);
 exists (h_tree_y12s1x2_523x2);
 exists (h_tree_y22s2x2_524x2);
 sslauto.
-
 Qed.

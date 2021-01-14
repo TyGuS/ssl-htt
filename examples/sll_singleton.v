@@ -9,11 +9,11 @@ Require Import core.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | sll1 of x == null of
-  perm_eq (s) (nil) /\ h = empty
+  @perm_eq nat_eqType (s) (nil) /\ h = empty
 | sll2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_sll_nxts1_541,
-  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_541 /\ sll nxt s1 h_sll_nxts1_541.
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_541 /\ sll nxt s1 h_sll_nxts1_541.
 
 Definition sll_singleton_type :=
   forall (vprogs : nat * ptr),
@@ -28,7 +28,7 @@ Definition sll_singleton_type :=
       let: (a) := vghosts in
       exists elems y,
       exists h_sll_yelems_542,
-      perm_eq (elems) ([:: x]) /\ h = p :-> y \+ h_sll_yelems_542 /\ sll y elems h_sll_yelems_542
+      @perm_eq nat_eqType (elems) ([:: x]) /\ h = p :-> y \+ h_sll_yelems_542 /\ sll y elems h_sll_yelems_542
     ]).
 Program Definition sll_singleton : sll_singleton_type :=
   Fix (fun (sll_singleton : sll_singleton_type) vprogs =>
@@ -42,6 +42,8 @@ Program Definition sll_singleton : sll_singleton_type :=
     )).
 Obligation Tactic := intro; move=>[x p]; ssl_program_simpl.
 Next Obligation.
+Hypothesis sll_perm_eq_trans27: forall x h s_1 s_2, perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h.
+Hint Resolve sll_perm_eq_trans27: ssl_pred.
 ssl_ghostelim_pre.
 move=>a2.
 move=>[sigma_self].
@@ -52,6 +54,8 @@ ssl_write p.
 ssl_write_post p.
 ssl_write (y2 .+ 1).
 ssl_write_post (y2 .+ 1).
+Hypothesis pure28 : forall x, @perm_eq nat_eqType ([:: x]) ([:: x]).
+Hint Resolve pure28: ssl_pure.
 ssl_write y2.
 ssl_write_post y2.
 ssl_emp;
@@ -64,5 +68,4 @@ exists (empty);
 sslauto.
 unfold_constructor 1;
 sslauto.
-
 Qed.

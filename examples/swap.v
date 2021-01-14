@@ -45,5 +45,4 @@ ssl_write y.
 ssl_write_post y.
 ssl_emp;
 sslauto.
-
 Qed.

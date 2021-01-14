@@ -9,11 +9,11 @@ Require Import core.
 
 Inductive lseg (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | lseg1 of x == null of
-  perm_eq (s) (nil) /\ h = empty
+  @perm_eq nat_eqType (s) (nil) /\ h = empty
 | lseg2 of ~~ (x == null) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_lseg_nxts1_515,
-  perm_eq (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_515 /\ lseg nxt s1 h_lseg_nxts1_515.
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_515 /\ lseg nxt s1 h_lseg_nxts1_515.
 
 Definition listcopy_type :=
   forall (vprogs : ptr),
@@ -53,6 +53,8 @@ Program Definition listcopy : listcopy_type :=
     )).
 Obligation Tactic := intro; move=>r; ssl_program_simpl.
 Next Obligation.
+Hypothesis lseg_perm_eq_trans5: forall x h s_1 s_2, perm_eq s_1 s_2 -> lseg x s_1 h -> lseg x s_2 h.
+Hint Resolve lseg_perm_eq_trans5: ssl_pred.
 ssl_ghostelim_pre.
 move=>[x2 s].
 ex_elim h_lseg_x2s_516.
@@ -63,9 +65,11 @@ ssl_ghostelim_post.
 ssl_read r.
 ssl_open.
 ssl_open_post H_lseg_x2s_516.
-move=>[phi_lseg_x2s_516].
+move=>[phi_lseg_x2s_5160].
 move=>[sigma_lseg_x2s_516].
 subst.
+Hypothesis pure6 : @perm_eq nat_eqType (nil) (nil).
+Hint Resolve pure6: ssl_pure.
 ssl_emp;
 exists (null);
 exists (empty);
@@ -78,7 +82,7 @@ sslauto.
 ssl_open_post H_lseg_x2s_516.
 ex_elim vx22 s1x2 nxtx22.
 ex_elim h_lseg_nxtx22s1x2_515x2.
-move=>[phi_lseg_x2s_516].
+move=>[phi_lseg_x2s_5160].
 move=>[sigma_lseg_x2s_516].
 subst.
 move=>H_lseg_nxtx22s1x2_515x2.
@@ -89,10 +93,10 @@ ssl_call_pre (r :-> nxtx22 \+ h_lseg_nxtx22s1x2_515x2).
 ssl_call (nxtx22, s1x2).
 exists (h_lseg_nxtx22s1x2_515x2);
 sslauto.
-move=>h_call2.
+move=>h_call1.
 ex_elim y12.
 ex_elim h_lseg_nxtx22s1x2_5171 h_lseg_y12s1x2_5181.
-move=>[sigma_call2].
+move=>[sigma_call1].
 subst.
 move=>[H_lseg_nxtx22s1x2_5171 H_lseg_y12s1x2_5181].
 store_valid.
@@ -102,6 +106,10 @@ ssl_write r.
 ssl_write_post r.
 ssl_write (y2 .+ 1).
 ssl_write_post (y2 .+ 1).
+Hypothesis pure7 : forall vx22 s1x2, @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2).
+Hint Resolve pure7: ssl_pure.
+Hypothesis pure8 : forall vx22 s1x2, @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2).
+Hint Resolve pure8: ssl_pure.
 ssl_write y2.
 ssl_write_post y2.
 ssl_emp;
@@ -117,5 +125,4 @@ unfold_constructor 2;
 exists (vx22), (s1x2), (y12);
 exists (h_lseg_y12s1x2_5181);
 sslauto.
-
 Qed.
