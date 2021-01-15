@@ -23,6 +23,17 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
   exists h_sll_nxts1_553,
   @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_553 /\ sll nxt s1 h_sll_nxts1_553.
 
+Lemma dll_perm_eq_trans38 x z h s_1 s_2 : perm_eq s_1 s_2 -> dll x z s_1 h -> dll x z s_2 h. Admitted.
+Hint Resolve dll_perm_eq_trans38: ssl_pred.
+Lemma sll_perm_eq_trans39 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans39: ssl_pred.
+Lemma pure40 : @perm_eq nat_eqType (nil) (nil). Admitted.
+Hint Resolve pure40: ssl_pure.
+Lemma pure41 vx22 : @perm_eq nat_eqType ([:: vx22]) ([:: vx22]). Admitted.
+Hint Resolve pure41: ssl_pure.
+Lemma pure42 vx22 vi122 s1i12 : @perm_eq nat_eqType ([:: vx22] ++ [:: vi122] ++ s1i12) ([:: vx22] ++ [:: vi122] ++ s1i12). Admitted.
+Hint Resolve pure42: ssl_pure.
+
 Definition sll_to_dll_type :=
   forall (vprogs : ptr),
   {(vghosts : ptr * seq nat)},
@@ -39,6 +50,7 @@ Definition sll_to_dll_type :=
       exists h_dll_is_555,
       h = f :-> i \+ h_dll_is_555 /\ dll i null s h_dll_is_555
     ]).
+
 Program Definition sll_to_dll : sll_to_dll_type :=
   Fix (fun (sll_to_dll : sll_to_dll_type) vprogs =>
     let: (f) := vprogs in
@@ -76,10 +88,6 @@ Program Definition sll_to_dll : sll_to_dll_type :=
     )).
 Obligation Tactic := intro; move=>f; ssl_program_simpl.
 Next Obligation.
-Hypothesis dll_perm_eq_trans38: forall x z h s_1 s_2, perm_eq s_1 s_2 -> dll x z s_1 h -> dll x z s_2 h.
-Hint Resolve dll_perm_eq_trans38: ssl_pred.
-Hypothesis sll_perm_eq_trans39: forall x h s_1 s_2, perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h.
-Hint Resolve sll_perm_eq_trans39: ssl_pred.
 ssl_ghostelim_pre.
 move=>[x2 s].
 ex_elim h_sll_x2s_554.
@@ -93,8 +101,6 @@ ssl_open_post H_sll_x2s_554.
 move=>[phi_sll_x2s_5540].
 move=>[sigma_sll_x2s_554].
 subst.
-Hypothesis pure40 : @perm_eq nat_eqType (nil) (nil).
-Hint Resolve pure40: ssl_pure.
 ssl_emp;
 exists (null);
 exists (empty);
@@ -137,8 +143,6 @@ ssl_write (i2 .+ 1).
 ssl_write_post (i2 .+ 1).
 ssl_write (i2 .+ 2).
 ssl_write_post (i2 .+ 2).
-Hypothesis pure41 : forall vx22, @perm_eq nat_eqType ([:: vx22]) ([:: vx22]).
-Hint Resolve pure41: ssl_pure.
 ssl_write i2.
 ssl_write_post i2.
 ssl_emp;
@@ -169,8 +173,6 @@ ssl_write (i2 .+ 1).
 ssl_write_post (i2 .+ 1).
 ssl_write (i2 .+ 2).
 ssl_write_post (i2 .+ 2).
-Hypothesis pure42 : forall vx22 vi122 s1i12, @perm_eq nat_eqType ([:: vx22] ++ [:: vi122] ++ s1i12) ([:: vx22] ++ [:: vi122] ++ s1i12).
-Hint Resolve pure42: ssl_pure.
 ssl_write i2.
 ssl_write_post i2.
 ssl_emp;

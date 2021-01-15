@@ -23,6 +23,15 @@ Inductive treeN (x : ptr) (n : nat) (h : heap) : Prop :=
   exists h_treeN_ln1_525 h_treeN_rn2_526,
   0 <= n1 /\ 0 <= n2 /\ n == 1 + n1 + n2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_treeN_ln1_525 \+ h_treeN_rn2_526 /\ treeN l n1 h_treeN_ln1_525 /\ treeN r n2 h_treeN_rn2_526.
 
+Lemma tree_perm_eq_trans12 x h s_1 s_2 : perm_eq s_1 s_2 -> tree x s_1 h -> tree x s_2 h. Admitted.
+Hint Resolve tree_perm_eq_trans12: ssl_pred.
+Lemma pure13 : @perm_eq nat_eqType (nil) (nil). Admitted.
+Hint Resolve pure13: ssl_pure.
+Lemma pure14 vx22 s1x2 s2x2 : @perm_eq nat_eqType ([:: vx22] ++ s1x2 ++ s2x2) ([:: vx22] ++ s1x2 ++ s2x2). Admitted.
+Hint Resolve pure14: ssl_pure.
+Lemma pure15 vx22 s1x2 s2x2 : @perm_eq nat_eqType ([:: vx22] ++ s1x2 ++ s2x2) ([:: vx22] ++ s1x2 ++ s2x2). Admitted.
+Hint Resolve pure15: ssl_pure.
+
 Definition tree_copy_type :=
   forall (vprogs : ptr),
   {(vghosts : ptr * seq nat)},
@@ -39,6 +48,7 @@ Definition tree_copy_type :=
       exists h_tree_xs_a h_tree_ys_a,
       h = r :-> y \+ h_tree_xs_a \+ h_tree_ys_a /\ tree x s h_tree_xs_a /\ tree y s h_tree_ys_a
     ]).
+
 Program Definition tree_copy : tree_copy_type :=
   Fix (fun (tree_copy : tree_copy_type) vprogs =>
     let: (r) := vprogs in
@@ -66,8 +76,6 @@ Program Definition tree_copy : tree_copy_type :=
     )).
 Obligation Tactic := intro; move=>r; ssl_program_simpl.
 Next Obligation.
-Hypothesis tree_perm_eq_trans12: forall x h s_1 s_2, perm_eq s_1 s_2 -> tree x s_1 h -> tree x s_2 h.
-Hint Resolve tree_perm_eq_trans12: ssl_pred.
 ssl_ghostelim_pre.
 move=>[x2 s].
 ex_elim h_tree_x2s_a.
@@ -81,8 +89,6 @@ ssl_open_post H_tree_x2s_a.
 move=>[phi_tree_x2s_a0].
 move=>[sigma_tree_x2s_a].
 subst.
-Hypothesis pure13 : @perm_eq nat_eqType (nil) (nil).
-Hint Resolve pure13: ssl_pure.
 ssl_emp;
 exists (null);
 exists (empty);
@@ -135,10 +141,6 @@ ssl_write (y3 .+ 1).
 ssl_write_post (y3 .+ 1).
 ssl_write (y3 .+ 2).
 ssl_write_post (y3 .+ 2).
-Hypothesis pure14 : forall vx22 s1x2 s2x2, @perm_eq nat_eqType ([:: vx22] ++ s1x2 ++ s2x2) ([:: vx22] ++ s1x2 ++ s2x2).
-Hint Resolve pure14: ssl_pure.
-Hypothesis pure15 : forall vx22 s1x2 s2x2, @perm_eq nat_eqType ([:: vx22] ++ s1x2 ++ s2x2) ([:: vx22] ++ s1x2 ++ s2x2).
-Hint Resolve pure15: ssl_pure.
 ssl_write y3.
 ssl_write_post y3.
 ssl_emp;

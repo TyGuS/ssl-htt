@@ -15,6 +15,11 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
   exists h_sll_nxts1_537,
   @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_537 /\ sll nxt s1 h_sll_nxts1_537.
 
+Lemma sll_perm_eq_trans25 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans25: ssl_pred.
+Lemma pure26 vx12 s1x1 s2 : @perm_eq nat_eqType ([:: vx12] ++ s1x1 ++ s2) ([:: vx12] ++ s1x1 ++ s2). Admitted.
+Hint Resolve pure26: ssl_pure.
+
 Definition sll_append_type :=
   forall (vprogs : ptr * ptr),
   {(vghosts : seq nat * ptr * seq nat)},
@@ -31,6 +36,7 @@ Definition sll_append_type :=
       exists h_sll_ys_540,
       @perm_eq nat_eqType (s) (s1 ++ s2) /\ h = r :-> y \+ h_sll_ys_540 /\ sll y s h_sll_ys_540
     ]).
+
 Program Definition sll_append : sll_append_type :=
   Fix (fun (sll_append : sll_append_type) vprogs =>
     let: (x1, r) := vprogs in
@@ -48,8 +54,6 @@ Program Definition sll_append : sll_append_type :=
     )).
 Obligation Tactic := intro; move=>[x1 r]; ssl_program_simpl.
 Next Obligation.
-Hypothesis sll_perm_eq_trans25: forall x h s_1 s_2, perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h.
-Hint Resolve sll_perm_eq_trans25: ssl_pred.
 ssl_ghostelim_pre.
 move=>[[s1 x22] s2].
 ex_elim h_sll_x1s1_538 h_sll_x22s2_539.
@@ -92,8 +96,6 @@ ssl_write (x1 .+ 1).
 ssl_write_post (x1 .+ 1).
 ssl_write r.
 ssl_write_post r.
-Hypothesis pure26 : forall vx12 s1x1 s2, @perm_eq nat_eqType ([:: vx12] ++ s1x1 ++ s2) ([:: vx12] ++ s1x1 ++ s2).
-Hint Resolve pure26: ssl_pure.
 ssl_emp;
 exists ([:: vx12] ++ s1x1 ++ s2), (x1);
 exists (x1 :-> vx12 \+ x1 .+ 1 :-> y12 \+ h_sll_y12s1x1s2_5401);

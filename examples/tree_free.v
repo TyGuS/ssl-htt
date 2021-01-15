@@ -23,6 +23,9 @@ Inductive treeN (x : ptr) (n : nat) (h : heap) : Prop :=
   exists h_treeN_ln1_529 h_treeN_rn2_530,
   0 <= n1 /\ 0 <= n2 /\ n == 1 + n1 + n2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_treeN_ln1_529 \+ h_treeN_rn2_530 /\ treeN l n1 h_treeN_ln1_529 /\ treeN r n2 h_treeN_rn2_530.
 
+Lemma tree_perm_eq_trans16 x h s_1 s_2 : perm_eq s_1 s_2 -> tree x s_1 h -> tree x s_2 h. Admitted.
+Hint Resolve tree_perm_eq_trans16: ssl_pred.
+
 Definition tree_free_type :=
   forall (vprogs : ptr),
   {(vghosts : seq nat)},
@@ -37,6 +40,7 @@ Definition tree_free_type :=
       let: (s) := vghosts in
       h = empty
     ]).
+
 Program Definition tree_free : tree_free_type :=
   Fix (fun (tree_free : tree_free_type) vprogs =>
     let: (x) := vprogs in
@@ -56,8 +60,6 @@ Program Definition tree_free : tree_free_type :=
     )).
 Obligation Tactic := intro; move=>x; ssl_program_simpl.
 Next Obligation.
-Hypothesis tree_perm_eq_trans16: forall x h s_1 s_2, perm_eq s_1 s_2 -> tree x s_1 h -> tree x s_2 h.
-Hint Resolve tree_perm_eq_trans16: ssl_pred.
 ssl_ghostelim_pre.
 move=>s.
 ex_elim h_tree_xs_531.

@@ -15,6 +15,9 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
   exists h_sll_nxts1_535,
   @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_535 /\ sll nxt s1 h_sll_nxts1_535.
 
+Lemma sll_perm_eq_trans24 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans24: ssl_pred.
+
 Definition sll_free_type :=
   forall (vprogs : ptr),
   {(vghosts : seq nat)},
@@ -29,6 +32,7 @@ Definition sll_free_type :=
       let: (s) := vghosts in
       h = empty
     ]).
+
 Program Definition sll_free : sll_free_type :=
   Fix (fun (sll_free : sll_free_type) vprogs =>
     let: (x) := vprogs in
@@ -45,8 +49,6 @@ Program Definition sll_free : sll_free_type :=
     )).
 Obligation Tactic := intro; move=>x; ssl_program_simpl.
 Next Obligation.
-Hypothesis sll_perm_eq_trans24: forall x h s_1 s_2, perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h.
-Hint Resolve sll_perm_eq_trans24: ssl_pred.
 ssl_ghostelim_pre.
 move=>s.
 ex_elim h_sll_xs_536.

@@ -15,6 +15,17 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
   exists h_sll_nxts1_534,
   @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_534 /\ sll nxt s1 h_sll_nxts1_534.
 
+Lemma sll_perm_eq_trans19 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans19: ssl_pred.
+Lemma pure20 : @perm_eq nat_eqType (nil) (nil). Admitted.
+Hint Resolve pure20: ssl_pure.
+Lemma pure21 b1 : b1 < b1 + 1. Admitted.
+Hint Resolve pure21: ssl_pure.
+Lemma pure22 vx22 s1x2 : @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2). Admitted.
+Hint Resolve pure22: ssl_pure.
+Lemma pure23 vx22 s1x2 : @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2). Admitted.
+Hint Resolve pure23: ssl_pure.
+
 Definition sll_copy_type :=
   forall (vprogs : ptr),
   {(vghosts : ptr * seq nat)},
@@ -31,6 +42,7 @@ Definition sll_copy_type :=
       exists h_sll_xs_a h_sll_ys_b,
       h = r :-> y \+ h_sll_xs_a \+ h_sll_ys_b /\ sll x s h_sll_xs_a /\ sll y s h_sll_ys_b
     ]).
+
 Program Definition sll_copy : sll_copy_type :=
   Fix (fun (sll_copy : sll_copy_type) vprogs =>
     let: (r) := vprogs in
@@ -53,8 +65,6 @@ Program Definition sll_copy : sll_copy_type :=
     )).
 Obligation Tactic := intro; move=>r; ssl_program_simpl.
 Next Obligation.
-Hypothesis sll_perm_eq_trans19: forall x h s_1 s_2, perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h.
-Hint Resolve sll_perm_eq_trans19: ssl_pred.
 ssl_ghostelim_pre.
 move=>[x2 s].
 ex_elim h_sll_x2s_a.
@@ -68,8 +78,6 @@ ssl_open_post H_sll_x2s_a.
 move=>[phi_sll_x2s_a0].
 move=>[sigma_sll_x2s_a].
 subst.
-Hypothesis pure20 : @perm_eq nat_eqType (nil) (nil).
-Hint Resolve pure20: ssl_pure.
 ssl_emp;
 exists (null);
 exists (empty);
@@ -102,16 +110,10 @@ move=>[H_sll_nxtx22s1x2_534x2 H_sll_y12s1x2_b1].
 store_valid.
 ssl_read r.
 ssl_alloc y2.
-Hypothesis pure21 : forall b1, b1 < b1 + 1.
-Hint Resolve pure21: ssl_pure.
 ssl_write r.
 ssl_write_post r.
 ssl_write (y2 .+ 1).
 ssl_write_post (y2 .+ 1).
-Hypothesis pure22 : forall vx22 s1x2, @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2).
-Hint Resolve pure22: ssl_pure.
-Hypothesis pure23 : forall vx22 s1x2, @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2).
-Hint Resolve pure23: ssl_pure.
 ssl_write y2.
 ssl_write_post y2.
 ssl_emp;

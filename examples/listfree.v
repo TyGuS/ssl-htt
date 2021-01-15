@@ -15,6 +15,9 @@ Inductive lseg (x : ptr) (s : seq nat) (h : heap) : Prop :=
   exists h_lseg_nxts1_513,
   @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_513 /\ lseg nxt s1 h_lseg_nxts1_513.
 
+Lemma lseg_perm_eq_trans4 x h s_1 s_2 : perm_eq s_1 s_2 -> lseg x s_1 h -> lseg x s_2 h. Admitted.
+Hint Resolve lseg_perm_eq_trans4: ssl_pred.
+
 Definition listfree_type :=
   forall (vprogs : ptr),
   {(vghosts : seq nat)},
@@ -29,6 +32,7 @@ Definition listfree_type :=
       let: (s) := vghosts in
       h = empty
     ]).
+
 Program Definition listfree : listfree_type :=
   Fix (fun (listfree : listfree_type) vprogs =>
     let: (x) := vprogs in
@@ -45,8 +49,6 @@ Program Definition listfree : listfree_type :=
     )).
 Obligation Tactic := intro; move=>x; ssl_program_simpl.
 Next Obligation.
-Hypothesis lseg_perm_eq_trans4: forall x h s_1 s_2, perm_eq s_1 s_2 -> lseg x s_1 h -> lseg x s_2 h.
-Hint Resolve lseg_perm_eq_trans4: ssl_pred.
 ssl_ghostelim_pre.
 move=>s.
 ex_elim h_lseg_xs_514.

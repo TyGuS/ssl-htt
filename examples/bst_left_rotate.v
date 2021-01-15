@@ -15,6 +15,15 @@ Inductive bst (x : ptr) (sz : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
   exists h_bst_lsz1lo1hi1_513 h_bst_rsz2lo2hi2_514,
   0 <= sz1 /\ 0 <= sz2 /\ 0 <= v /\ hi == (if hi2 <= v then v else hi2) /\ hi1 <= v /\ lo == (if v <= lo1 then v else lo1) /\ sz == 1 + sz1 + sz2 /\ v <= 7 /\ v <= lo2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_bst_lsz1lo1hi1_513 \+ h_bst_rsz2lo2hi2_514 /\ bst l sz1 lo1 hi1 h_bst_lsz1lo1hi1_513 /\ bst r sz2 lo2 hi2 h_bst_rsz2lo2hi2_514.
 
+Lemma pure1 sz1 sz1r2 sz2r2 : 0 <= sz1 -> 0 <= 1 + sz1r2 + sz2r2 -> 0 <= sz2r2 -> 0 <= sz1r2 -> 0 <= 1 + sz1 + sz1r2. Admitted.
+Hint Resolve pure1: ssl_pure.
+Lemma pure2 sz1 sz1r2 sz2r2 : 0 <= sz1 -> 0 <= 1 + sz1r2 + sz2r2 -> 0 <= sz2r2 -> 0 <= sz1r2 -> 1 + sz1 + sz1r2 + sz2r2 == sz1 + 1 + sz1r2 + sz2r2. Admitted.
+Hint Resolve pure2: ssl_pure.
+Lemma pure3 lo1r2 vr22 hi1 v2 hi1r2 lo2r2 : vr22 <= 7 -> v2 <= (if vr22 <= lo1r2 then vr22 else lo1r2) -> 0 <= v2 -> vr22 <= lo2r2 -> 0 <= vr22 -> hi1r2 <= vr22 -> hi1 <= v2 -> v2 <= 7 -> (if hi1r2 <= v2 then v2 else hi1r2) <= vr22. Admitted.
+Hint Resolve pure3: ssl_pure.
+Lemma pure4 lo1r2 vr22 hi1 v2 hi1r2 lo2r2 : vr22 <= 7 -> v2 <= (if vr22 <= lo1r2 then vr22 else lo1r2) -> 0 <= v2 -> vr22 <= lo2r2 -> 0 <= vr22 -> hi1r2 <= vr22 -> hi1 <= v2 -> v2 <= 7 -> v2 <= lo1r2. Admitted.
+Hint Resolve pure4: ssl_pure.
+
 Definition bst_left_rotate_type :=
   forall (vprogs : ptr * ptr),
   {(vghosts : nat * nat * nat * nat * ptr * nat * ptr * nat * nat * ptr)},
@@ -31,6 +40,7 @@ Definition bst_left_rotate_type :=
       exists h_bst_xsz3lo3hi3_515 h_bst_r3sz4lo4hi4_516,
       0 <= sz3 /\ 0 <= sz4 /\ 0 <= v3 /\ hi3 <= v3 /\ sz3 + sz4 == sz1 + sz2 /\ v3 <= 7 /\ v3 <= lo4 /\ h = retv :-> y \+ y :-> v3 \+ y .+ 1 :-> x \+ y .+ 2 :-> r3 \+ h_bst_xsz3lo3hi3_515 \+ h_bst_r3sz4lo4hi4_516 /\ bst x sz3 lo3 hi3 h_bst_xsz3lo3hi3_515 /\ bst r3 sz4 lo4 hi4 h_bst_r3sz4lo4hi4_516
     ]).
+
 Program Definition bst_left_rotate : bst_left_rotate_type :=
   Fix (fun (bst_left_rotate : bst_left_rotate_type) vprogs =>
     let: (x, retv) := vprogs in
@@ -68,20 +78,12 @@ move=>[sigma_bst_r2sz2lo2hi2_b].
 subst.
 move=>[H_bst_lr22sz1r2lo1r2hi1r2_513r2 H_bst_rr22sz2r2lo2r2hi2r2_514r2].
 ssl_read (r2 .+ 1).
-Hypothesis pure1 : forall sz1 sz1r2 sz2r2, 0 <= sz1 -> 0 <= 1 + sz1r2 + sz2r2 -> 0 <= sz2r2 -> 0 <= sz1r2 -> 0 <= 1 + sz1 + sz1r2.
-Hint Resolve pure1: ssl_pure.
-Hypothesis pure2 : forall sz1 sz1r2 sz2r2, 0 <= sz1 -> 0 <= 1 + sz1r2 + sz2r2 -> 0 <= sz2r2 -> 0 <= sz1r2 -> 1 + sz1 + sz1r2 + sz2r2 == sz1 + 1 + sz1r2 + sz2r2.
-Hint Resolve pure2: ssl_pure.
 ssl_write (r2 .+ 1).
 ssl_write_post (r2 .+ 1).
 ssl_write retv.
 ssl_write_post retv.
 ssl_write (x .+ 2).
 ssl_write_post (x .+ 2).
-Hypothesis pure3 : forall lo1r2 vr22 hi1 v2 hi1r2 lo2r2, vr22 <= 7 -> v2 <= (if vr22 <= lo1r2 then vr22 else lo1r2) -> 0 <= v2 -> vr22 <= lo2r2 -> 0 <= vr22 -> hi1r2 <= vr22 -> hi1 <= v2 -> v2 <= 7 -> v2 <= lo1r2.
-Hint Resolve pure3: ssl_pure.
-Hypothesis pure4 : forall lo1r2 vr22 hi1 v2 hi1r2 lo2r2, vr22 <= 7 -> v2 <= (if vr22 <= lo1r2 then vr22 else lo1r2) -> 0 <= v2 -> vr22 <= lo2r2 -> 0 <= vr22 -> hi1r2 <= vr22 -> hi1 <= v2 -> v2 <= 7 -> (if hi1r2 <= v2 then v2 else hi1r2) <= vr22.
-Hint Resolve pure4: ssl_pure.
 ssl_emp;
 exists (1 + sz1 + sz1r2), (sz2r2), (vr22), ((if hi1r2 <= v2 then v2 else hi1r2)), (lo2r2), ((if v2 <= lo1 then v2 else lo1)), (rr22), (hi2r2), (r2);
 exists (x :-> v2 \+ x .+ 1 :-> l2 \+ x .+ 2 :-> lr22 \+ h_bst_l2sz1lo1hi1_a \+ h_bst_lr22sz1r2lo1r2hi1r2_513r2);
@@ -94,3 +96,4 @@ exists (h_bst_l2sz1lo1hi1_a);
 exists (h_bst_lr22sz1r2lo1r2hi1r2_513r2);
 sslauto.
 Qed.
+

@@ -20,6 +20,7 @@ Definition swap2_type :=
       let: (a, c, b, q) := vghosts in
       h = x :-> q \+ z :-> c \+ t :-> a \+ y :-> b
     ]).
+
 Program Definition swap2 : swap2_type :=
   Fix (fun (swap2 : swap2_type) vprogs =>
     let: (x, z, y, t) := vprogs in

@@ -23,6 +23,13 @@ Inductive treeN (x : ptr) (n : nat) (h : heap) : Prop :=
   exists h_treeN_ln1_521 h_treeN_rn2_522,
   0 <= n1 /\ 0 <= n2 /\ n == 1 + n1 + n2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_treeN_ln1_521 \+ h_treeN_rn2_522 /\ treeN l n1 h_treeN_ln1_521 /\ treeN r n2 h_treeN_rn2_522.
 
+Lemma tree_perm_eq_trans9 x h s_1 s_2 : perm_eq s_1 s_2 -> tree x s_1 h -> tree x s_2 h. Admitted.
+Hint Resolve tree_perm_eq_trans9: ssl_pred.
+Lemma pure10 : 0 == 0. Admitted.
+Hint Resolve pure10: ssl_pure.
+Lemma pure11 n1x2 n2x2 : 0 <= 1 + n1x2 + n2x2 -> 0 <= n2x2 -> 0 <= n1x2 -> 1 + n1x2 + n2x2 == 1 + n1x2 + n2x2. Admitted.
+Hint Resolve pure11: ssl_pure.
+
 Definition tree_size_type :=
   forall (vprogs : ptr * ptr),
   {(vghosts : nat)},
@@ -38,6 +45,7 @@ Definition tree_size_type :=
       exists h_treeN_xn_a,
       h = r :-> n \+ h_treeN_xn_a /\ treeN x n h_treeN_xn_a
     ]).
+
 Program Definition tree_size : tree_size_type :=
   Fix (fun (tree_size : tree_size_type) vprogs =>
     let: (x, r) := vprogs in
@@ -58,8 +66,6 @@ Program Definition tree_size : tree_size_type :=
     )).
 Obligation Tactic := intro; move=>[x r]; ssl_program_simpl.
 Next Obligation.
-Hypothesis tree_perm_eq_trans9: forall x h s_1 s_2, perm_eq s_1 s_2 -> tree x s_1 h -> tree x s_2 h.
-Hint Resolve tree_perm_eq_trans9: ssl_pred.
 ssl_ghostelim_pre.
 move=>n.
 ex_elim h_treeN_xn_a.
@@ -73,8 +79,6 @@ ssl_open_post H_treeN_xn_a.
 move=>[phi_treeN_xn_a0].
 move=>[sigma_treeN_xn_a].
 subst.
-Hypothesis pure10 : 0 == 0.
-Hint Resolve pure10: ssl_pure.
 ssl_emp;
 exists (empty);
 sslauto.
@@ -112,8 +116,6 @@ subst.
 move=>H_treeN_rx2n2x2_522x.
 store_valid.
 ssl_read r.
-Hypothesis pure11 : forall n1x2 n2x2, 0 <= n2x2 -> 0 <= n1x2 -> 0 <= 1 + n1x2 + n2x2 -> 1 + n1x2 + n2x2 == 1 + n1x2 + n2x2.
-Hint Resolve pure11: ssl_pure.
 ssl_write r.
 ssl_write_post r.
 ssl_emp;

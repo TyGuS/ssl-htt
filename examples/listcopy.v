@@ -15,6 +15,15 @@ Inductive lseg (x : ptr) (s : seq nat) (h : heap) : Prop :=
   exists h_lseg_nxts1_515,
   @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_lseg_nxts1_515 /\ lseg nxt s1 h_lseg_nxts1_515.
 
+Lemma lseg_perm_eq_trans5 x h s_1 s_2 : perm_eq s_1 s_2 -> lseg x s_1 h -> lseg x s_2 h. Admitted.
+Hint Resolve lseg_perm_eq_trans5: ssl_pred.
+Lemma pure6 : @perm_eq nat_eqType (nil) (nil). Admitted.
+Hint Resolve pure6: ssl_pure.
+Lemma pure7 vx22 s1x2 : @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2). Admitted.
+Hint Resolve pure7: ssl_pure.
+Lemma pure8 vx22 s1x2 : @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2). Admitted.
+Hint Resolve pure8: ssl_pure.
+
 Definition listcopy_type :=
   forall (vprogs : ptr),
   {(vghosts : ptr * seq nat)},
@@ -31,6 +40,7 @@ Definition listcopy_type :=
       exists h_lseg_xs_517 h_lseg_ys_518,
       h = r :-> y \+ h_lseg_xs_517 \+ h_lseg_ys_518 /\ lseg x s h_lseg_xs_517 /\ lseg y s h_lseg_ys_518
     ]).
+
 Program Definition listcopy : listcopy_type :=
   Fix (fun (listcopy : listcopy_type) vprogs =>
     let: (r) := vprogs in
@@ -53,8 +63,6 @@ Program Definition listcopy : listcopy_type :=
     )).
 Obligation Tactic := intro; move=>r; ssl_program_simpl.
 Next Obligation.
-Hypothesis lseg_perm_eq_trans5: forall x h s_1 s_2, perm_eq s_1 s_2 -> lseg x s_1 h -> lseg x s_2 h.
-Hint Resolve lseg_perm_eq_trans5: ssl_pred.
 ssl_ghostelim_pre.
 move=>[x2 s].
 ex_elim h_lseg_x2s_516.
@@ -68,8 +76,6 @@ ssl_open_post H_lseg_x2s_516.
 move=>[phi_lseg_x2s_5160].
 move=>[sigma_lseg_x2s_516].
 subst.
-Hypothesis pure6 : @perm_eq nat_eqType (nil) (nil).
-Hint Resolve pure6: ssl_pure.
 ssl_emp;
 exists (null);
 exists (empty);
@@ -106,10 +112,6 @@ ssl_write r.
 ssl_write_post r.
 ssl_write (y2 .+ 1).
 ssl_write_post (y2 .+ 1).
-Hypothesis pure7 : forall vx22 s1x2, @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2).
-Hint Resolve pure7: ssl_pure.
-Hypothesis pure8 : forall vx22 s1x2, @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2).
-Hint Resolve pure8: ssl_pure.
 ssl_write y2.
 ssl_write_post y2.
 ssl_emp;

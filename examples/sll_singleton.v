@@ -15,6 +15,11 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
   exists h_sll_nxts1_541,
   @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_541 /\ sll nxt s1 h_sll_nxts1_541.
 
+Lemma sll_perm_eq_trans27 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans27: ssl_pred.
+Lemma pure28 x : @perm_eq nat_eqType ([:: x]) ([:: x]). Admitted.
+Hint Resolve pure28: ssl_pure.
+
 Definition sll_singleton_type :=
   forall (vprogs : nat * ptr),
   {(vghosts : ptr)},
@@ -30,6 +35,7 @@ Definition sll_singleton_type :=
       exists h_sll_yelems_542,
       @perm_eq nat_eqType (elems) ([:: x]) /\ h = p :-> y \+ h_sll_yelems_542 /\ sll y elems h_sll_yelems_542
     ]).
+
 Program Definition sll_singleton : sll_singleton_type :=
   Fix (fun (sll_singleton : sll_singleton_type) vprogs =>
     let: (x, p) := vprogs in
@@ -42,8 +48,6 @@ Program Definition sll_singleton : sll_singleton_type :=
     )).
 Obligation Tactic := intro; move=>[x p]; ssl_program_simpl.
 Next Obligation.
-Hypothesis sll_perm_eq_trans27: forall x h s_1 s_2, perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h.
-Hint Resolve sll_perm_eq_trans27: ssl_pred.
 ssl_ghostelim_pre.
 move=>a2.
 move=>[sigma_self].
@@ -54,8 +58,6 @@ ssl_write p.
 ssl_write_post p.
 ssl_write (y2 .+ 1).
 ssl_write_post (y2 .+ 1).
-Hypothesis pure28 : forall x, @perm_eq nat_eqType ([:: x]) ([:: x]).
-Hint Resolve pure28: ssl_pure.
 ssl_write y2.
 ssl_write_post y2.
 ssl_emp;

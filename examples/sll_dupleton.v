@@ -15,6 +15,11 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
   exists h_sll_nxts1_532,
   @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_532 /\ sll nxt s1 h_sll_nxts1_532.
 
+Lemma sll_perm_eq_trans17 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans17: ssl_pred.
+Lemma pure18 x y : @perm_eq nat_eqType ([:: x; y]) ([:: x] ++ [:: y]). Admitted.
+Hint Resolve pure18: ssl_pure.
+
 Definition sll_dupleton_type :=
   forall (vprogs : nat * nat * ptr),
   {(vghosts : ptr)},
@@ -30,6 +35,7 @@ Definition sll_dupleton_type :=
       exists h_sll_zelems_533,
       @perm_eq nat_eqType (elems) ([:: x; y]) /\ h = r :-> z \+ h_sll_zelems_533 /\ sll z elems h_sll_zelems_533
     ]).
+
 Program Definition sll_dupleton : sll_dupleton_type :=
   Fix (fun (sll_dupleton : sll_dupleton_type) vprogs =>
     let: (x, y, r) := vprogs in
@@ -45,8 +51,6 @@ Program Definition sll_dupleton : sll_dupleton_type :=
     )).
 Obligation Tactic := intro; move=>[[x y] r]; ssl_program_simpl.
 Next Obligation.
-Hypothesis sll_perm_eq_trans17: forall x h s_1 s_2, perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h.
-Hint Resolve sll_perm_eq_trans17: ssl_pred.
 ssl_ghostelim_pre.
 move=>a2.
 move=>[sigma_self].
@@ -60,8 +64,6 @@ ssl_write (z2 .+ 1).
 ssl_write_post (z2 .+ 1).
 ssl_write (nxtz2 .+ 1).
 ssl_write_post (nxtz2 .+ 1).
-Hypothesis pure18 : forall x y, @perm_eq nat_eqType ([:: x; y]) ([:: x] ++ [:: y]).
-Hint Resolve pure18: ssl_pure.
 ssl_write z2.
 ssl_write_post z2.
 ssl_write nxtz2.
