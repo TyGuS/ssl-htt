@@ -186,7 +186,8 @@ Ltac sslauto :=
     | _ => auto with ssl_heap ssl_nat
     end;
     eauto with ssl_pred;
-    eauto 2 with ssl_pure
+    unshelve (eauto 2 with ssl_pure);
+    try exact 0
   end.
 
 Ltac ex_elim1 A := try clear dependent A; move=>[A].
