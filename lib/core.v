@@ -88,6 +88,7 @@ Ltac unfold_constructor n :=
          end;
          match goal with
          | [|- is_true (_ != null)] => assert_not_null
+         | [|- (_ == null) = false] => apply negbTE; assert_not_null
          | _ => idtac
          end
   end.
@@ -178,7 +179,7 @@ Ltac sslauto :=
   match goal with
   | [|- verify _ _ _] => idtac
   | _ =>
-    rewrite ?unitL ?unitR;
+    rewrite ?unitL ?unitR ?addnA;
     repeat split=>//=;
     match goal with
     | [|- context [perm_eq]] => sslauto_seqnat
@@ -285,4 +286,4 @@ Ltac ssl_open_post H :=
   move=>_.
 
 (* Abduce Branch Rule *)
-Ltac ssl_abduce_branch := case: ifP=>H_cond.
+Ltac ssl_abduce_branch := let H := fresh "H_cond" in case: ifP=>H.
