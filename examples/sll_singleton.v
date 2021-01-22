@@ -8,17 +8,17 @@ From SSL
 Require Import core.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| sll1 of x == null of
+| sll_1 of x == null of
   @perm_eq nat_eqType (s) (nil) /\ h = empty
-| sll2 of ~~ (x == null) of
+| sll_2 of (x == null) = false of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
-  exists h_sll_nxts1_541,
-  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_541 /\ sll nxt s1 h_sll_nxts1_541.
+  exists h_sll_nxts1_547,
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_547 /\ sll nxt s1 h_sll_nxts1_547.
 
-Lemma sll_perm_eq_trans27 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
-Hint Resolve sll_perm_eq_trans27: ssl_pred.
-Lemma pure28 x : @perm_eq nat_eqType ([:: x]) ([:: x]). Admitted.
-Hint Resolve pure28: ssl_pure.
+Lemma sll_perm_eq_trans34 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans34: ssl_pred.
+Lemma pure35 x : @perm_eq nat_eqType ([:: x]) ([:: x]). Admitted.
+Hint Resolve pure35: ssl_pure.
 
 Definition sll_singleton_type :=
   forall (vprogs : nat * ptr),
@@ -32,8 +32,8 @@ Definition sll_singleton_type :=
       let: (x, p) := vprogs in
       let: (a) := vghosts in
       exists elems y,
-      exists h_sll_yelems_542,
-      @perm_eq nat_eqType (elems) ([:: x]) /\ h = p :-> y \+ h_sll_yelems_542 /\ sll y elems h_sll_yelems_542
+      exists h_sll_yelems_548,
+      @perm_eq nat_eqType (elems) ([:: x]) /\ h = p :-> y \+ h_sll_yelems_548 /\ sll y elems h_sll_yelems_548
     ]).
 
 Program Definition sll_singleton : sll_singleton_type :=

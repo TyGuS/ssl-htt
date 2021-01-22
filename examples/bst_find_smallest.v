@@ -8,9 +8,9 @@ From SSL
 Require Import core.
 
 Inductive bst (x : ptr) (sz : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
-| bst1 of x == null of
+| bst_1 of x == null of
   hi == 0 /\ lo == 7 /\ sz == 0 /\ h = empty
-| bst2 of ~~ (x == null) of
+| bst_2 of (x == null) = false of
   exists (sz1 : nat) (sz2 : nat) (v : nat) (hi2 : nat) (hi1 : nat) (lo1 : nat) (lo2 : nat) (l : ptr) (r : ptr),
   exists h_bst_lsz1lo1hi1_513 h_bst_rsz2lo2hi2_514,
   0 <= sz1 /\ 0 <= sz2 /\ 0 <= v /\ hi == (if hi2 <= v then v else hi2) /\ hi1 <= v /\ lo == (if v <= lo1 then v else lo1) /\ sz == 1 + sz1 + sz2 /\ v <= 7 /\ v <= lo2 /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_bst_lsz1lo1hi1_513 \+ h_bst_rsz2lo2hi2_514 /\ bst l sz1 lo1 hi1 h_bst_lsz1lo1hi1_513 /\ bst r sz2 lo2 hi2 h_bst_rsz2lo2hi2_514.
@@ -23,11 +23,11 @@ Lemma pure3 hi2x lo2x hi1x vx2 lo1x : hi1x <= vx2 -> vx2 <= lo2x -> (if hi2x <= 
 Hint Resolve pure3: ssl_pure.
 Lemma pure4 hi2x lo2x hi1x vx2 lo1x : hi1x <= vx2 -> vx2 <= lo2x -> (if hi2x <= vx2 then vx2 else hi2x) <= 7 -> 0 <= vx2 -> vx2 <= 7 -> 0 <= (if vx2 <= lo1x then vx2 else lo1x) -> hi1x <= 7. Admitted.
 Hint Resolve pure4: ssl_pure.
-Lemma pure5 sz1x sz2x : 0 <= 1 + sz1x + sz2x -> 0 <= sz1x -> 0 <= sz2x -> 1 + sz1x + sz2x == 1 + sz1x + sz2x. Admitted.
+Lemma pure5 sz1x sz2x : 0 <= sz2x -> 0 <= sz1x -> 0 <= 1 + sz1x + sz2x -> 1 + sz1x + sz2x == 1 + sz1x + sz2x. Admitted.
 Hint Resolve pure5: ssl_pure.
-Lemma pure6 hi2x lo2x hi1x vx2 lo1x2 : 0 <= (if vx2 <= lo1x2 then vx2 else lo1x2) -> hi1x <= vx2 -> vx2 <= lo2x -> (if hi2x <= vx2 then vx2 else hi2x) <= 7 -> 0 <= vx2 -> vx2 <= 7 -> (if hi2x <= vx2 then vx2 else hi2x) == (if hi2x <= vx2 then vx2 else hi2x). Admitted.
+Lemma pure6 hi2x lo2x hi1x vx2 lo1x2 : 0 <= (if vx2 <= lo1x2 then vx2 else lo1x2) -> hi1x <= vx2 -> vx2 <= lo2x -> (if hi2x <= vx2 then vx2 else hi2x) <= 7 -> 0 <= vx2 -> vx2 <= 7 -> (if vx2 <= lo1x2 then vx2 else lo1x2) == (if vx2 <= lo1x2 then vx2 else lo1x2). Admitted.
 Hint Resolve pure6: ssl_pure.
-Lemma pure7 hi2x lo2x hi1x vx2 lo1x2 : 0 <= (if vx2 <= lo1x2 then vx2 else lo1x2) -> hi1x <= vx2 -> vx2 <= lo2x -> (if hi2x <= vx2 then vx2 else hi2x) <= 7 -> 0 <= vx2 -> vx2 <= 7 -> (if vx2 <= lo1x2 then vx2 else lo1x2) == (if vx2 <= lo1x2 then vx2 else lo1x2). Admitted.
+Lemma pure7 hi2x lo2x hi1x vx2 lo1x2 : 0 <= (if vx2 <= lo1x2 then vx2 else lo1x2) -> hi1x <= vx2 -> vx2 <= lo2x -> (if hi2x <= vx2 then vx2 else hi2x) <= 7 -> 0 <= vx2 -> vx2 <= 7 -> (if hi2x <= vx2 then vx2 else hi2x) == (if hi2x <= vx2 then vx2 else hi2x). Admitted.
 Hint Resolve pure7: ssl_pure.
 
 Definition bst_find_smallest_type :=

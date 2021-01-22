@@ -8,27 +8,27 @@ From SSL
 Require Import core.
 
 Inductive dll (x : ptr) (z : ptr) (s : seq nat) (h : heap) : Prop :=
-| dll1 of x == null of
+| dll_1 of x == null of
   @perm_eq nat_eqType (s) (nil) /\ h = empty
-| dll2 of ~~ (x == null) of
+| dll_2 of (x == null) = false of
   exists (v : nat) (s1 : seq nat) (w : ptr),
-  exists h_dll_wxs1_546,
-  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> w \+ x .+ 2 :-> z \+ h_dll_wxs1_546 /\ dll w x s1 h_dll_wxs1_546.
+  exists h_dll_wxs1_552,
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> w \+ x .+ 2 :-> z \+ h_dll_wxs1_552 /\ dll w x s1 h_dll_wxs1_552.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| sll1 of x == null of
+| sll_1 of x == null of
   @perm_eq nat_eqType (s) (nil) /\ h = empty
-| sll2 of ~~ (x == null) of
+| sll_2 of (x == null) = false of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
-  exists h_sll_nxts1_547,
-  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_547 /\ sll nxt s1 h_sll_nxts1_547.
+  exists h_sll_nxts1_553,
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_553 /\ sll nxt s1 h_sll_nxts1_553.
 
-Lemma dll_perm_eq_trans32 x z h s_1 s_2 : perm_eq s_1 s_2 -> dll x z s_1 h -> dll x z s_2 h. Admitted.
-Hint Resolve dll_perm_eq_trans32: ssl_pred.
-Lemma sll_perm_eq_trans33 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
-Hint Resolve sll_perm_eq_trans33: ssl_pred.
-Lemma pure34 x y : @perm_eq nat_eqType ([:: x; y]) ([:: y] ++ [:: x]). Admitted.
-Hint Resolve pure34: ssl_pure.
+Lemma dll_perm_eq_trans39 x z h s_1 s_2 : perm_eq s_1 s_2 -> dll x z s_1 h -> dll x z s_2 h. Admitted.
+Hint Resolve dll_perm_eq_trans39: ssl_pred.
+Lemma sll_perm_eq_trans40 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans40: ssl_pred.
+Lemma pure41 x y : @perm_eq nat_eqType ([:: x; y]) ([:: y] ++ [:: x]). Admitted.
+Hint Resolve pure41: ssl_pure.
 
 Definition dll_dupleton_type :=
   forall (vprogs : nat * nat * ptr),
@@ -42,8 +42,8 @@ Definition dll_dupleton_type :=
       let: (x, y, r) := vprogs in
       let: (a) := vghosts in
       exists elems z,
-      exists h_dll_zelems_548,
-      @perm_eq nat_eqType (elems) ([:: x; y]) /\ h = r :-> z \+ h_dll_zelems_548 /\ dll z null elems h_dll_zelems_548
+      exists h_dll_zelems_554,
+      @perm_eq nat_eqType (elems) ([:: x; y]) /\ h = r :-> z \+ h_dll_zelems_554 /\ dll z null elems h_dll_zelems_554
     ]).
 
 Program Definition dll_dupleton : dll_dupleton_type :=

@@ -9,9 +9,9 @@ Require Import core.
 
 Lemma pure1 x y : x <= y -> x <= x. Admitted.
 Hint Resolve pure1: ssl_pure.
-Lemma pure2 y x : ~~ (x <= y) -> y <= x. Admitted.
+Lemma pure2 y x : (x <= y) = false -> y <= x. Admitted.
 Hint Resolve pure2: ssl_pure.
-Lemma pure3 y x : ~~ (x <= y) -> y <= y. Admitted.
+Lemma pure3 y x : (x <= y) = false -> y <= y. Admitted.
 Hint Resolve pure3: ssl_pure.
 
 Definition min2_type :=

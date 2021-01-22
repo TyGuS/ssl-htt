@@ -8,27 +8,27 @@ From SSL
 Require Import core.
 
 Inductive dll (x : ptr) (z : ptr) (s : seq nat) (h : heap) : Prop :=
-| dll1 of x == null of
+| dll_1 of x == null of
   @perm_eq nat_eqType (s) (nil) /\ h = empty
-| dll2 of ~~ (x == null) of
+| dll_2 of (x == null) = false of
   exists (v : nat) (s1 : seq nat) (w : ptr),
-  exists h_dll_wxs1_549,
-  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> w \+ x .+ 2 :-> z \+ h_dll_wxs1_549 /\ dll w x s1 h_dll_wxs1_549.
+  exists h_dll_wxs1_555,
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> w \+ x .+ 2 :-> z \+ h_dll_wxs1_555 /\ dll w x s1 h_dll_wxs1_555.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| sll1 of x == null of
+| sll_1 of x == null of
   @perm_eq nat_eqType (s) (nil) /\ h = empty
-| sll2 of ~~ (x == null) of
+| sll_2 of (x == null) = false of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
-  exists h_sll_nxts1_550,
-  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_550 /\ sll nxt s1 h_sll_nxts1_550.
+  exists h_sll_nxts1_556,
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_556 /\ sll nxt s1 h_sll_nxts1_556.
 
-Lemma dll_perm_eq_trans35 x z h s_1 s_2 : perm_eq s_1 s_2 -> dll x z s_1 h -> dll x z s_2 h. Admitted.
-Hint Resolve dll_perm_eq_trans35: ssl_pred.
-Lemma sll_perm_eq_trans36 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
-Hint Resolve sll_perm_eq_trans36: ssl_pred.
-Lemma pure37 x : @perm_eq nat_eqType ([:: x]) ([:: x]). Admitted.
-Hint Resolve pure37: ssl_pure.
+Lemma dll_perm_eq_trans42 x z h s_1 s_2 : perm_eq s_1 s_2 -> dll x z s_1 h -> dll x z s_2 h. Admitted.
+Hint Resolve dll_perm_eq_trans42: ssl_pred.
+Lemma sll_perm_eq_trans43 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans43: ssl_pred.
+Lemma pure44 x : @perm_eq nat_eqType ([:: x]) ([:: x]). Admitted.
+Hint Resolve pure44: ssl_pure.
 
 Definition dll_singleton_type :=
   forall (vprogs : nat * ptr),
@@ -42,8 +42,8 @@ Definition dll_singleton_type :=
       let: (x, r) := vprogs in
       let: (a) := vghosts in
       exists elems y,
-      exists h_dll_yelems_551,
-      @perm_eq nat_eqType (elems) ([:: x]) /\ h = r :-> y \+ h_dll_yelems_551 /\ dll y null elems h_dll_yelems_551
+      exists h_dll_yelems_557,
+      @perm_eq nat_eqType (elems) ([:: x]) /\ h = r :-> y \+ h_dll_yelems_557 /\ dll y null elems h_dll_yelems_557
     ]).
 
 Program Definition dll_singleton : dll_singleton_type :=
