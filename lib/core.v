@@ -211,7 +211,7 @@ Ltac ssl_program_simpl := Tactics.program_simpl.
 
 
 (* Ghost Variable Elim *)
-Ltac ssl_ghostelim_pre := try apply: ghR; move=>h//=.
+Ltac ssl_ghostelim_pre := try apply: ghR; move=>h_self//=.
 
 Ltac ssl_ghostelim_post := store_valid.
 
