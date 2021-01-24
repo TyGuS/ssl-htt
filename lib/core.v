@@ -4,6 +4,7 @@ From fcsl
 Require Import prelude pred pcm unionmap heap.
 From HTT
 Require Import stmod stsep stlog stlogR.
+From Hammer Require Import Hammer.
 
 (* The empty heap *)
 Notation empty := Unit.
@@ -187,7 +188,12 @@ Ltac sslauto :=
     | _ => auto with ssl_heap ssl_nat
     end;
     eauto with ssl_pred;
-    unshelve (eauto 2 with ssl_pure);
+    match goal with
+    | [|- is_true (_ <= _)] => unshelve (progress eauto 2 with ssl_pure + hammer)
+    | [|- is_true (_ < _)] => unshelve (progress eauto 2 with ssl_pure + hammer)
+    | [|- is_true (_ == _)] => unshelve (progress eauto 2 with ssl_pure + hammer)
+    | _ => idtac
+    end;
     try exact 0
   end.
 
