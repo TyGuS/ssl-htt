@@ -40,7 +40,7 @@ Next Obligation.
 ssl_ghostelim_pre.
 move=>[[[a2 c2] b2] q2].
 move=>[sigma_self].
-subst.
+subst h_self.
 ssl_ghostelim_post.
 ssl_read x.
 ssl_read y.

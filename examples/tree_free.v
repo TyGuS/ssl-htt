@@ -64,22 +64,21 @@ ssl_ghostelim_pre.
 move=>s.
 ex_elim h_tree_xs_537.
 move=>[sigma_self].
-subst.
+subst h_self.
 move=>H_tree_xs_537.
 ssl_ghostelim_post.
-ssl_open.
+ssl_open (x == null);
 ssl_open_post H_tree_xs_537.
 move=>[phi_tree_xs_5370].
 move=>[sigma_tree_xs_537].
-subst.
+subst h_tree_xs_537.
 ssl_emp;
 sslauto.
-ssl_open_post H_tree_xs_537.
 ex_elim vx2 s1x s2x lx2 rx2.
 ex_elim h_tree_lx2s1x_533x h_tree_rx2s2x_534x.
 move=>[phi_tree_xs_5370].
 move=>[sigma_tree_xs_537].
-subst.
+subst h_tree_xs_537.
 move=>[H_tree_lx2s1x_533x H_tree_rx2s2x_534x].
 ssl_read (x .+ 1).
 ssl_read (x .+ 2).
@@ -89,7 +88,7 @@ exists (h_tree_lx2s1x_533x);
 sslauto.
 move=>h_call1.
 move=>[sigma_call1].
-subst.
+subst h_call1.
 store_valid.
 ssl_call_pre (h_tree_rx2s2x_534x).
 ssl_call (s2x).
@@ -97,7 +96,7 @@ exists (h_tree_rx2s2x_534x);
 sslauto.
 move=>h_call2.
 move=>[sigma_call2].
-subst.
+subst h_call2.
 store_valid.
 ssl_dealloc x.
 ssl_dealloc (x .+ 1).

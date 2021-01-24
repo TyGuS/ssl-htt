@@ -63,22 +63,21 @@ ssl_ghostelim_pre.
 move=>s.
 ex_elim h_lseg_xs_515.
 move=>[sigma_self].
-subst.
+subst h_self.
 move=>H_lseg_xs_515.
 ssl_ghostelim_post.
-ssl_open.
+ssl_open (x == null);
 ssl_open_post H_lseg_xs_515.
 move=>[phi_lseg_xs_5150].
 move=>[sigma_lseg_xs_515].
-subst.
+subst h_lseg_xs_515.
 ssl_emp;
 sslauto.
-ssl_open_post H_lseg_xs_515.
 ex_elim vx2 s1x nxtx2.
 ex_elim h_lseg_nxtx2s1x_513x.
 move=>[phi_lseg_xs_5150].
 move=>[sigma_lseg_xs_515].
-subst.
+subst h_lseg_xs_515.
 move=>H_lseg_nxtx2s1x_513x.
 ssl_read (x .+ 1).
 ssl_call_pre (h_lseg_nxtx2s1x_513x).
@@ -87,7 +86,7 @@ exists (h_lseg_nxtx2s1x_513x);
 sslauto.
 move=>h_call1.
 move=>[sigma_call1].
-subst.
+subst h_call1.
 store_valid.
 ssl_dealloc x.
 ssl_dealloc (x .+ 1).

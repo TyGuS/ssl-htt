@@ -58,26 +58,26 @@ ssl_ghostelim_pre.
 move=>s.
 ex_elim h_sll_xs_550.
 move=>[sigma_self].
-subst.
+subst h_self.
 move=>H_sll_xs_550.
 ssl_ghostelim_post.
-ssl_open.
+ssl_open (x == null);
 ssl_open_post H_sll_xs_550.
 move=>[phi_sll_xs_5500].
 move=>[sigma_sll_xs_550].
-subst.
+subst h_sll_xs_550.
 ssl_emp;
 exists (nil);
 exists (empty);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 1;
-sslauto.
-ssl_open_post H_sll_xs_550.
+sslauto ].
 ex_elim vx2 s1x nxtx2.
 ex_elim h_sll_nxtx2s1x_549x.
 move=>[phi_sll_xs_5500].
 move=>[sigma_sll_xs_550].
-subst.
+subst h_sll_xs_550.
 move=>H_sll_nxtx2s1x_549x.
 ssl_read (x .+ 1).
 ssl_call_pre (h_sll_nxtx2s1x_549x).
@@ -89,7 +89,7 @@ ex_elim s11.
 ex_elim h_sll_nxtx2s11_5511.
 move=>[phi_call10].
 move=>[sigma_call1].
-subst.
+subst h_call1.
 move=>H_sll_nxtx2s11_5511.
 store_valid.
 ssl_write x.
@@ -97,9 +97,10 @@ ssl_write_post x.
 ssl_emp;
 exists ([:: v] ++ s11);
 exists (x :-> v \+ x .+ 1 :-> nxtx2 \+ h_sll_nxtx2s11_5511);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 2;
 exists (v), (s11), (nxtx2);
 exists (h_sll_nxtx2s11_5511);
-sslauto.
+sslauto ].
 Qed.

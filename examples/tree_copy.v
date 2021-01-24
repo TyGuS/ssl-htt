@@ -80,30 +80,30 @@ ssl_ghostelim_pre.
 move=>[x2 s].
 ex_elim h_tree_x2s_a.
 move=>[sigma_self].
-subst.
+subst h_self.
 move=>H_tree_x2s_a.
 ssl_ghostelim_post.
 ssl_read r.
-ssl_open.
+ssl_open (x2 == null);
 ssl_open_post H_tree_x2s_a.
 move=>[phi_tree_x2s_a0].
 move=>[sigma_tree_x2s_a].
-subst.
+subst h_tree_x2s_a.
 ssl_emp;
 exists (null);
 exists (empty);
 exists (empty);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 1;
-sslauto.
+sslauto |
 unfold_constructor 1;
-sslauto.
-ssl_open_post H_tree_x2s_a.
+sslauto ].
 ex_elim vx22 s1x2 s2x2 lx22 rx22.
 ex_elim h_tree_lx22s1x2_529x2 h_tree_rx22s2x2_530x2.
 move=>[phi_tree_x2s_a0].
 move=>[sigma_tree_x2s_a].
-subst.
+subst h_tree_x2s_a.
 move=>[H_tree_lx22s1x2_529x2 H_tree_rx22s2x2_530x2].
 ssl_read x2.
 ssl_read (x2 .+ 1).
@@ -117,7 +117,7 @@ move=>h_call1.
 ex_elim y12.
 ex_elim h_tree_lx22s1x2_529x2 h_tree_y12s1x2_529x2.
 move=>[sigma_call1].
-subst.
+subst h_call1.
 move=>[H_tree_lx22s1x2_529x2 H_tree_y12s1x2_529x2].
 store_valid.
 ssl_read r.
@@ -130,7 +130,7 @@ move=>h_call2.
 ex_elim y22.
 ex_elim h_tree_rx22s2x2_530x2 h_tree_y22s2x2_530x2.
 move=>[sigma_call2].
-subst.
+subst h_call2.
 move=>[H_tree_rx22s2x2_530x2 H_tree_y22s2x2_530x2].
 store_valid.
 ssl_read r.
@@ -147,15 +147,16 @@ ssl_emp;
 exists (y3);
 exists (x2 :-> vx22 \+ x2 .+ 1 :-> lx22 \+ x2 .+ 2 :-> rx22 \+ h_tree_lx22s1x2_529x2 \+ h_tree_rx22s2x2_530x2);
 exists (y3 :-> vx22 \+ y3 .+ 1 :-> y12 \+ y3 .+ 2 :-> y22 \+ h_tree_y12s1x2_529x2 \+ h_tree_y22s2x2_530x2);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 2;
 exists (vx22), (s1x2), (s2x2), (lx22), (rx22);
 exists (h_tree_lx22s1x2_529x2);
 exists (h_tree_rx22s2x2_530x2);
-sslauto.
+sslauto |
 unfold_constructor 2;
 exists (vx22), (s1x2), (s2x2), (y12), (y22);
 exists (h_tree_y12s1x2_529x2);
 exists (h_tree_y22s2x2_530x2);
-sslauto.
+sslauto ].
 Qed.

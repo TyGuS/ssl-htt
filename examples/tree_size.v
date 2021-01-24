@@ -27,7 +27,7 @@ Lemma tree_perm_eq_trans16 x h s_1 s_2 : perm_eq s_1 s_2 -> tree x s_1 h -> tree
 Hint Resolve tree_perm_eq_trans16: ssl_pred.
 Lemma pure17 : 0 == 0. Admitted.
 Hint Resolve pure17: ssl_pure.
-Lemma pure18 n1x2 n2x2 : 0 <= n1x2 -> 0 <= n2x2 -> 0 <= 1 + n1x2 + n2x2 -> 1 + n1x2 + n2x2 == 1 + n1x2 + n2x2. Admitted.
+Lemma pure18 n1x2 n2x2 : 0 <= 1 + n1x2 + n2x2 -> 0 <= n1x2 -> 0 <= n2x2 -> 1 + n1x2 + n2x2 == 1 + n1x2 + n2x2. Admitted.
 Hint Resolve pure18: ssl_pure.
 
 Definition tree_size_type :=
@@ -71,25 +71,25 @@ move=>n.
 ex_elim h_treeN_xn_a.
 move=>[phi_self0].
 move=>[sigma_self].
-subst.
+subst h_self.
 move=>H_treeN_xn_a.
 ssl_ghostelim_post.
-ssl_open.
+ssl_open (x == null);
 ssl_open_post H_treeN_xn_a.
 move=>[phi_treeN_xn_a0].
 move=>[sigma_treeN_xn_a].
-subst.
+subst h_treeN_xn_a.
 ssl_emp;
 exists (empty);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 1;
-sslauto.
-ssl_open_post H_treeN_xn_a.
+sslauto ].
 ex_elim n1x2 n2x2 lx2 rx2 vx2.
 ex_elim h_treeN_lx2n1x2_527x h_treeN_rx2n2x2_528x.
 move=>[phi_treeN_xn_a0] [phi_treeN_xn_a1] [phi_treeN_xn_a2].
 move=>[sigma_treeN_xn_a].
-subst.
+subst h_treeN_xn_a.
 move=>[H_treeN_lx2n1x2_527x H_treeN_rx2n2x2_528x].
 ssl_read (x .+ 1).
 ssl_read (x .+ 2).
@@ -100,7 +100,7 @@ sslauto.
 move=>h_call1.
 ex_elim h_treeN_lx2n1x2_527x.
 move=>[sigma_call1].
-subst.
+subst h_call1.
 move=>H_treeN_lx2n1x2_527x.
 store_valid.
 ssl_read r.
@@ -112,7 +112,7 @@ sslauto.
 move=>h_call2.
 ex_elim h_treeN_rx2n2x2_528x.
 move=>[sigma_call2].
-subst.
+subst h_call2.
 move=>H_treeN_rx2n2x2_528x.
 store_valid.
 ssl_read r.
@@ -120,10 +120,11 @@ ssl_write r.
 ssl_write_post r.
 ssl_emp;
 exists (x :-> vx2 \+ x .+ 1 :-> lx2 \+ x .+ 2 :-> rx2 \+ h_treeN_lx2n1x2_527x \+ h_treeN_rx2n2x2_528x);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 2;
 exists (n1x2), (n2x2), (lx2), (rx2), (vx2);
 exists (h_treeN_lx2n1x2_527x);
 exists (h_treeN_rx2n2x2_528x);
-sslauto.
+sslauto ].
 Qed.

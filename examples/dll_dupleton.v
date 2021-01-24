@@ -66,7 +66,7 @@ Next Obligation.
 ssl_ghostelim_pre.
 move=>a2.
 move=>[sigma_self].
-subst.
+subst h_self.
 ssl_ghostelim_post.
 ssl_alloc z2.
 ssl_alloc wz2.
@@ -87,15 +87,18 @@ ssl_write_post wz2.
 ssl_emp;
 exists ([:: x; y]), (z2);
 exists (z2 :-> y \+ z2 .+ 1 :-> wz2 \+ z2 .+ 2 :-> null \+ wz2 :-> x \+ wz2 .+ 1 :-> null \+ wz2 .+ 2 :-> z2);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 2;
 exists (y), ([:: x] ++ nil), (wz2);
 exists (wz2 :-> x \+ wz2 .+ 1 :-> null \+ wz2 .+ 2 :-> z2);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 2;
 exists (x), (nil), (null);
 exists (empty);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 1;
-sslauto.
+sslauto ] ] ].
 Qed.

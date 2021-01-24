@@ -42,9 +42,9 @@ Obligation Tactic := intro; move=>[[r x] y]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
 move=>[sigma_self].
-subst.
+subst h_self.
 ssl_ghostelim_post.
-ssl_abduce_branch.
+ssl_abduce_branch (x <= y).
 ssl_write r.
 ssl_write_post r.
 ssl_emp;

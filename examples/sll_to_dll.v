@@ -92,27 +92,27 @@ ssl_ghostelim_pre.
 move=>[x2 s].
 ex_elim h_sll_x2s_560.
 move=>[sigma_self].
-subst.
+subst h_self.
 move=>H_sll_x2s_560.
 ssl_ghostelim_post.
 ssl_read f.
-ssl_open.
+ssl_open (x2 == null);
 ssl_open_post H_sll_x2s_560.
 move=>[phi_sll_x2s_5600].
 move=>[sigma_sll_x2s_560].
-subst.
+subst h_sll_x2s_560.
 ssl_emp;
 exists (null);
 exists (empty);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 1;
-sslauto.
-ssl_open_post H_sll_x2s_560.
+sslauto ].
 ex_elim vx22 s1x2 nxtx22.
 ex_elim h_sll_nxtx22s1x2_559x2.
 move=>[phi_sll_x2s_5600].
 move=>[sigma_sll_x2s_560].
-subst.
+subst h_sll_x2s_560.
 move=>H_sll_nxtx22s1x2_559x2.
 ssl_read x2.
 ssl_read (x2 .+ 1).
@@ -125,15 +125,15 @@ move=>h_call1.
 ex_elim i12.
 ex_elim h_dll_i12s1x2_5611.
 move=>[sigma_call1].
-subst.
+subst h_call1.
 move=>H_dll_i12s1x2_5611.
 store_valid.
 ssl_read f.
-ssl_open.
+ssl_open (i12 == null);
 ssl_open_post H_dll_i12s1x2_5611.
 move=>[phi_dll_i12s1x2_56110].
 move=>[sigma_dll_i12s1x2_5611].
-subst.
+subst h_dll_i12s1x2_5611.
 ssl_alloc i2.
 ssl_dealloc x2.
 ssl_dealloc (x2 .+ 1).
@@ -148,19 +148,20 @@ ssl_write_post i2.
 ssl_emp;
 exists (i2);
 exists (i2 :-> vx22 \+ i2 .+ 1 :-> null \+ i2 .+ 2 :-> null);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 2;
 exists (vx22), (nil), (null);
 exists (empty);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 1;
-sslauto.
-ssl_open_post H_dll_i12s1x2_5611.
+sslauto ] ].
 ex_elim vi122 s1i12 wi122.
 ex_elim h_dll_wi122i12s1i12_558i12.
 move=>[phi_dll_i12s1x2_56110].
 move=>[sigma_dll_i12s1x2_5611].
-subst.
+subst h_dll_i12s1x2_5611.
 move=>H_dll_wi122i12s1i12_558i12.
 ssl_alloc i2.
 ssl_dealloc x2.
@@ -178,13 +179,15 @@ ssl_write_post i2.
 ssl_emp;
 exists (i2);
 exists (i2 :-> vx22 \+ i2 .+ 1 :-> i12 \+ i2 .+ 2 :-> null \+ i12 :-> vi122 \+ i12 .+ 1 :-> wi122 \+ i12 .+ 2 :-> i2 \+ h_dll_wi122i12s1i12_558i12);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 2;
 exists (vx22), ([:: vi122] ++ s1i12), (i12);
 exists (i12 :-> vi122 \+ i12 .+ 1 :-> wi122 \+ i12 .+ 2 :-> i2 \+ h_dll_wi122i12s1i12_558i12);
-sslauto.
+sslauto;
+solve [
 unfold_constructor 2;
 exists (vi122), (s1i12), (wi122);
 exists (h_dll_wi122i12s1i12_558i12);
-sslauto.
+sslauto ] ].
 Qed.
