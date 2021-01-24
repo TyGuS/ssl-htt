@@ -276,7 +276,7 @@ Tactic Notation "ssl_call" constr(ex) := ssl_call' ex.
 Ltac ssl_emp := apply: val_ret; rewrite ?unitL; store_valid; move=>//.
 
 (* Open Rule *)
-Ltac ssl_open := let H := fresh "H_cond" in case: ifP=>H.
+Ltac ssl_open sel := let H := fresh "H_cond" in try case: (ifP sel)=>H.
 Ltac ssl_open_post H :=
   case H;
   match goal with
@@ -286,4 +286,4 @@ Ltac ssl_open_post H :=
   move=>_.
 
 (* Abduce Branch Rule *)
-Ltac ssl_abduce_branch := let H := fresh "H_cond" in case: ifP=>H.
+Ltac ssl_abduce_branch sel := let H := fresh "H_cond" in try case: (ifP sel)=>H.
