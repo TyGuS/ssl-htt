@@ -180,7 +180,7 @@ Ltac sslauto :=
   match goal with
   | [|- verify _ _ _] => idtac
   | _ =>
-    rewrite ?unitL ?unitR ?addnA;
+    rewrite ?unitL ?unitR ?addnA ?addn0 ?add0n;
     repeat split=>//=;
     match goal with
     | [|- context [perm_eq]] => sslauto_seqnat
@@ -242,17 +242,8 @@ Ltac ssl_alloc x :=
 Ltac ssl_dealloc x :=
   apply: bnd_seq;
   put_to_head_ptr x;
-  match goal with
-  | [|- context[_ :-> _ \+ _]] =>
-    apply: val_dealloc=>//=_
-  | [|- context[_ :-> _]] =>
-    apply: val_deallocR=>//=_
-  end;
-  try match goal with
-  | [|- context[_ \+ empty]] =>
-    rewrite unitR
-  end
-.
+  apply: val_deallocR=>//=_;
+  rewrite ?unitR.
 
 (* Call Rule *)
 Ltac ssl_call_pre_aux h :=
@@ -286,8 +277,10 @@ Ltac ssl_open sel := let H := fresh "H_cond" in try case: (ifP sel)=>H.
 Ltac ssl_open_post H :=
   case H;
   match goal with
-  | [H_cond: is_true (_ == _) |- _] => move/eqP in H_cond; rewrite->H_cond in *=>//=
-  | [H_cond: (_ == _) = false |- _] => rewrite->H_cond=>//=
+  | [H_cond: is_true ?sel |- ?sel = false -> _] => rewrite->H_cond=>//=
+  | [H_cond: ?sel = false |- is_true ?sel -> _] => move/eqP in H_cond; move/eqP=>//=
+  | [H_cond: is_true ?sel |- is_true ?sel -> _] => idtac
+  | [H_cond: ?sel = false |- ?sel = false -> _] => idtac
   end;
   move=>_.
 
