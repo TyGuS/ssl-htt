@@ -1,4 +1,5 @@
 -Q . SSL
+-arg "-w -notation-overridden"
 
 lib/core.v
 
