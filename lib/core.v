@@ -1,10 +1,13 @@
+From Coq Require Import Zify.
 From mathcomp
-Require Import ssreflect ssrbool ssrnat eqtype seq ssrfun.
+Require Import ssreflect ssrbool ssrnat eqtype seq ssrfun zify.
 From fcsl
 Require Import prelude pred pcm unionmap heap.
 From HTT
 Require Import stmod stsep stlog stlogR.
 From Hammer Require Import Hammer.
+Require Import ZArith.
+
 
 (* The empty heap *)
 Notation empty := Unit.
@@ -137,6 +140,15 @@ Lemma ssl_perm_sym (A: eqType) (x y: seq A): perm_eq x y -> perm_eq y x = perm_e
 Proof. by rewrite perm_sym. Qed.
 Hint Rewrite ssl_perm_sym using assumption: ssl_seqnat.
 
+Ltac solve_perm_eq :=
+  let n := fresh "n" in
+  apply/permP=>n;
+  repeat match goal with
+         | [H: is_true (perm_eq _ _) |- _] => move/permP in H; move:(H n)
+         end;
+  move=>//=*;
+  zify; lia.
+
 (* Theory about nats *)
 
 Create HintDb ssl_nat.
@@ -175,6 +187,7 @@ Ltac eq_bool_to_prop :=
 
 Ltac sslauto :=
   let sslauto_seqnat := (eauto with ssl_heap ssl_nat ssl_seqnat; autorewrite with ssl_seqnat=>//=) in
+  let solve_pure := (progress eauto 2 with ssl_pure + hammer) in
   eq_bool_to_prop;
   subst;
   match goal with
@@ -183,15 +196,15 @@ Ltac sslauto :=
     rewrite ?unitL ?unitR ?addnA ?addn0 ?add0n;
     repeat split=>//=;
     match goal with
-    | [|- context [perm_eq]] => sslauto_seqnat
+    | [|- context [perm_eq]] => solve_perm_eq + sslauto_seqnat
     | [|- context [{subset _ <= _}]] => sslauto_seqnat
     | _ => auto with ssl_heap ssl_nat
     end;
     eauto with ssl_pred;
     match goal with
-    | [|- is_true (_ <= _)] => unshelve (progress eauto 2 with ssl_pure + hammer)
-    | [|- is_true (_ < _)] => unshelve (progress eauto 2 with ssl_pure + hammer)
-    | [|- is_true (_ == _)] => unshelve (progress eauto 2 with ssl_pure + hammer)
+    | [|- is_true (_ <= _)] => unshelve solve_pure
+    | [|- is_true (_ < _)] => unshelve solve_pure
+    | [|- is_true (_ == _)] => unshelve solve_pure
     | _ => idtac
     end;
     try exact 0
