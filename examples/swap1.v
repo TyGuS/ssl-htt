@@ -25,7 +25,10 @@ Program Definition swap1 : swap1_type :=
   Fix (fun (swap1 : swap1_type) vprogs =>
     let: (x, z, y, t) := vprogs in
     Do (
+      a2 <-- @read ptr x;
       c2 <-- @read ptr y;
+      b2 <-- @read ptr z;
+      q2 <-- @read ptr t;
       x ::= c2;;
       y ::= 41;;
       ret tt
@@ -33,11 +36,18 @@ Program Definition swap1 : swap1_type :=
 Obligation Tactic := intro; move=>[[[x z] y] t]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
-move=>[[[a2 c2] b2] q2].
+move=>[[[a c] b] q].
 move=>[sigma_self].
 subst h_self.
 ssl_ghostelim_post.
+ssl_read x.
+try rename a into a2.
 ssl_read y.
+try rename c into c2.
+ssl_read z.
+try rename b into b2.
+ssl_read t.
+try rename q into q2.
 ssl_write x.
 ssl_write_post x.
 ssl_write y.

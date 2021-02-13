@@ -12,11 +12,11 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
   @perm_eq nat_eqType (s) (nil) /\ h = empty
 | sll_2 of (x == null) = false of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
-  exists h_sll_nxts1_541,
-  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_541 /\ sll nxt s1 h_sll_nxts1_541.
+  exists h_sll_nxts1_540,
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_540 /\ sll nxt s1 h_sll_nxts1_540.
 
-Lemma sll_perm_eq_trans31 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
-Hint Resolve sll_perm_eq_trans31: ssl_pred.
+Lemma sll_perm_eq_trans22 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans22: ssl_pred.
 
 Definition sll_free_type :=
   forall (vprogs : ptr),
@@ -25,8 +25,8 @@ Definition sll_free_type :=
     fun h =>
       let: (x) := vprogs in
       let: (s) := vghosts in
-      exists h_sll_xs_542,
-      h = h_sll_xs_542 /\ sll x s h_sll_xs_542,
+      exists h_sll_xs_541,
+      h = h_sll_xs_541 /\ sll x s h_sll_xs_541,
     [vfun (_: unit) h =>
       let: (x) := vprogs in
       let: (s) := vghosts in
@@ -41,6 +41,7 @@ Program Definition sll_free : sll_free_type :=
       then
         ret tt
       else
+        vx2 <-- @read nat x;
         nxtx2 <-- @read ptr (x .+ 1);
         sll_free (nxtx2);;
         dealloc x;;
@@ -51,32 +52,45 @@ Obligation Tactic := intro; move=>x; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
 move=>s.
-ex_elim h_sll_xs_542.
+ex_elim h_sll_xs_541.
 move=>[sigma_self].
 subst h_self.
-move=>H_sll_xs_542.
+move=>H_sll_xs_541.
 ssl_ghostelim_post.
-ssl_open (x == null);
-ssl_open_post H_sll_xs_542.
-move=>[phi_sll_xs_5420].
-move=>[sigma_sll_xs_542].
-subst h_sll_xs_542.
+ssl_open (x == null) H_sll_xs_541.
+move=>[phi_sll_xs_5410].
+move=>[sigma_sll_xs_541].
+subst h_sll_xs_541.
+shelve.
+ex_elim vx s1x nxtx.
+ex_elim h_sll_nxtxs1x_540x.
+move=>[phi_sll_xs_5410].
+move=>[sigma_sll_xs_541].
+subst h_sll_xs_541.
+move=>H_sll_nxtxs1x_540x.
+shelve.
+Unshelve.
+try rename h_sll_xs_541 into h_sll_x_541.
+try rename H_sll_xs_541 into H_sll_x_541.
 ssl_emp;
 sslauto.
-ex_elim vx2 s1x nxtx2.
-ex_elim h_sll_nxtx2s1x_541x.
-move=>[phi_sll_xs_5420].
-move=>[sigma_sll_xs_542].
-subst h_sll_xs_542.
-move=>H_sll_nxtx2s1x_541x.
+try rename h_sll_xs_541 into h_sll_xvxs1x_541.
+try rename H_sll_xs_541 into H_sll_xvxs1x_541.
+ssl_read x.
+try rename vx into vx2.
+try rename h_sll_xvxs1x_541 into h_sll_xvx2s1x_541.
+try rename H_sll_xvxs1x_541 into H_sll_xvx2s1x_541.
 ssl_read (x .+ 1).
-ssl_call_pre (h_sll_nxtx2s1x_541x).
+try rename nxtx into nxtx2.
+try rename h_sll_nxtxs1x_540x into h_sll_nxtx2s1x_540x.
+try rename H_sll_nxtxs1x_540x into H_sll_nxtx2s1x_540x.
+ssl_call_pre (h_sll_nxtx2s1x_540x).
 ssl_call (s1x).
-exists (h_sll_nxtx2s1x_541x);
+exists (h_sll_nxtx2s1x_540x);
 sslauto.
-move=>h_call1.
-move=>[sigma_call1].
-subst h_call1.
+move=>h_call0.
+move=>[sigma_call0].
+subst h_call0.
 store_valid.
 ssl_dealloc x.
 ssl_dealloc (x .+ 1).

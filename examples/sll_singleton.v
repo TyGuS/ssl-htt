@@ -12,13 +12,13 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
   @perm_eq nat_eqType (s) (nil) /\ h = empty
 | sll_2 of (x == null) = false of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
-  exists h_sll_nxts1_547,
-  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_547 /\ sll nxt s1 h_sll_nxts1_547.
+  exists h_sll_nxts1_546,
+  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_546 /\ sll nxt s1 h_sll_nxts1_546.
 
-Lemma sll_perm_eq_trans34 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
-Hint Resolve sll_perm_eq_trans34: ssl_pred.
-Lemma pure35 x : @perm_eq nat_eqType ([:: x]) ([:: x]). Admitted.
-Hint Resolve pure35: ssl_pure.
+Lemma sll_perm_eq_trans25 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans25: ssl_pred.
+Lemma pure26 x : @perm_eq nat_eqType ([:: x]) ([:: x]). Admitted.
+Hint Resolve pure26: ssl_pure.
 
 Definition sll_singleton_type :=
   forall (vprogs : nat * ptr),
@@ -32,14 +32,15 @@ Definition sll_singleton_type :=
       let: (x, p) := vprogs in
       let: (a) := vghosts in
       exists elems y,
-      exists h_sll_yelems_548,
-      @perm_eq nat_eqType (elems) ([:: x]) /\ h = p :-> y \+ h_sll_yelems_548 /\ sll y elems h_sll_yelems_548
+      exists h_sll_yelems_547,
+      @perm_eq nat_eqType (elems) ([:: x]) /\ h = p :-> y \+ h_sll_yelems_547 /\ sll y elems h_sll_yelems_547
     ]).
 
 Program Definition sll_singleton : sll_singleton_type :=
   Fix (fun (sll_singleton : sll_singleton_type) vprogs =>
     let: (x, p) := vprogs in
     Do (
+      a2 <-- @read ptr p;
       y2 <-- allocb null 2;
       p ::= y2;;
       (y2 .+ 1) ::= null;;
@@ -49,11 +50,22 @@ Program Definition sll_singleton : sll_singleton_type :=
 Obligation Tactic := intro; move=>[x p]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
-move=>a2.
+move=>a.
 move=>[sigma_self].
 subst h_self.
 ssl_ghostelim_post.
+try rename h_sll_yelems_547 into h_sll_yx_547.
+try rename H_sll_yelems_547 into H_sll_yx_547.
+ssl_read p.
+try rename a into a2.
+try rename h_sll_nxtys1y_546y into h_sll_s1y_546y.
+try rename H_sll_nxtys1y_546y into H_sll_s1y_546y.
+try rename h_sll_s1y_546y into h_sll__546y.
+try rename H_sll_s1y_546y into H_sll__546y.
 ssl_alloc y2.
+try rename y into y2.
+try rename h_sll_yx_547 into h_sll_y2x_547.
+try rename H_sll_yx_547 into H_sll_y2x_547.
 ssl_write p.
 ssl_write_post p.
 ssl_write (y2 .+ 1).
@@ -63,13 +75,10 @@ ssl_write_post y2.
 ssl_emp;
 exists ([:: x]), (y2);
 exists (y2 :-> x \+ y2 .+ 1 :-> null);
-sslauto;
-solve [
+sslauto.
 unfold_constructor 2;
-exists (x), (nil), (null);
-exists (empty);
-sslauto;
-solve [
+exists (x), (nil), (null), (empty);
+sslauto.
 unfold_constructor 1;
-sslauto ] ].
+sslauto.
 Qed.

@@ -286,16 +286,16 @@ Tactic Notation "ssl_call" constr(ex) := ssl_call' ex.
 Ltac ssl_emp := apply: val_ret; rewrite ?unitL; store_valid; move=>//.
 
 (* Open Rule *)
-Ltac ssl_open sel := let H := fresh "H_cond" in try case: (ifP sel)=>H.
-Ltac ssl_open_post H :=
-  case H;
-  match goal with
-  | [H_cond: is_true ?sel |- ?sel = false -> _] => rewrite->H_cond=>//=
-  | [H_cond: ?sel = false |- is_true ?sel -> _] => move/eqP in H_cond; move/eqP=>//=
-  | [H_cond: is_true ?sel |- is_true ?sel -> _] => idtac
-  | [H_cond: ?sel = false |- ?sel = false -> _] => idtac
-  end;
-  move=>_.
+Ltac ssl_open sel hyp :=
+  let H := fresh "H_cond" in
+  case: hyp;
+  (case: (ifP sel); move=>H _//) + move=>H .
 
 (* Abduce Branch Rule *)
 Ltac ssl_abduce_branch sel := let H := fresh "H_cond" in try case: (ifP sel)=>H.
+
+(* Inconsistency *)
+Ltac ssl_inconsistency :=
+  match goal with
+  | [H_true: is_true ?sel, H_false: ?sel = false |- _] => rewrite H_true in H_false=>//=
+  end.

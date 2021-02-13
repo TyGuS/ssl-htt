@@ -46,6 +46,7 @@ Program Definition sll_min : sll_min_type :=
   Fix (fun (sll_min : sll_min_type) vprogs =>
     let: (x, r) := vprogs in
     Do (
+      a2 <-- @read ptr r;
       if x == null
       then
         r ::= 7;;
@@ -61,52 +62,104 @@ Program Definition sll_min : sll_min_type :=
 Obligation Tactic := intro; move=>[x r]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
-move=>[[[n lo] hi] a2].
+move=>[[[n lo] hi] a].
 ex_elim h_sll_xnlohi_514.
 move=>[sigma_self].
 subst h_self.
 move=>H_sll_xnlohi_514.
 ssl_ghostelim_post.
-ssl_open (x == null);
-ssl_open_post H_sll_xnlohi_514.
+ssl_read r.
+try rename a into a2.
+ssl_open (x == null) H_sll_xnlohi_514.
 move=>[phi_sll_xnlohi_5140] [phi_sll_xnlohi_5141] [phi_sll_xnlohi_5142].
 move=>[sigma_sll_xnlohi_514].
 subst h_sll_xnlohi_514.
+shelve.
+ex_elim len1x vx hi1x lo1x nxtx.
+ex_elim h_sll_nxtxlen1xlo1xhi1x_513x.
+move=>[phi_sll_xnlohi_5140] [phi_sll_xnlohi_5141] [phi_sll_xnlohi_5142] [phi_sll_xnlohi_5143] [phi_sll_xnlohi_5144] [phi_sll_xnlohi_5145].
+move=>[sigma_sll_xnlohi_514].
+subst h_sll_xnlohi_514.
+move=>H_sll_nxtxlen1xlo1xhi1x_513x.
+shelve.
+Unshelve.
+try rename h_sll_xnlohi_514 into h_sll_xnlo_514.
+try rename H_sll_xnlohi_514 into H_sll_xnlo_514.
+try rename h_sll_xnlohi_515 into h_sll_xnlo_515.
+try rename H_sll_xnlohi_515 into H_sll_xnlo_515.
+try rename h_sll_xnlo_514 into h_sll_xn_514.
+try rename H_sll_xnlo_514 into H_sll_xn_514.
+try rename h_sll_xnlo_515 into h_sll_xn_515.
+try rename H_sll_xnlo_515 into H_sll_xn_515.
+try rename h_sll_xn_515 into h_sll_x_515.
+try rename H_sll_xn_515 into H_sll_x_515.
+try rename h_sll_xn_514 into h_sll_x_514.
+try rename H_sll_xn_514 into H_sll_x_514.
 ssl_write r.
 ssl_write_post r.
 ssl_emp;
 exists (empty);
-sslauto;
-solve [
-unfold_constructor 1;
-sslauto ].
-ex_elim len1x vx2 hi1x lo1x2 nxtx2.
-ex_elim h_sll_nxtx2len1xlo1x2hi1x_513x.
-move=>[phi_sll_xnlohi_5140] [phi_sll_xnlohi_5141] [phi_sll_xnlohi_5142] [phi_sll_xnlohi_5143] [phi_sll_xnlohi_5144] [phi_sll_xnlohi_5145].
-move=>[sigma_sll_xnlohi_514].
-subst h_sll_xnlohi_514.
-move=>H_sll_nxtx2len1xlo1x2hi1x_513x.
-ssl_read x.
-ssl_read (x .+ 1).
-ssl_call_pre (r :-> a2 \+ h_sll_nxtx2len1xlo1x2hi1x_513x).
-ssl_call (len1x, lo1x2, hi1x, a2).
-exists (h_sll_nxtx2len1xlo1x2hi1x_513x);
 sslauto.
-move=>h_call1.
-ex_elim h_sll_nxtx2len1xlo1x2hi1x_5151.
-move=>[sigma_call1].
-subst h_call1.
-move=>H_sll_nxtx2len1xlo1x2hi1x_5151.
+unfold_constructor 1;
+sslauto.
+try rename h_sll_xnlohi_514 into h_sll_xnlohi1xvxvxhi1x_514.
+try rename H_sll_xnlohi_514 into H_sll_xnlohi1xvxvxhi1x_514.
+try rename h_sll_xnlohi_515 into h_sll_xnlohi1xvxvxhi1x_515.
+try rename H_sll_xnlohi_515 into H_sll_xnlohi1xvxvxhi1x_515.
+try rename h_sll_xnlohi1xvxvxhi1x_514 into h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_514.
+try rename H_sll_xnlohi1xvxvxhi1x_514 into H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_514.
+try rename h_sll_xnlohi1xvxvxhi1x_515 into h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_515.
+try rename H_sll_xnlohi1xvxvxhi1x_515 into H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_515.
+try rename h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_514 into h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_514.
+try rename H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_514 into H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_514.
+try rename h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_515 into h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_515.
+try rename H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_515 into H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_515.
+ssl_read x.
+try rename vx into vx2.
+try rename h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_514 into h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_514.
+try rename H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_514 into H_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_514.
+try rename h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_515 into h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_515.
+try rename H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_515 into H_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_515.
+ssl_read (x .+ 1).
+try rename nxtx into nxtx2.
+try rename h_sll_nxtxlen1xlo1xhi1x_513x into h_sll_nxtx2len1xlo1xhi1x_513x.
+try rename H_sll_nxtxlen1xlo1xhi1x_513x into H_sll_nxtx2len1xlo1xhi1x_513x.
+ssl_call_pre (r :-> a2 \+ h_sll_nxtx2len1xlo1xhi1x_513x).
+ssl_call (len1x, lo1x, hi1x, a2).
+exists (h_sll_nxtx2len1xlo1xhi1x_513x);
+sslauto.
+move=>h_call0.
+ex_elim h_sll_nxtx2len1xlo1xhi1x_5151.
+move=>[sigma_call0].
+subst h_call0.
+move=>H_sll_nxtx2len1xlo1xhi1x_5151.
 store_valid.
 ssl_read r.
+try rename lo1x into lo1x2.
+try rename h_sll_nxtx2len1xlo1xhi1x_513x into h_sll_nxtx2len1xlo1x2hi1x_513x.
+try rename H_sll_nxtx2len1xlo1xhi1x_513x into H_sll_nxtx2len1xlo1x2hi1x_513x.
+try rename h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_514 into h_sll_xlen1xvx2lo1x2vx2lo1x2hi1xvx2vx2hi1x_514.
+try rename H_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_514 into H_sll_xlen1xvx2lo1x2vx2lo1x2hi1xvx2vx2hi1x_514.
+try rename h_sll_nxtx2len1xlo1xhi1x_5151 into h_sll_nxtx2len1xlo1x2hi1x_5151.
+try rename H_sll_nxtx2len1xlo1xhi1x_5151 into H_sll_nxtx2len1xlo1x2hi1x_5151.
+try rename h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_515 into h_sll_xlen1xvx2lo1x2vx2lo1x2hi1xvx2vx2hi1x_515.
+try rename H_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_515 into H_sll_xlen1xvx2lo1x2vx2lo1x2hi1xvx2vx2hi1x_515.
+try rename h_sll_nxtx1len1x1lo11xhi11x_513x1 into h_sll_nxtx1len1x1lo11xhi11x_5151.
+try rename H_sll_nxtx1len1x1lo11xhi11x_513x1 into H_sll_nxtx1len1x1lo11xhi11x_5151.
+try rename h_sll_nxtx1len1x1lo11xhi11x_5151 into h_sll_nxtx1len1x1lo11xhi1x_5151.
+try rename H_sll_nxtx1len1x1lo11xhi11x_5151 into H_sll_nxtx1len1x1lo11xhi1x_5151.
+try rename h_sll_nxtx1len1x1lo11xhi1x_5151 into h_sll_nxtx1len1xlo11xhi1x_5151.
+try rename H_sll_nxtx1len1x1lo11xhi1x_5151 into H_sll_nxtx1len1xlo11xhi1x_5151.
+try rename h_sll_nxtx1len1xlo11xhi1x_5151 into h_sll_nxtx1len1xlo1x2hi1x_5151.
+try rename H_sll_nxtx1len1xlo11xhi1x_5151 into H_sll_nxtx1len1xlo1x2hi1x_5151.
+try rename h_sll_nxtx1len1xlo1x2hi1x_5151 into h_sll_nxtx2len1xlo1x2hi1x_5151.
+try rename H_sll_nxtx1len1xlo1x2hi1x_5151 into H_sll_nxtx2len1xlo1x2hi1x_5151.
 ssl_write r.
 ssl_write_post r.
 ssl_emp;
 exists (x :-> vx2 \+ x .+ 1 :-> nxtx2 \+ h_sll_nxtx2len1xlo1x2hi1x_5151);
-sslauto;
-solve [
+sslauto.
 unfold_constructor 2;
-exists (len1x), (vx2), (hi1x), (lo1x2), (nxtx2);
-exists (h_sll_nxtx2len1xlo1x2hi1x_5151);
-sslauto ].
+exists (len1x), (vx2), (hi1x), (lo1x2), (nxtx2), (h_sll_nxtx2len1xlo1x2hi1x_5151);
+sslauto.
 Qed.

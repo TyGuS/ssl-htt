@@ -51,6 +51,7 @@ Program Definition listfree : listfree_type :=
       then
         ret tt
       else
+        vx2 <-- @read nat x;
         nxtx2 <-- @read ptr (x .+ 1);
         listfree (nxtx2);;
         dealloc x;;
@@ -66,27 +67,40 @@ move=>[sigma_self].
 subst h_self.
 move=>H_lseg_xs_515.
 ssl_ghostelim_post.
-ssl_open (x == null);
-ssl_open_post H_lseg_xs_515.
+ssl_open (x == null) H_lseg_xs_515.
 move=>[phi_lseg_xs_5150].
 move=>[sigma_lseg_xs_515].
 subst h_lseg_xs_515.
+shelve.
+ex_elim vx s1x nxtx.
+ex_elim h_lseg_nxtxs1x_513x.
+move=>[phi_lseg_xs_5150].
+move=>[sigma_lseg_xs_515].
+subst h_lseg_xs_515.
+move=>H_lseg_nxtxs1x_513x.
+shelve.
+Unshelve.
+try rename h_lseg_xs_515 into h_lseg_x_515.
+try rename H_lseg_xs_515 into H_lseg_x_515.
 ssl_emp;
 sslauto.
-ex_elim vx2 s1x nxtx2.
-ex_elim h_lseg_nxtx2s1x_513x.
-move=>[phi_lseg_xs_5150].
-move=>[sigma_lseg_xs_515].
-subst h_lseg_xs_515.
-move=>H_lseg_nxtx2s1x_513x.
+try rename h_lseg_xs_515 into h_lseg_xvxs1x_515.
+try rename H_lseg_xs_515 into H_lseg_xvxs1x_515.
+ssl_read x.
+try rename vx into vx2.
+try rename h_lseg_xvxs1x_515 into h_lseg_xvx2s1x_515.
+try rename H_lseg_xvxs1x_515 into H_lseg_xvx2s1x_515.
 ssl_read (x .+ 1).
+try rename nxtx into nxtx2.
+try rename h_lseg_nxtxs1x_513x into h_lseg_nxtx2s1x_513x.
+try rename H_lseg_nxtxs1x_513x into H_lseg_nxtx2s1x_513x.
 ssl_call_pre (h_lseg_nxtx2s1x_513x).
 ssl_call (s1x).
 exists (h_lseg_nxtx2s1x_513x);
 sslauto.
-move=>h_call1.
-move=>[sigma_call1].
-subst h_call1.
+move=>h_call0.
+move=>[sigma_call0].
+subst h_call0.
 store_valid.
 ssl_dealloc x.
 ssl_dealloc (x .+ 1).

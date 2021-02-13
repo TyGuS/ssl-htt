@@ -34,12 +34,14 @@ Program Definition swap : swap_type :=
 Obligation Tactic := intro; move=>[x y]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
-move=>[a2 b2].
+move=>[a b].
 move=>[sigma_self].
 subst h_self.
 ssl_ghostelim_post.
 ssl_read x.
+try rename a into a2.
 ssl_read y.
+try rename b into b2.
 ssl_write x.
 ssl_write_post x.
 ssl_write y.
