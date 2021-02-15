@@ -25,7 +25,7 @@ Inductive srtl (x : ptr) (len : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
 
 Lemma pure1 n : 0 <= n -> n + 1 == 1 + n. Admitted.
 Hint Resolve pure1: ssl_pure.
-Lemma pure2 k lo : k <= lo -> k <= 7 -> 0 <= k -> k == (if k <= lo then k else lo). Admitted.
+Lemma pure2 k lo : k <= 7 -> 0 <= k -> k <= lo -> k == (if k <= lo then k else lo). Admitted.
 Hint Resolve pure2: ssl_pure.
 
 Definition srtl_prepend_type :=
@@ -49,6 +49,7 @@ Program Definition srtl_prepend : srtl_prepend_type :=
   Fix (fun (srtl_prepend : srtl_prepend_type) vprogs =>
     let: (x, k, r) := vprogs in
     Do (
+      a2 <-- @read ptr r;
       y2 <-- allocb null 2;
       r ::= y2;;
       (y2 .+ 1) ::= x;;
@@ -58,27 +59,48 @@ Program Definition srtl_prepend : srtl_prepend_type :=
 Obligation Tactic := intro; move=>[[x k] r]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
-move=>[[[n lo] hi] a2].
+move=>[[[n lo] hi] a].
 ex_elim h_srtl_xnlohi_515.
 move=>[phi_self0] [phi_self1] [phi_self2] [phi_self3].
 move=>[sigma_self].
 subst h_self.
 move=>H_srtl_xnlohi_515.
 ssl_ghostelim_post.
+try rename h_srtl_yn1khi1_516 into h_srtl_ynkhi1_516.
+try rename H_srtl_yn1khi1_516 into H_srtl_ynkhi1_516.
+ssl_read r.
+try rename a into a2.
+try rename h_srtl_ynkhi1_516 into h_srtl_ynkhi11yvyvyhi11y_516.
+try rename H_srtl_ynkhi1_516 into H_srtl_ynkhi11yvyvyhi11y_516.
+try rename h_srtl_nxtylen1ylo1yhi11y_514y into h_srtl_nxtylen1ylo1yhi11y_515.
+try rename H_srtl_nxtylen1ylo1yhi11y_514y into H_srtl_nxtylen1ylo1yhi11y_515.
+try rename h_srtl_nxtylen1ylo1yhi11y_515 into h_srtl_nxtylen1ylo1yhi_515.
+try rename H_srtl_nxtylen1ylo1yhi11y_515 into H_srtl_nxtylen1ylo1yhi_515.
+try rename h_srtl_ynkhi11yvyvyhi11y_516 into h_srtl_ynkhivyvyhi_516.
+try rename H_srtl_ynkhi11yvyvyhi11y_516 into H_srtl_ynkhivyvyhi_516.
+try rename h_srtl_nxtylen1ylo1yhi_515 into h_srtl_nxtynlo1yhi_515.
+try rename H_srtl_nxtylen1ylo1yhi_515 into H_srtl_nxtynlo1yhi_515.
+try rename h_srtl_nxtynlo1yhi_515 into h_srtl_nxtynlohi_515.
+try rename H_srtl_nxtynlo1yhi_515 into H_srtl_nxtynlohi_515.
+try rename h_srtl_nxtynlohi_515 into h_srtl_xnlohi_515.
+try rename H_srtl_nxtynlohi_515 into H_srtl_xnlohi_515.
 ssl_alloc y2.
+try rename y into y2.
+try rename h_srtl_ynkhivyvyhi_516 into h_srtl_y2nkhivyvyhi_516.
+try rename H_srtl_ynkhivyvyhi_516 into H_srtl_y2nkhivyvyhi_516.
 ssl_write r.
 ssl_write_post r.
 ssl_write (y2 .+ 1).
 ssl_write_post (y2 .+ 1).
+try rename h_srtl_y2nkhivyvyhi_516 into h_srtl_y2nkhikkhi_516.
+try rename H_srtl_y2nkhivyvyhi_516 into H_srtl_y2nkhikkhi_516.
 ssl_write y2.
 ssl_write_post y2.
 ssl_emp;
 exists (n + 1), (y2), ((if hi <= k then k else hi));
 exists (y2 :-> k \+ y2 .+ 1 :-> x \+ h_srtl_xnlohi_515);
-sslauto;
-solve [
+sslauto.
 unfold_constructor 2;
-exists (n), (k), (hi), (lo), (x);
-exists (h_srtl_xnlohi_515);
-sslauto ].
+exists (n), (k), (hi), (lo), (x), (h_srtl_xnlohi_515);
+sslauto.
 Qed.

@@ -8,9 +8,22 @@ Require Import stmod stsep stlog stlogR.
 From Hammer Require Import Hammer.
 Require Import ZArith.
 
+(* Configure Hammer *)
+Unset Hammer Eprover.
+Unset Hammer Vampire.
+Add Search Blacklist "fcsl.".
+Add Search Blacklist "Coq.ssr.ssrfun".
+Add Search Blacklist "mathcomp.ssreflect.ssrfun".
+Add Search Blacklist "mathcomp.ssreflect.bigop".
+Add Search Blacklist "mathcomp.ssreflect.choice".
+Add Search Blacklist "mathcomp.ssreflect.div".
+Add Search Blacklist "mathcomp.ssreflect.finfun".
+Add Search Blacklist "mathcomp.ssreflect.fintype".
+Add Search Blacklist "mathcomp.ssreflect.path".
+Add Search Blacklist "mathcomp.ssreflect.tuple".
 
 (* The empty heap *)
-Notation empty := Unit.
+Definition empty := @PCM.unit heapPCM.
 
 (* No-op at the end of a program branch *)
 Definition skip := ret tt.
