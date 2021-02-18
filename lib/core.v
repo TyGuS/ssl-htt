@@ -12,6 +12,7 @@ Require Import ZArith.
 Unset Hammer Eprover.
 Unset Hammer Vampire.
 Add Search Blacklist "fcsl.".
+Add Search Blacklist "HTT.".
 Add Search Blacklist "Coq.ssr.ssrfun".
 Add Search Blacklist "mathcomp.ssreflect.ssrfun".
 Add Search Blacklist "mathcomp.ssreflect.bigop".
@@ -89,27 +90,6 @@ Ltac assert_not_null :=
     derive H x
   end.
 
-(* Unfold a constructor  *)
-Ltac unfold_constructor n :=
-  match goal with
-  (* There was nothing to solve; this happens if a preceding step *)
-  (* unwittingly solved the intended goal without needing to unfold. *)
-  | [|- verify _ _ _] =>
-    idtac
-  (* Unfold and discharge selector goal if needed *)
-  | _ => match n with
-         | 1 => constructor 1=>//
-         | 2 => constructor 2=>//
-         | 3 => constructor 3=>//
-         | _ => constructor=>//
-         end;
-         match goal with
-         | [|- is_true (_ != null)] => assert_not_null
-         | [|- (_ == null) = false] => apply negbTE; assert_not_null
-         | _ => idtac
-         end
-  end.
-
 (* Theory about seq nats *)
 
 Create HintDb ssl_seqnat.
@@ -159,7 +139,8 @@ Ltac solve_perm_eq :=
   repeat match goal with
          | [H: is_true (perm_eq _ _) |- _] => move/permP in H; move:(H n)
          end;
-  move=>//=*;
+  move=>//=;
+  rewrite ?count_cat;
   zify; lia.
 
 (* Theory about nats *)
@@ -199,29 +180,20 @@ Ltac eq_bool_to_prop :=
          end.
 
 Ltac sslauto :=
+  let simplify := eq_bool_to_prop; subst in
   let sslauto_seqnat := (eauto with ssl_heap ssl_nat ssl_seqnat; autorewrite with ssl_seqnat=>//=) in
-  let solve_pure := (progress eauto 2 with ssl_pure + hammer) in
-  eq_bool_to_prop;
-  subst;
+  let solve_pure := (timeout 3 sauto) + (timeout 3 eauto 2 with ssl_pure) in
+  repeat apply conj;
   match goal with
-  | [|- verify _ _ _] => idtac
-  | _ =>
-    rewrite ?unitL ?unitR ?addnA ?addn0 ?add0n;
-    repeat split=>//=;
-    match goal with
-    | [|- context [perm_eq]] => solve_perm_eq + sslauto_seqnat
-    | [|- context [{subset _ <= _}]] => sslauto_seqnat
-    | _ => auto with ssl_heap ssl_nat
-    end;
-    eauto with ssl_pred;
-    match goal with
-    | [|- is_true (_ <= _)] => unshelve solve_pure
-    | [|- is_true (_ < _)] => unshelve solve_pure
-    | [|- is_true (_ == _)] => unshelve solve_pure
-    | _ => idtac
-    end;
-    try exact 0
+  | [|- {subset _ <= _}] => sslauto_seqnat
+  | [|- is_true (perm_eq _ _)] => solve_perm_eq
+  | [|- _ = _] => simplify; rewrite ?unitL ?unitR; auto with ssl_heap ssl_nat
+  | [|- is_true (_ == _)] => simplify; unshelve (solve_pure + (apply/eqP; solve_pure)); done
+  | [|- is_true (_ < _)] => simplify; unshelve solve_pure; done
+  | [|- is_true (_ <= _)] => simplify; unshelve solve_pure; done
+  | _ => idtac
   end.
+
 
 Ltac ex_elim1 A := try clear dependent A; move=>[A].
 Ltac ex_elim2 A B := try clear dependent A; try clear dependent B; move=>[A][B].
@@ -299,16 +271,64 @@ Tactic Notation "ssl_call" constr(ex) := ssl_call' ex.
 Ltac ssl_emp := apply: val_ret; rewrite ?unitL; store_valid; move=>//.
 
 (* Open Rule *)
+
+Ltac conjuncts_to_ctx :=
+  match goal with
+  | [|- is_true (_ && _) -> _ ] => case/andP; conjuncts_to_ctx; let H := fresh "H_cond" in move=>H
+  | _ => let H := fresh "H_cond" in move=>H
+  end.
+
+Ltac demorgan' :=
+  match goal with
+  | [|- context [~~ (_ && _)]] => rewrite Bool.negb_andb; demorgan'
+  | [|- context [~~ (_ || _)]] => rewrite Bool.negb_orb; demorgan'
+  | _ => idtac
+  end.
+
+Ltac demorgan :=
+  demorgan';
+  conjuncts_to_ctx.
+
 Ltac ssl_open sel hyp :=
   let H := fresh "H_cond" in
   case: hyp;
-  (case: (ifP sel); move=>H _//) + move=>H .
+  (case: (ifP sel); try move/negbT; demorgan; move=>_//) + demorgan .
 
 (* Abduce Branch Rule *)
-Ltac ssl_abduce_branch sel := let H := fresh "H_cond" in try case: (ifP sel)=>H.
+Ltac ssl_abduce_branch sel :=
+  let H := fresh "H_cond" in
+  try case: (ifP sel);
+  try move/negbT;
+  try demorgan.
 
 (* Inconsistency *)
 Ltac ssl_inconsistency :=
   match goal with
-  | [H_true: is_true ?sel, H_false: ?sel = false |- _] => rewrite H_true in H_false=>//=
+  | [H_true: is_true ?sel, H_false: is_true (~~ ?sel) |- _] => rewrite H_true in H_false=>//=
   end.
+
+(* Close *)
+Ltac unfold_constructor n :=
+  (*eauto with ssl_pred;*)
+  match goal with
+  (* There was nothing to solve; this happens if a preceding step *)
+  (* unwittingly solved the intended goal without needing to unfold. *)
+  | [|- verify _ _ _] =>
+    idtac
+  (* Unfold and discharge selector goal if needed *)
+  | _ => match n with
+         | 1 => constructor 1=>//
+         | 2 => constructor 2=>//
+         | 3 => constructor 3=>//
+         | _ => constructor=>//
+         end;
+         match goal with
+         | [|- is_true (_ != null)] => assert_not_null
+         | [|- (_ == null) = false] => apply negbTE; assert_not_null
+         | _ => idtac
+         end
+  end.
+
+(* Frame Unfold *)
+Ltac ssl_frame_unfold :=
+  (eq_bool_to_prop; subst; assumption) + (timeout 3 eauto 2 with ssl_pred).

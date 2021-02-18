@@ -8,19 +8,19 @@ From SSL
 Require Import core.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| sll_1 of x == null of
+| sll_1 of (x) == (null) of
   @perm_eq nat_eqType (s) (nil) /\ h = empty
-| sll_2 of (x == null) = false of
+| sll_2 of ~~ ((x) == (null)) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
-  exists h_sll_nxts1_548,
-  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_548 /\ sll nxt s1 h_sll_nxts1_548.
+  exists h_sll_nxts1_570,
+  @perm_eq nat_eqType (s) (([:: v]) ++ (s1)) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_570 /\ sll nxt s1 h_sll_nxts1_570.
 
-Lemma sll_perm_eq_trans27 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
-Hint Resolve sll_perm_eq_trans27: ssl_pred.
-Lemma pure28 v : @sub_mem nat_eqType (mem (nil)) (mem ([:: v])). Admitted.
-Hint Resolve pure28: ssl_pure.
-Lemma pure29 v s11 : @sub_mem nat_eqType (mem (s11)) (mem ([:: v])) -> @sub_mem nat_eqType (mem ([:: v] ++ s11)) (mem ([:: v])). Admitted.
-Hint Resolve pure29: ssl_pure.
+Lemma sll_perm_eq_trans46 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans46: ssl_pred.
+Lemma pure47 v : @sub_mem nat_eqType (mem (nil)) (mem ([:: v])). Admitted.
+Hint Resolve pure47: ssl_pure.
+Lemma pure48 v s11 : @sub_mem nat_eqType (mem (s11)) (mem ([:: v])) -> @sub_mem nat_eqType (mem (([:: v]) ++ (s11))) (mem ([:: v])). Admitted.
+Hint Resolve pure48: ssl_pure.
 
 Definition sll_init_type :=
   forall (vprogs : ptr * nat),
@@ -29,21 +29,21 @@ Definition sll_init_type :=
     fun h =>
       let: (x, v) := vprogs in
       let: (s) := vghosts in
-      exists h_sll_xs_549,
-      h = h_sll_xs_549 /\ sll x s h_sll_xs_549,
+      exists h_sll_xs_571,
+      h = h_sll_xs_571 /\ sll x s h_sll_xs_571,
     [vfun (_: unit) h =>
       let: (x, v) := vprogs in
       let: (s) := vghosts in
       exists s1,
-      exists h_sll_xs1_550,
-      @sub_mem nat_eqType (mem (s1)) (mem ([:: v])) /\ h = h_sll_xs1_550 /\ sll x s1 h_sll_xs1_550
+      exists h_sll_xs1_572,
+      @sub_mem nat_eqType (mem (s1)) (mem ([:: v])) /\ h = h_sll_xs1_572 /\ sll x s1 h_sll_xs1_572
     ]).
 
 Program Definition sll_init : sll_init_type :=
   Fix (fun (sll_init : sll_init_type) vprogs =>
     let: (x, v) := vprogs in
     Do (
-      if x == null
+      if (x) == (null)
       then
         ret tt
       else
@@ -57,75 +57,72 @@ Obligation Tactic := intro; move=>[x v]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
 move=>s.
-ex_elim h_sll_xs_549.
+ex_elim h_sll_xs_571.
 move=>[sigma_self].
 subst h_self.
-move=>H_sll_xs_549.
+move=>H_sll_xs_571.
 ssl_ghostelim_post.
-ssl_open (x == null) H_sll_xs_549.
-move=>[phi_sll_xs_5490].
-move=>[sigma_sll_xs_549].
-subst h_sll_xs_549.
-shelve.
-ex_elim vx s1x nxtx.
-ex_elim h_sll_nxtxs1x_548x.
-move=>[phi_sll_xs_5490].
-move=>[sigma_sll_xs_549].
-subst h_sll_xs_549.
-move=>H_sll_nxtxs1x_548x.
-shelve.
-Unshelve.
-try rename h_sll_xs_549 into h_sll_x_549.
-try rename H_sll_xs_549 into H_sll_x_549.
-try rename h_sll_xs1_550 into h_sll_x_550.
-try rename H_sll_xs1_550 into H_sll_x_550.
+ssl_open ((x) == (null)) H_sll_xs_571.
+move=>[phi_sll_xs_5710].
+move=>[sigma_sll_xs_571].
+subst h_sll_xs_571.
+try rename h_sll_xs_571 into h_sll_x_571.
+try rename H_sll_xs_571 into H_sll_x_571.
+try rename h_sll_xs1_572 into h_sll_x_572.
+try rename H_sll_xs1_572 into H_sll_x_572.
 ssl_emp;
 exists (nil);
 exists (empty);
 sslauto.
 unfold_constructor 1;
 sslauto.
-try rename h_sll_xs_549 into h_sll_xvxs1x_549.
-try rename H_sll_xs_549 into H_sll_xvxs1x_549.
+ex_elim vx s1x nxtx.
+ex_elim h_sll_nxtxs1x_570x.
+move=>[phi_sll_xs_5710].
+move=>[sigma_sll_xs_571].
+subst h_sll_xs_571.
+move=>H_sll_nxtxs1x_570x.
+try rename h_sll_xs_571 into h_sll_xvxs1x_571.
+try rename H_sll_xs_571 into H_sll_xvxs1x_571.
 ssl_read x.
 try rename vx into vx2.
-try rename h_sll_xvxs1x_549 into h_sll_xvx2s1x_549.
-try rename H_sll_xvxs1x_549 into H_sll_xvx2s1x_549.
+try rename h_sll_xvxs1x_571 into h_sll_xvx2s1x_571.
+try rename H_sll_xvxs1x_571 into H_sll_xvx2s1x_571.
 ssl_read (x .+ 1).
 try rename nxtx into nxtx2.
-try rename h_sll_nxtxs1x_548x into h_sll_nxtx2s1x_548x.
-try rename H_sll_nxtxs1x_548x into H_sll_nxtx2s1x_548x.
-ssl_call_pre (h_sll_nxtx2s1x_548x).
+try rename h_sll_nxtxs1x_570x into h_sll_nxtx2s1x_570x.
+try rename H_sll_nxtxs1x_570x into H_sll_nxtx2s1x_570x.
+try rename h_sll_x1s2_5711 into h_sll_nxtx2s1x_570x.
+try rename H_sll_x1s2_5711 into H_sll_nxtx2s1x_570x.
+ssl_call_pre (h_sll_nxtx2s1x_570x).
 ssl_call (s1x).
-exists (h_sll_nxtx2s1x_548x);
+exists (h_sll_nxtx2s1x_570x);
 sslauto.
+ssl_frame_unfold.
 move=>h_call0.
 ex_elim s11.
-ex_elim h_sll_nxtx2s11_5501.
+ex_elim h_sll_nxtx2s11_5721.
 move=>[phi_call00].
 move=>[sigma_call0].
 subst h_call0.
-move=>H_sll_nxtx2s11_5501.
+move=>H_sll_nxtx2s11_5721.
 store_valid.
-try rename h_sll_xs1_550 into h_sll_xv2xs12x_550.
-try rename H_sll_xs1_550 into H_sll_xv2xs12x_550.
-try rename h_sll_nxtx1s12x_548x1 into h_sll_nxtx1s12x_5501.
-try rename H_sll_nxtx1s12x_548x1 into H_sll_nxtx1s12x_5501.
-try rename h_sll_nxtx1s12x_5501 into h_sll_nxtx2s12x_5501.
-try rename H_sll_nxtx1s12x_5501 into H_sll_nxtx2s12x_5501.
-try rename h_sll_nxtx2s12x_5501 into h_sll_nxtx2s11_5501.
-try rename H_sll_nxtx2s12x_5501 into H_sll_nxtx2s11_5501.
-try rename h_sll_xv2xs12x_550 into h_sll_xv2xs11_550.
-try rename H_sll_xv2xs12x_550 into H_sll_xv2xs11_550.
-try rename h_sll_xv2xs11_550 into h_sll_xvs11_550.
-try rename H_sll_xv2xs11_550 into H_sll_xvs11_550.
+try rename h_sll_xs1_572 into h_sll_xv2xs12x_572.
+try rename H_sll_xs1_572 into H_sll_xv2xs12x_572.
+try rename h_sll_nxtx1s12x_570x1 into h_sll_nxtx2s11_5721.
+try rename H_sll_nxtx1s12x_570x1 into H_sll_nxtx2s11_5721.
+try rename h_sll_xv2xs12x_572 into h_sll_xv2xs11_572.
+try rename H_sll_xv2xs12x_572 into H_sll_xv2xs11_572.
+try rename h_sll_xv2xs11_572 into h_sll_xvs11_572.
+try rename H_sll_xv2xs11_572 into H_sll_xvs11_572.
 ssl_write x.
 ssl_write_post x.
 ssl_emp;
-exists ([:: v] ++ s11);
-exists (x :-> v \+ x .+ 1 :-> nxtx2 \+ h_sll_nxtx2s11_5501);
+exists (([:: v]) ++ (s11));
+exists (x :-> v \+ x .+ 1 :-> nxtx2 \+ h_sll_nxtx2s11_5721);
 sslauto.
 unfold_constructor 2;
-exists (v), (s11), (nxtx2), (h_sll_nxtx2s11_5501);
+exists (v), (s11), (nxtx2), (h_sll_nxtx2s11_5721);
 sslauto.
+ssl_frame_unfold.
 Qed.

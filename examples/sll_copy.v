@@ -8,23 +8,23 @@ From SSL
 Require Import core.
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
-| sll_1 of x == null of
+| sll_1 of (x) == (null) of
   @perm_eq nat_eqType (s) (nil) /\ h = empty
-| sll_2 of (x == null) = false of
+| sll_2 of ~~ ((x) == (null)) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
-  exists h_sll_nxts1_539,
-  @perm_eq nat_eqType (s) ([:: v] ++ s1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_539 /\ sll nxt s1 h_sll_nxts1_539.
+  exists h_sll_nxts1_561,
+  @perm_eq nat_eqType (s) (([:: v]) ++ (s1)) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_561 /\ sll nxt s1 h_sll_nxts1_561.
 
-Lemma sll_perm_eq_trans17 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
-Hint Resolve sll_perm_eq_trans17: ssl_pred.
-Lemma pure18 : @perm_eq nat_eqType (nil) (nil). Admitted.
-Hint Resolve pure18: ssl_pure.
-Lemma pure19 b1 : b1 < b1 + 1. Admitted.
-Hint Resolve pure19: ssl_pure.
-Lemma pure20 vx22 s1x2 : @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2). Admitted.
-Hint Resolve pure20: ssl_pure.
-Lemma pure21 vx22 s1x2 : @perm_eq nat_eqType ([:: vx22] ++ s1x2) ([:: vx22] ++ s1x2). Admitted.
-Hint Resolve pure21: ssl_pure.
+Lemma sll_perm_eq_trans36 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
+Hint Resolve sll_perm_eq_trans36: ssl_pred.
+Lemma pure37 : @perm_eq nat_eqType (nil) (nil). Admitted.
+Hint Resolve pure37: ssl_pure.
+Lemma pure38 b1 : (b1) < ((b1) + (1)). Admitted.
+Hint Resolve pure38: ssl_pure.
+Lemma pure39 vx22 s1x2 : @perm_eq nat_eqType (([:: vx22]) ++ (s1x2)) (([:: vx22]) ++ (s1x2)). Admitted.
+Hint Resolve pure39: ssl_pure.
+Lemma pure40 vx22 s1x2 : @perm_eq nat_eqType (([:: vx22]) ++ (s1x2)) (([:: vx22]) ++ (s1x2)). Admitted.
+Hint Resolve pure40: ssl_pure.
 
 Definition sll_copy_type :=
   forall (vprogs : ptr),
@@ -48,7 +48,7 @@ Program Definition sll_copy : sll_copy_type :=
     let: (r) := vprogs in
     Do (
       x2 <-- @read ptr r;
-      if x2 == null
+      if (x2) == (null)
       then
         ret tt
       else
@@ -76,19 +76,10 @@ ssl_read r.
 try rename x into x2.
 try rename h_sll_xs_a into h_sll_x2s_a.
 try rename H_sll_xs_a into H_sll_x2s_a.
-ssl_open (x2 == null) H_sll_x2s_a.
+ssl_open ((x2) == (null)) H_sll_x2s_a.
 move=>[phi_sll_x2s_a0].
 move=>[sigma_sll_x2s_a].
 subst h_sll_x2s_a.
-shelve.
-ex_elim vx2 s1x2 nxtx2.
-ex_elim h_sll_nxtx2s1x2_539x2.
-move=>[phi_sll_x2s_a0].
-move=>[sigma_sll_x2s_a].
-subst h_sll_x2s_a.
-move=>H_sll_nxtx2s1x2_539x2.
-shelve.
-Unshelve.
 try rename h_sll_ys_b into h_sll_y_b.
 try rename H_sll_ys_b into H_sll_y_b.
 try rename h_sll_x2s_a into h_sll_x2_a.
@@ -104,6 +95,12 @@ unfold_constructor 1;
 sslauto.
 unfold_constructor 1;
 sslauto.
+ex_elim vx2 s1x2 nxtx2.
+ex_elim h_sll_nxtx2s1x2_561x2.
+move=>[phi_sll_x2s_a0].
+move=>[sigma_sll_x2s_a].
+subst h_sll_x2s_a.
+move=>H_sll_nxtx2s1x2_561x2.
 try rename h_sll_ys_b into h_sll_yvx2s1x2_b.
 try rename H_sll_ys_b into H_sll_yvx2s1x2_b.
 try rename h_sll_x2s_a into h_sll_x2vx2s1x2_a.
@@ -116,36 +113,31 @@ try rename h_sll_yvx2s1x2_b into h_sll_yvx22s1x2_b.
 try rename H_sll_yvx2s1x2_b into H_sll_yvx22s1x2_b.
 ssl_read (x2 .+ 1).
 try rename nxtx2 into nxtx22.
-try rename h_sll_nxtx2s1x2_539x2 into h_sll_nxtx22s1x2_539x2.
-try rename H_sll_nxtx2s1x2_539x2 into H_sll_nxtx22s1x2_539x2.
+try rename h_sll_nxtx2s1x2_561x2 into h_sll_nxtx22s1x2_561x2.
+try rename H_sll_nxtx2s1x2_561x2 into H_sll_nxtx22s1x2_561x2.
+try rename h_sll_x1s1_a1 into h_sll_nxtx22s1x2_561x2.
+try rename H_sll_x1s1_a1 into H_sll_nxtx22s1x2_561x2.
 ssl_write r.
-ssl_call_pre (r :-> nxtx22 \+ h_sll_nxtx22s1x2_539x2).
+ssl_call_pre (r :-> nxtx22 \+ h_sll_nxtx22s1x2_561x2).
 ssl_call (nxtx22, s1x2).
-exists (h_sll_nxtx22s1x2_539x2);
+exists (h_sll_nxtx22s1x2_561x2);
 sslauto.
+ssl_frame_unfold.
 move=>h_call0.
 ex_elim y1.
-ex_elim h_sll_nxtx22s1x2_539x2 h_sll_y1s1x2_b1.
+ex_elim h_sll_nxtx22s1x2_561x2 h_sll_y1s1x2_b1.
 move=>[sigma_call0].
 subst h_call0.
-move=>[H_sll_nxtx22s1x2_539x2 H_sll_y1s1x2_b1].
+move=>[H_sll_nxtx22s1x2_561x2 H_sll_y1s1x2_b1].
 store_valid.
 ssl_read r.
 try rename y1 into y12.
 try rename h_sll_y1s1x2_b1 into h_sll_y12s1x2_b1.
 try rename H_sll_y1s1x2_b1 into H_sll_y12s1x2_b1.
-try rename h_sll_nxtx21s11x2_539x21 into h_sll_nxtx21s11x2_539x2.
-try rename H_sll_nxtx21s11x2_539x21 into H_sll_nxtx21s11x2_539x2.
-try rename h_sll_nxtx21s11x2_539x2 into h_sll_nxtx22s11x2_539x2.
-try rename H_sll_nxtx21s11x2_539x2 into H_sll_nxtx22s11x2_539x2.
-try rename h_sll_nxtx22s11x2_539x2 into h_sll_nxtx22s1x2_539x2.
-try rename H_sll_nxtx22s11x2_539x2 into H_sll_nxtx22s1x2_539x2.
-try rename h_sll_nxtys11y_539y into h_sll_nxtys11y_b1.
-try rename H_sll_nxtys11y_539y into H_sll_nxtys11y_b1.
-try rename h_sll_nxtys11y_b1 into h_sll_y12s11y_b1.
-try rename H_sll_nxtys11y_b1 into H_sll_y12s11y_b1.
-try rename h_sll_y12s11y_b1 into h_sll_y12s1x2_b1.
-try rename H_sll_y12s11y_b1 into H_sll_y12s1x2_b1.
+try rename h_sll_nxtx21s11x2_561x21 into h_sll_nxtx22s1x2_561x2.
+try rename H_sll_nxtx21s11x2_561x21 into H_sll_nxtx22s1x2_561x2.
+try rename h_sll_nxtys11y_561y into h_sll_y12s1x2_b1.
+try rename H_sll_nxtys11y_561y into H_sll_y12s1x2_b1.
 ssl_alloc y2.
 try rename y into y2.
 try rename h_sll_yvx22s1x2_b into h_sll_y2vx22s1x2_b.
@@ -158,13 +150,18 @@ ssl_write y2.
 ssl_write_post y2.
 ssl_emp;
 exists (y2);
-exists (x2 :-> vx22 \+ x2 .+ 1 :-> nxtx22 \+ h_sll_nxtx22s1x2_539x2);
+exists (x2 :-> vx22 \+ x2 .+ 1 :-> nxtx22 \+ h_sll_nxtx22s1x2_561x2);
 exists (y2 :-> vx22 \+ y2 .+ 1 :-> y12 \+ h_sll_y12s1x2_b1);
 sslauto.
 unfold_constructor 2;
-exists (vx22), (s1x2), (nxtx22), (h_sll_nxtx22s1x2_539x2);
+exists (vx22), (s1x2), (nxtx22), (h_sll_nxtx22s1x2_561x2);
 sslauto.
+shelve.
 unfold_constructor 2;
 exists (vx22), (s1x2), (y12), (h_sll_y12s1x2_b1);
 sslauto.
+shelve.
+Unshelve.
+ssl_frame_unfold.
+ssl_frame_unfold.
 Qed.

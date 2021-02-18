@@ -7,11 +7,11 @@ Require Import stmod stsep stlog stlogR.
 From SSL
 Require Import core.
 
-Lemma pure1 x y : x <= y -> x <= x. Admitted.
+Lemma pure1 x y : (x) <= (y) -> (x) <= (x). Admitted.
 Hint Resolve pure1: ssl_pure.
-Lemma pure2 y x : (x <= y) = false -> y <= x. Admitted.
+Lemma pure2 y x : ~~ ((x) <= (y)) -> (y) <= (x). Admitted.
 Hint Resolve pure2: ssl_pure.
-Lemma pure3 y x : (x <= y) = false -> y <= y. Admitted.
+Lemma pure3 y x : ~~ ((x) <= (y)) -> (y) <= (y). Admitted.
 Hint Resolve pure3: ssl_pure.
 
 Definition min2_type :=
@@ -23,14 +23,14 @@ Definition min2_type :=
     [vfun (_: unit) h =>
       let: (r, x, y) := vprogs in
       exists m,
-      m <= x /\ m <= y /\ h = r :-> m
+      (m) <= (x) /\ (m) <= (y) /\ h = r :-> m
     ]).
 
 Program Definition min2 : min2_type :=
   Fix (fun (min2 : min2_type) vprogs =>
     let: (r, x, y) := vprogs in
     Do (
-      if x <= y
+      if (x) <= (y)
       then
         r ::= x;;
         ret tt
@@ -44,7 +44,7 @@ ssl_ghostelim_pre.
 move=>[sigma_self].
 subst h_self.
 ssl_ghostelim_post.
-ssl_abduce_branch (x <= y).
+ssl_abduce_branch ((x) <= (y)).
 ssl_write r.
 ssl_write_post r.
 ssl_emp;
