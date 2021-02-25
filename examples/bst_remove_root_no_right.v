@@ -12,21 +12,21 @@ Inductive bst (x : ptr) (sz : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
   (hi) == (0) /\ (lo) == (7) /\ (sz) == (0) /\ h = empty
 | bst_2 of ~~ ((x) == (null)) of
   exists (sz1 : nat) (sz2 : nat) (v : nat) (hi2 : nat) (hi1 : nat) (lo1 : nat) (lo2 : nat) (l : ptr) (r : ptr),
-  exists h_bst_lsz1lo1hi1_523 h_bst_rsz2lo2hi2_524,
-  (0) <= (sz1) /\ (0) <= (sz2) /\ (0) <= (v) /\ (hi) == ((if (hi2) <= (v) then v else hi2)) /\ (hi1) <= (v) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (sz) == (((1) + (sz1)) + (sz2)) /\ (v) <= (7) /\ (v) <= (lo2) /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_bst_lsz1lo1hi1_523 \+ h_bst_rsz2lo2hi2_524 /\ bst l sz1 lo1 hi1 h_bst_lsz1lo1hi1_523 /\ bst r sz2 lo2 hi2 h_bst_rsz2lo2hi2_524.
+  exists h_bst_lsz1lo1hi1_612 h_bst_rsz2lo2hi2_613,
+  (0) <= (sz1) /\ (0) <= (sz2) /\ (0) <= (v) /\ (hi) == ((if (hi2) <= (v) then v else hi2)) /\ (hi1) <= (v) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (sz) == (((1) + (sz1)) + (sz2)) /\ (v) <= (7) /\ (v) <= (lo2) /\ h = x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_bst_lsz1lo1hi1_612 \+ h_bst_rsz2lo2hi2_613 /\ bst l sz1 lo1 hi1 h_bst_lsz1lo1hi1_612 /\ bst r sz2 lo2 hi2 h_bst_rsz2lo2hi2_613.
 
-Lemma pure33 l2 : (l2) == (null) -> ((if (null) == (null) then (if (l2) == (null) then 0 else 0) else 0)) == (0). Admitted.
-Hint Resolve pure33: ssl_pure.
-Lemma pure34 l2 : (l2) == (null) -> ((if (l2) == (null) then (if (null) == (null) then 7 else 7) else 7)) == (7). Admitted.
-Hint Resolve pure34: ssl_pure.
-Lemma pure35 : (0) == (0). Admitted.
-Hint Resolve pure35: ssl_pure.
-Lemma pure36 sz1l2 sz2l2 : (0) <= (sz2l2) -> (0) <= (sz1l2) -> (0) <= (((1) + (sz1l2)) + (sz2l2)) -> (((1) + (sz1l2)) + (sz2l2)) == (((1) + (sz1l2)) + (sz2l2)). Admitted.
-Hint Resolve pure36: ssl_pure.
-Lemma pure37 lo2l2 x v2 retv vl22 l2 hi2l2 hi1l2 : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (hi1l2) <= (vl22) -> ~~ ((l2) == (null)) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> ~~ ((l2) == (retv)) -> (vl22) <= (7) -> ~~ ((retv) == (x)) -> (0) <= (vl22) -> ~~ ((l2) == (x)) -> ((if (null) == (null) then (if (l2) == (null) then 0 else (if (hi2l2) <= (vl22) then vl22 else hi2l2)) else 0)) == ((if (hi2l2) <= (vl22) then vl22 else hi2l2)). Admitted.
-Hint Resolve pure37: ssl_pure.
-Lemma pure38 lo2l2 x v2 retv lo1l2 vl22 l2 hi2l2 hi1l2 : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (hi1l2) <= (vl22) -> ~~ ((l2) == (null)) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> ~~ ((l2) == (retv)) -> (vl22) <= (7) -> ~~ ((retv) == (x)) -> (0) <= (vl22) -> ~~ ((l2) == (x)) -> ((if (l2) == (null) then (if (null) == (null) then 7 else 7) else (if (vl22) <= (lo1l2) then vl22 else lo1l2))) == ((if (vl22) <= (lo1l2) then vl22 else lo1l2)). Admitted.
-Hint Resolve pure38: ssl_pure.
+Lemma pure118 l2 : (l2) = (null) -> ((if (null) == (null) then (if (l2) == (null) then 0 else 0) else 0)) = (0). Admitted.
+Hint Resolve pure118: ssl_pure.
+Lemma pure119 l2 : (l2) = (null) -> ((if (l2) == (null) then (if (null) == (null) then 7 else 7) else 7)) = (7). Admitted.
+Hint Resolve pure119: ssl_pure.
+Lemma pure120 : (0) = (0). Admitted.
+Hint Resolve pure120: ssl_pure.
+Lemma pure121 sz1l2 sz2l2 : (0) <= (((1) + (sz1l2)) + (sz2l2)) -> (0) <= (sz2l2) -> (0) <= (sz1l2) -> (((1) + (sz1l2)) + (sz2l2)) = (((1) + (sz1l2)) + (sz2l2)). Admitted.
+Hint Resolve pure121: ssl_pure.
+Lemma pure122 lo2l2 x v2 retv vl22 l2 hi2l2 hi1l2 : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (hi1l2) <= (vl22) -> ~~ ((l2) == (null)) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> ~~ ((l2) == (retv)) -> (vl22) <= (7) -> ~~ ((retv) == (x)) -> (0) <= (vl22) -> ~~ ((l2) == (x)) -> ((if (null) == (null) then (if (l2) == (null) then 0 else (if (hi2l2) <= (vl22) then vl22 else hi2l2)) else 0)) = ((if (hi2l2) <= (vl22) then vl22 else hi2l2)). Admitted.
+Hint Resolve pure122: ssl_pure.
+Lemma pure123 lo2l2 x v2 retv lo1l2 vl22 l2 hi2l2 hi1l2 : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (hi1l2) <= (vl22) -> ~~ ((l2) == (null)) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> ~~ ((l2) == (retv)) -> (vl22) <= (7) -> ~~ ((retv) == (x)) -> (0) <= (vl22) -> ~~ ((l2) == (x)) -> ((if (l2) == (null) then (if (null) == (null) then 7 else 7) else (if (vl22) <= (lo1l2) then vl22 else lo1l2))) = ((if (vl22) <= (lo1l2) then vl22 else lo1l2)). Admitted.
+Hint Resolve pure123: ssl_pure.
 
 Definition bst_remove_root_no_right_type :=
   forall (vprogs : ptr * ptr),
@@ -109,10 +109,10 @@ ssl_open ((l2) == (null)) H_bst_l2sz1lo1hi1_a.
 move=>[phi_bst_l2sz1lo1hi1_a0] [phi_bst_l2sz1lo1hi1_a1] [phi_bst_l2sz1lo1hi1_a2].
 move=>[sigma_bst_l2sz1lo1hi1_a].
 subst h_bst_l2sz1lo1hi1_a.
-try rename h_bst_ysz1sz2l2lo2lo1l2hi1hi2_c into h_bst_ysz1sz2l2lo2lo1l2hi2_c.
-try rename H_bst_ysz1sz2l2lo2lo1l2hi1hi2_c into H_bst_ysz1sz2l2lo2lo1l2hi2_c.
 try rename h_bst_l2sz1lo1hi1_a into h_bst_l2sz1lo1_a.
 try rename H_bst_l2sz1lo1hi1_a into H_bst_l2sz1lo1_a.
+try rename h_bst_ysz1sz2l2lo2lo1l2hi1hi2_c into h_bst_ysz1sz2l2lo2lo1l2hi2_c.
+try rename H_bst_ysz1sz2l2lo2lo1l2hi1hi2_c into H_bst_ysz1sz2l2lo2lo1l2hi2_c.
 try rename h_bst_ysz1sz2l2lo2lo1l2hi2_c into h_bst_ysz1sz2l2lo2l2hi2_c.
 try rename H_bst_ysz1sz2l2lo2lo1l2hi2_c into H_bst_ysz1sz2l2lo2l2hi2_c.
 try rename h_bst_l2sz1lo1_a into h_bst_l2sz1_a.
@@ -129,10 +129,10 @@ try rename h_bst_sz2lo2hi2_b into h_bst_sz2lo2_b.
 try rename H_bst_sz2lo2hi2_b into H_bst_sz2lo2_b.
 try rename h_bst_ysz2l2lo2l2hi2_c into h_bst_ysz2l2lo2l2_c.
 try rename H_bst_ysz2l2lo2l2hi2_c into H_bst_ysz2l2lo2l2_c.
-try rename h_bst_ysz2l2lo2l2_c into h_bst_ysz2l2l2_c.
-try rename H_bst_ysz2l2lo2l2_c into H_bst_ysz2l2l2_c.
 try rename h_bst_sz2lo2_b into h_bst_sz2_b.
 try rename H_bst_sz2lo2_b into H_bst_sz2_b.
+try rename h_bst_ysz2l2lo2l2_c into h_bst_ysz2l2l2_c.
+try rename H_bst_ysz2l2lo2l2_c into H_bst_ysz2l2l2_c.
 try rename h_bst_sz2_b into h_bst__b.
 try rename H_bst_sz2_b into H_bst__b.
 try rename h_bst_ysz2l2l2_c into h_bst_yl2l2_c.
@@ -148,27 +148,27 @@ ssl_emp;
 exists ((if (null) == (null) then (if (l2) == (null) then 0 else 0) else 0)), ((if (l2) == (null) then (if (null) == (null) then 7 else 7) else 7)), ((0) + (0)), (null);
 exists (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim sz10 sz20 v0 hi20 hi10.
 ex_elim lo10 lo20 l0 r0.
-ex_elim h_bst_l0sz10lo10hi10_5230 h_bst_r0sz20lo20hi20_5240.
+ex_elim h_bst_l0sz10lo10hi10_6120 h_bst_r0sz20lo20hi20_6130.
 move=>[phi_bst_sz2lo2hi2_b0] [phi_bst_sz2lo2hi2_b1] [phi_bst_sz2lo2hi2_b2] [phi_bst_sz2lo2hi2_b3] [phi_bst_sz2lo2hi2_b4] [phi_bst_sz2lo2hi2_b5] [phi_bst_sz2lo2hi2_b6] [phi_bst_sz2lo2hi2_b7] [phi_bst_sz2lo2hi2_b8].
 move=>[sigma_bst_sz2lo2hi2_b].
 subst h_bst_sz2lo2hi2_b.
-move=>[H_bst_l0sz10lo10hi10_5230 H_bst_r0sz20lo20hi20_5240].
+move=>[H_bst_l0sz10lo10hi10_6120 H_bst_r0sz20lo20hi20_6130].
 ssl_inconsistency.
 ex_elim sz1l2 sz2l2 vl2 hi2l2 hi1l2.
 ex_elim lo1l2 lo2l2 ll2 rl2.
-ex_elim h_bst_ll2sz1l2lo1l2hi1l2_523l2 h_bst_rl2sz2l2lo2l2hi2l2_524l2.
+ex_elim h_bst_ll2sz1l2lo1l2hi1l2_612l2 h_bst_rl2sz2l2lo2l2hi2l2_613l2.
 move=>[phi_bst_l2sz1lo1hi1_a0] [phi_bst_l2sz1lo1hi1_a1] [phi_bst_l2sz1lo1hi1_a2] [phi_bst_l2sz1lo1hi1_a3] [phi_bst_l2sz1lo1hi1_a4] [phi_bst_l2sz1lo1hi1_a5] [phi_bst_l2sz1lo1hi1_a6] [phi_bst_l2sz1lo1hi1_a7] [phi_bst_l2sz1lo1hi1_a8].
 move=>[sigma_bst_l2sz1lo1hi1_a].
 subst h_bst_l2sz1lo1hi1_a.
-move=>[H_bst_ll2sz1l2lo1l2hi1l2_523l2 H_bst_rl2sz2l2lo2l2hi2l2_524l2].
-try rename h_bst_ysz1sz2l2lo2lo1l2hi1hi2_c into h_bst_ysz1sz2l2lo2lo1l2hi2l2vl2vl2hi2l2hi2_c.
-try rename H_bst_ysz1sz2l2lo2lo1l2hi1hi2_c into H_bst_ysz1sz2l2lo2lo1l2hi2l2vl2vl2hi2l2hi2_c.
+move=>[H_bst_ll2sz1l2lo1l2hi1l2_612l2 H_bst_rl2sz2l2lo2l2hi2l2_613l2].
 try rename h_bst_l2sz1lo1hi1_a into h_bst_l2sz1lo1hi2l2vl2vl2hi2l2_a.
 try rename H_bst_l2sz1lo1hi1_a into H_bst_l2sz1lo1hi2l2vl2vl2hi2l2_a.
+try rename h_bst_ysz1sz2l2lo2lo1l2hi1hi2_c into h_bst_ysz1sz2l2lo2lo1l2hi2l2vl2vl2hi2l2hi2_c.
+try rename H_bst_ysz1sz2l2lo2lo1l2hi1hi2_c into H_bst_ysz1sz2l2lo2lo1l2hi2l2vl2vl2hi2l2hi2_c.
 try rename h_bst_l2sz1lo1hi2l2vl2vl2hi2l2_a into h_bst_l2sz1vl2lo1l2vl2lo1l2hi2l2vl2vl2hi2l2_a.
 try rename H_bst_l2sz1lo1hi2l2vl2vl2hi2l2_a into H_bst_l2sz1vl2lo1l2vl2lo1l2hi2l2vl2vl2hi2l2_a.
 try rename h_bst_ysz1sz2l2lo2lo1l2hi2l2vl2vl2hi2l2hi2_c into h_bst_ysz1sz2l2lo2vl2lo1l2vl2lo1l2l2hi2l2vl2vl2hi2l2hi2_c.
@@ -179,18 +179,18 @@ try rename h_bst_ysz1sz2l2lo2vl2lo1l2vl2lo1l2l2hi2l2vl2vl2hi2l2hi2_c into h_bst_
 try rename H_bst_ysz1sz2l2lo2vl2lo1l2vl2lo1l2l2hi2l2vl2vl2hi2l2hi2_c into H_bst_ysz1l2sz2l2sz2l2lo2vl2lo1l2vl2lo1l2l2hi2l2vl2vl2hi2l2hi2_c.
 ssl_read l2.
 try rename vl2 into vl22.
-try rename h_bst_l2sz1l2sz2l2vl2lo1l2vl2lo1l2hi2l2vl2vl2hi2l2_a into h_bst_l2sz1l2sz2l2vl22lo1l2vl22lo1l2hi2l2vl22vl22hi2l2_a.
-try rename H_bst_l2sz1l2sz2l2vl2lo1l2vl2lo1l2hi2l2vl2vl2hi2l2_a into H_bst_l2sz1l2sz2l2vl22lo1l2vl22lo1l2hi2l2vl22vl22hi2l2_a.
 try rename h_bst_ysz1l2sz2l2sz2l2lo2vl2lo1l2vl2lo1l2l2hi2l2vl2vl2hi2l2hi2_c into h_bst_ysz1l2sz2l2sz2l2lo2vl22lo1l2vl22lo1l2l2hi2l2vl22vl22hi2l2hi2_c.
 try rename H_bst_ysz1l2sz2l2sz2l2lo2vl2lo1l2vl2lo1l2l2hi2l2vl2vl2hi2l2hi2_c into H_bst_ysz1l2sz2l2sz2l2lo2vl22lo1l2vl22lo1l2l2hi2l2vl22vl22hi2l2hi2_c.
+try rename h_bst_l2sz1l2sz2l2vl2lo1l2vl2lo1l2hi2l2vl2vl2hi2l2_a into h_bst_l2sz1l2sz2l2vl22lo1l2vl22lo1l2hi2l2vl22vl22hi2l2_a.
+try rename H_bst_l2sz1l2sz2l2vl2lo1l2vl2lo1l2hi2l2vl2vl2hi2l2_a into H_bst_l2sz1l2sz2l2vl22lo1l2vl22lo1l2hi2l2vl22vl22hi2l2_a.
 ssl_read (l2 .+ 1).
 try rename ll2 into ll22.
-try rename h_bst_ll2sz1l2lo1l2hi1l2_523l2 into h_bst_ll22sz1l2lo1l2hi1l2_523l2.
-try rename H_bst_ll2sz1l2lo1l2hi1l2_523l2 into H_bst_ll22sz1l2lo1l2hi1l2_523l2.
+try rename h_bst_ll2sz1l2lo1l2hi1l2_612l2 into h_bst_ll22sz1l2lo1l2hi1l2_612l2.
+try rename H_bst_ll2sz1l2lo1l2hi1l2_612l2 into H_bst_ll22sz1l2lo1l2hi1l2_612l2.
 ssl_read (l2 .+ 2).
 try rename rl2 into rl22.
-try rename h_bst_rl2sz2l2lo2l2hi2l2_524l2 into h_bst_rl22sz2l2lo2l2hi2l2_524l2.
-try rename H_bst_rl2sz2l2lo2l2hi2l2_524l2 into H_bst_rl22sz2l2lo2l2hi2l2_524l2.
+try rename h_bst_rl2sz2l2lo2l2hi2l2_613l2 into h_bst_rl22sz2l2lo2l2hi2l2_613l2.
+try rename H_bst_rl2sz2l2lo2l2hi2l2_613l2 into H_bst_rl22sz2l2lo2l2hi2l2_613l2.
 ssl_open ((null) == (null)) H_bst_sz2lo2hi2_b.
 move=>[phi_bst_sz2lo2hi2_b0] [phi_bst_sz2lo2hi2_b1] [phi_bst_sz2lo2hi2_b2].
 move=>[sigma_bst_sz2lo2hi2_b].
@@ -207,10 +207,10 @@ try rename h_bst_sz2_b into h_bst__b.
 try rename H_bst_sz2_b into H_bst__b.
 try rename h_bst_ysz1l2sz2l2sz2l2vl22lo1l2vl22lo1l2l2hi2l2vl22vl22hi2l2_c into h_bst_ysz1l2sz2l2l2vl22lo1l2vl22lo1l2l2hi2l2vl22vl22hi2l2_c.
 try rename H_bst_ysz1l2sz2l2sz2l2vl22lo1l2vl22lo1l2l2hi2l2vl22vl22hi2l2_c into H_bst_ysz1l2sz2l2l2vl22lo1l2vl22lo1l2l2hi2l2vl22vl22hi2l2_c.
-try rename h_bst_l1ysz11ylo11yhi11y_523y into h_bst_ll22sz1l2lo1l2hi1l2_523l2.
-try rename H_bst_l1ysz11ylo11yhi11y_523y into H_bst_ll22sz1l2lo1l2hi1l2_523l2.
-try rename h_bst_r1ysz21ylo21yhi21y_524y into h_bst_rl22sz2l2lo2l2hi2l2_524l2.
-try rename H_bst_r1ysz21ylo21yhi21y_524y into H_bst_rl22sz2l2lo2l2hi2l2_524l2.
+try rename h_bst_l1ysz11ylo11yhi11y_612y into h_bst_ll22sz1l2lo1l2hi1l2_612l2.
+try rename H_bst_l1ysz11ylo11yhi11y_612y into H_bst_ll22sz1l2lo1l2hi1l2_612l2.
+try rename h_bst_r1ysz21ylo21yhi21y_613y into h_bst_rl22sz2l2lo2l2hi2l2_613l2.
+try rename H_bst_r1ysz21ylo21yhi21y_613y into H_bst_rl22sz2l2lo2l2hi2l2_613l2.
 try rename h_bst_ysz1l2sz2l2l2vl22lo1l2vl22lo1l2l2hi2l2vl22vl22hi2l2_c into h_bst_l2sz1l2sz2l2l2vl22lo1l2vl22lo1l2l2hi2l2vl22vl22hi2l2_c.
 try rename H_bst_ysz1l2sz2l2l2vl22lo1l2vl22lo1l2l2hi2l2vl22vl22hi2l2_c into H_bst_l2sz1l2sz2l2l2vl22lo1l2vl22lo1l2l2hi2l2vl22vl22hi2l2_c.
 ssl_dealloc x.
@@ -220,19 +220,19 @@ ssl_write retv.
 ssl_write_post retv.
 ssl_emp;
 exists ((if (null) == (null) then (if (l2) == (null) then 0 else (if (hi2l2) <= (vl22) then vl22 else hi2l2)) else 0)), ((if (l2) == (null) then (if (null) == (null) then 7 else 7) else (if (vl22) <= (lo1l2) then vl22 else lo1l2))), ((((1) + (sz1l2)) + (sz2l2)) + (0)), (l2);
-exists (l2 :-> vl22 \+ l2 .+ 1 :-> ll22 \+ l2 .+ 2 :-> rl22 \+ h_bst_ll22sz1l2lo1l2hi1l2_523l2 \+ h_bst_rl22sz2l2lo2l2hi2l2_524l2);
+exists (l2 :-> vl22 \+ l2 .+ 1 :-> ll22 \+ l2 .+ 2 :-> rl22 \+ h_bst_ll22sz1l2lo1l2hi1l2_612l2 \+ h_bst_rl22sz2l2lo2l2hi2l2_613l2);
 sslauto.
-unfold_constructor 2;
-exists (sz1l2), (sz2l2), (vl22), (hi2l2), (hi1l2), (lo1l2), (lo2l2), (ll22), (rl22), (h_bst_ll22sz1l2lo1l2hi1l2_523l2), (h_bst_rl22sz2l2lo2l2hi2l2_524l2);
+ssl_close 2;
+exists (sz1l2), (sz2l2), (vl22), (hi2l2), (hi1l2), (lo1l2), (lo2l2), (ll22), (rl22), (h_bst_ll22sz1l2lo1l2hi1l2_612l2), (h_bst_rl22sz2l2lo2l2hi2l2_613l2);
 sslauto.
 ssl_frame_unfold.
 ssl_frame_unfold.
 ex_elim sz10 sz20 v0 hi20 hi10.
 ex_elim lo10 lo20 l0 r0.
-ex_elim h_bst_l0sz10lo10hi10_5230 h_bst_r0sz20lo20hi20_5240.
+ex_elim h_bst_l0sz10lo10hi10_6120 h_bst_r0sz20lo20hi20_6130.
 move=>[phi_bst_sz2lo2hi2_b0] [phi_bst_sz2lo2hi2_b1] [phi_bst_sz2lo2hi2_b2] [phi_bst_sz2lo2hi2_b3] [phi_bst_sz2lo2hi2_b4] [phi_bst_sz2lo2hi2_b5] [phi_bst_sz2lo2hi2_b6] [phi_bst_sz2lo2hi2_b7] [phi_bst_sz2lo2hi2_b8].
 move=>[sigma_bst_sz2lo2hi2_b].
 subst h_bst_sz2lo2hi2_b.
-move=>[H_bst_l0sz10lo10hi10_5230 H_bst_r0sz20lo20hi20_5240].
+move=>[H_bst_l0sz10lo10hi10_6120 H_bst_r0sz20lo20hi20_6130].
 ssl_inconsistency.
 Qed.

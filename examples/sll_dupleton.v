@@ -93,12 +93,12 @@ ssl_emp;
 exists ([:: x; y]), (z2);
 exists (z2 :-> x \+ z2 .+ 1 :-> nxtz2 \+ nxtz2 :-> y \+ nxtz2 .+ 1 :-> null);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (x), (([:: y]) ++ (nil)), (nxtz2), (nxtz2 :-> y \+ nxtz2 .+ 1 :-> null);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (y), (nil), (null), (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 Qed.

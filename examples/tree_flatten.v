@@ -94,9 +94,8 @@ Program Definition tree_flatten : tree_flatten_type :=
         z ::= rx22;;
         tree_flatten (z);;
         y22 <-- @read ptr z;
-        x2 ::= y22;;
-        sll_append (y12, x2);;
-        y32 <-- @read ptr x2;
+        sll_append (y12, z);;
+        y32 <-- @read ptr z;
         y4 <-- allocb null 2;
         dealloc x2;;
         dealloc (x2 .+ 1);;
@@ -133,7 +132,7 @@ ssl_emp;
 exists (null);
 exists (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim vx2 s1x2 s2x2 lx2 rx2.
 ex_elim h_tree_lx2s1x2_525x2 h_tree_rx2s2x2_526x2.
@@ -201,8 +200,7 @@ try rename h_sll_x11s11_530 into h_sll_y12s1x2_5341.
 try rename H_sll_x11s11_530 into H_sll_y12s1x2_5341.
 try rename h_sll_x21s21_531 into h_sll_y22s2x2_5342.
 try rename H_sll_x21s21_531 into H_sll_y22s2x2_5342.
-ssl_write x2.
-ssl_call_pre (x2 :-> y22 \+ h_sll_y12s1x2_5341 \+ h_sll_y22s2x2_5342).
+ssl_call_pre (z :-> y22 \+ h_sll_y12s1x2_5341 \+ h_sll_y22s2x2_5342).
 ssl_call (s1x2, y22, s2x2).
 exists (h_sll_y12s1x2_5341), (h_sll_y22s2x2_5342);
 sslauto.
@@ -218,7 +216,7 @@ move=>H_sll_y3s3_532.
 store_valid.
 try rename h_sll_y3s3_532 into h_sll_y3s1x2s2x2_532.
 try rename H_sll_y3s3_532 into H_sll_y3s1x2s2x2_532.
-ssl_read x2.
+ssl_read z.
 try rename y3 into y32.
 try rename h_sll_y3s1x2s2x2_532 into h_sll_y32s1x2s2x2_532.
 try rename H_sll_y3s1x2s2x2_532 into H_sll_y32s1x2s2x2_532.
@@ -241,7 +239,7 @@ ssl_emp;
 exists (y4);
 exists (y4 :-> vx22 \+ y4 .+ 1 :-> y32 \+ h_sll_y32s1x2s2x2_532);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), ((s1x2) ++ (s2x2)), (y32), (h_sll_y32s1x2s2x2_532);
 sslauto.
 ssl_frame_unfold.

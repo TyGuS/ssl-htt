@@ -123,9 +123,9 @@ exists (null), (null);
 exists (empty);
 exists (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim vx2 s1x2 wx2.
 ex_elim h_dll_wx2x2s1x2_592x2.
@@ -143,10 +143,10 @@ ssl_read x2.
 try rename vx2 into vx22.
 try rename h_dll_x2avx2s1x2_594 into h_dll_x2avx22s1x2_594.
 try rename H_dll_x2avx2s1x2_594 into H_dll_x2avx22s1x2_594.
-try rename h_dll_x2avx2s1x2_595 into h_dll_x2avx22s1x2_595.
-try rename H_dll_x2avx2s1x2_595 into H_dll_x2avx22s1x2_595.
 try rename h_dll_ybvx2s1x2_596 into h_dll_ybvx22s1x2_596.
 try rename H_dll_ybvx2s1x2_596 into H_dll_ybvx22s1x2_596.
+try rename h_dll_x2avx2s1x2_595 into h_dll_x2avx22s1x2_595.
+try rename H_dll_x2avx2s1x2_595 into H_dll_x2avx22s1x2_595.
 ssl_read (x2 .+ 1).
 try rename wx2 into wx22.
 try rename h_dll_wx2x2s1x2_592x2 into h_dll_wx22x2s1x2_592x2.
@@ -182,10 +182,10 @@ move=>[sigma_dll_y12b1s1x2_5961].
 subst h_dll_y12b1s1x2_5961.
 try rename h_dll_wx22x2s1x2_5951 into h_dll_wx22x2_5951.
 try rename H_dll_wx22x2s1x2_5951 into H_dll_wx22x2_5951.
-try rename h_dll_x2a2vx22s1x2_594 into h_dll_x2a2vx22_594.
-try rename H_dll_x2a2vx22s1x2_594 into H_dll_x2a2vx22_594.
 try rename h_dll_x2a2vx22s1x2_595 into h_dll_x2a2vx22_595.
 try rename H_dll_x2a2vx22s1x2_595 into H_dll_x2a2vx22_595.
+try rename h_dll_x2a2vx22s1x2_594 into h_dll_x2a2vx22_594.
+try rename H_dll_x2a2vx22s1x2_594 into H_dll_x2a2vx22_594.
 try rename h_dll_ybvx22s1x2_596 into h_dll_ybvx22_596.
 try rename H_dll_ybvx22s1x2_596 into H_dll_ybvx22_596.
 try rename h_dll_y12b1s1x2_5961 into h_dll_y12b1_5961.
@@ -219,18 +219,18 @@ exists (y2), (null);
 exists (x2 :-> vx22 \+ x2 .+ 1 :-> wx22 \+ x2 .+ 2 :-> a2 \+ h_dll_wx22x2_5951);
 exists (y2 :-> vx22 \+ y2 .+ 1 :-> null \+ y2 .+ 2 :-> null);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), (nil), (wx22), (h_dll_wx22x2_5951);
 sslauto.
 shelve.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), (nil), (null), (empty);
 sslauto.
 shelve.
 shelve.
 Unshelve.
 shelve.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 shelve.
 Unshelve.
@@ -243,10 +243,10 @@ subst h_dll_y12b1s1x2_5961.
 move=>H_dll_wy12y12s1y12_592y12.
 try rename h_dll_wx22x2s1x2_5951 into h_dll_wx22x2vy12s1y12_5951.
 try rename H_dll_wx22x2s1x2_5951 into H_dll_wx22x2vy12s1y12_5951.
-try rename h_dll_x2a2vx22s1x2_594 into h_dll_x2a2vx22vy12s1y12_594.
-try rename H_dll_x2a2vx22s1x2_594 into H_dll_x2a2vx22vy12s1y12_594.
 try rename h_dll_x2a2vx22s1x2_595 into h_dll_x2a2vx22vy12s1y12_595.
 try rename H_dll_x2a2vx22s1x2_595 into H_dll_x2a2vx22vy12s1y12_595.
+try rename h_dll_x2a2vx22s1x2_594 into h_dll_x2a2vx22vy12s1y12_594.
+try rename H_dll_x2a2vx22s1x2_594 into H_dll_x2a2vx22vy12s1y12_594.
 try rename h_dll_ybvx22s1x2_596 into h_dll_ybvx22vy12s1y12_596.
 try rename H_dll_ybvx22s1x2_596 into H_dll_ybvx22vy12s1y12_596.
 try rename h_dll_y12b1s1x2_5961 into h_dll_y12b1vy12s1y12_5961.
@@ -257,16 +257,16 @@ ssl_read y12.
 try rename vy12 into vy122.
 try rename h_dll_ybvx22vy12s1y12_596 into h_dll_ybvx22vy122s1y12_596.
 try rename H_dll_ybvx22vy12s1y12_596 into H_dll_ybvx22vy122s1y12_596.
+try rename h_dll_wx22x2vy12s1y12_5951 into h_dll_wx22x2vy122s1y12_5951.
+try rename H_dll_wx22x2vy12s1y12_5951 into H_dll_wx22x2vy122s1y12_5951.
 try rename h_dll_y12b1vy12s1y12_5961 into h_dll_y12b1vy122s1y12_5961.
 try rename H_dll_y12b1vy12s1y12_5961 into H_dll_y12b1vy122s1y12_5961.
 try rename h_dll_wx22x2vy12s1y12_592x2 into h_dll_wx22x2vy122s1y12_592x2.
 try rename H_dll_wx22x2vy12s1y12_592x2 into H_dll_wx22x2vy122s1y12_592x2.
-try rename h_dll_wx22x2vy12s1y12_5951 into h_dll_wx22x2vy122s1y12_5951.
-try rename H_dll_wx22x2vy12s1y12_5951 into H_dll_wx22x2vy122s1y12_5951.
-try rename h_dll_x2a2vx22vy12s1y12_595 into h_dll_x2a2vx22vy122s1y12_595.
-try rename H_dll_x2a2vx22vy12s1y12_595 into H_dll_x2a2vx22vy122s1y12_595.
 try rename h_dll_x2a2vx22vy12s1y12_594 into h_dll_x2a2vx22vy122s1y12_594.
 try rename H_dll_x2a2vx22vy12s1y12_594 into H_dll_x2a2vx22vy122s1y12_594.
+try rename h_dll_x2a2vx22vy12s1y12_595 into h_dll_x2a2vx22vy122s1y12_595.
+try rename H_dll_x2a2vx22vy12s1y12_595 into H_dll_x2a2vx22vy122s1y12_595.
 ssl_read (y12 .+ 1).
 try rename wy12 into wy122.
 try rename h_dll_wy12y12s1y12_592y12 into h_dll_wy122y12s1y12_592y12.
@@ -312,17 +312,17 @@ exists (y2), (null);
 exists (x2 :-> vx22 \+ x2 .+ 1 :-> wx22 \+ x2 .+ 2 :-> a2 \+ h_dll_wx22x2vy122s1y12_5951);
 exists (y2 :-> vy122 \+ y2 .+ 1 :-> y12 \+ y2 .+ 2 :-> null \+ y12 :-> vx22 \+ y12 .+ 1 :-> wy122 \+ y12 .+ 2 :-> y2 \+ h_dll_wy122y12s1y12_592y12);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), (([:: vy122]) ++ (s1y12)), (wx22), (h_dll_wx22x2vy122s1y12_5951);
 sslauto.
 shelve.
-unfold_constructor 2;
+ssl_close 2;
 exists (vy122), (([:: vx22]) ++ (s1y12)), (y12), (y12 :-> vx22 \+ y12 .+ 1 :-> wy122 \+ y12 .+ 2 :-> y2 \+ h_dll_wy122y12s1y12_592y12);
 sslauto.
 shelve.
 Unshelve.
 shelve.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), (s1y12), (wy122), (h_dll_wy122y12s1y12_592y12);
 sslauto.
 shelve.

@@ -74,7 +74,7 @@ ssl_emp;
 exists (nil);
 exists (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim vx s1x nxtx.
 ex_elim h_sll_nxtxs1x_570x.
@@ -121,7 +121,7 @@ ssl_emp;
 exists (([:: v]) ++ (s11));
 exists (x :-> v \+ x .+ 1 :-> nxtx2 \+ h_sll_nxtx2s11_5721);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (v), (s11), (nxtx2), (h_sll_nxtx2s11_5721);
 sslauto.
 ssl_frame_unfold.

@@ -75,10 +75,10 @@ ssl_read r.
 try rename a into a2.
 try rename h_dll_wzzs1z_582z into h_dll_wzzvwzs1wz_582z.
 try rename H_dll_wzzs1z_582z into H_dll_wzzvwzs1wz_582z.
-try rename h_dll_wzzvwzs1wz_582z into h_dll_wzzvwz_582z.
-try rename H_dll_wzzvwzs1wz_582z into H_dll_wzzvwz_582z.
 try rename h_dll_wwzwzs1wz_582wz into h_dll_wwzwz_582wz.
 try rename H_dll_wwzwzs1wz_582wz into H_dll_wwzwz_582wz.
+try rename h_dll_wzzvwzs1wz_582z into h_dll_wzzvwz_582z.
+try rename H_dll_wzzvwzs1wz_582z into H_dll_wzzvwz_582z.
 try rename h_dll_wwzwz_582wz into h_dll_wz_582wz.
 try rename H_dll_wwzwz_582wz into H_dll_wz_582wz.
 ssl_alloc z2.
@@ -113,12 +113,12 @@ ssl_emp;
 exists ([:: x; y]), (z2);
 exists (z2 :-> y \+ z2 .+ 1 :-> wz2 \+ z2 .+ 2 :-> null \+ wz2 :-> x \+ wz2 .+ 1 :-> null \+ wz2 .+ 2 :-> z2);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (y), (([:: x]) ++ (nil)), (wz2), (wz2 :-> x \+ wz2 .+ 1 :-> null \+ wz2 .+ 2 :-> z2);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (x), (nil), (null), (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 Qed.

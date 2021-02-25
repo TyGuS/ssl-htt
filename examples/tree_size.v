@@ -35,9 +35,9 @@ Lemma tree_perm_eq_trans23 x h s_1 s_2 : perm_eq s_1 s_2 -> tree x s_1 h -> tree
 Hint Resolve tree_perm_eq_trans23: ssl_pred.
 Lemma sll_perm_eq_trans24 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h. Admitted.
 Hint Resolve sll_perm_eq_trans24: ssl_pred.
-Lemma pure25 : (0) == (0). Admitted.
+Lemma pure25 : (0) = (0). Admitted.
 Hint Resolve pure25: ssl_pure.
-Lemma pure26 n1x2 n2x2 : (0) <= (((1) + (n1x2)) + (n2x2)) -> (0) <= (n2x2) -> (0) <= (n1x2) -> (((1) + (n1x2)) + (n2x2)) == (((1) + (n1x2)) + (n2x2)). Admitted.
+Lemma pure26 n1x2 n2x2 : (0) <= (n1x2) -> (0) <= (n2x2) -> (0) <= (((1) + (n1x2)) + (n2x2)) -> (((1) + (n1x2)) + (n2x2)) = (((1) + (n1x2)) + (n2x2)). Admitted.
 Hint Resolve pure26: ssl_pure.
 
 Definition tree_size_type :=
@@ -94,7 +94,7 @@ try rename H_treeN_xn_a into H_treeN_x_a.
 ssl_emp;
 exists (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim n1x n2x lx rx vx.
 ex_elim h_treeN_lxn1x_545x h_treeN_rxn2x_546x.
@@ -129,10 +129,10 @@ move=>H_treeN_lx2n1x_545x.
 store_valid.
 ssl_read r.
 try rename n1x into n1x2.
-try rename h_treeN_lx2n1x_545x into h_treeN_lx2n1x2_545x.
-try rename H_treeN_lx2n1x_545x into H_treeN_lx2n1x2_545x.
 try rename h_treeN_xn1xn2x_a into h_treeN_xn1x2n2x_a.
 try rename H_treeN_xn1xn2x_a into H_treeN_xn1x2n2x_a.
+try rename h_treeN_lx2n1x_545x into h_treeN_lx2n1x2_545x.
+try rename H_treeN_lx2n1x_545x into H_treeN_lx2n1x2_545x.
 try rename h_treeN_x2n2_a2 into h_treeN_rx2n2x_546x.
 try rename H_treeN_x2n2_a2 into H_treeN_rx2n2x_546x.
 ssl_write r.
@@ -162,7 +162,7 @@ ssl_write_post r.
 ssl_emp;
 exists (x :-> vx2 \+ x .+ 1 :-> lx2 \+ x .+ 2 :-> rx2 \+ h_treeN_lx2n1x2_545x \+ h_treeN_rx2n2x2_546x);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (n1x2), (n2x2), (lx2), (rx2), (vx2), (h_treeN_lx2n1x2_545x), (h_treeN_rx2n2x2_546x);
 sslauto.
 ssl_frame_unfold.

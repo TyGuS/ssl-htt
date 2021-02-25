@@ -99,10 +99,10 @@ ssl_open ((x) == (null)) H_tree_xs_540.
 move=>[phi_tree_xs_5400].
 move=>[sigma_tree_xs_540].
 subst h_tree_xs_540.
-try rename h_tree_xs_540 into h_tree_x_540.
-try rename H_tree_xs_540 into H_tree_x_540.
 try rename h_sll_tsacc_542 into h_sll_tacc_542.
 try rename H_sll_tsacc_542 into H_sll_tacc_542.
+try rename h_tree_xs_540 into h_tree_x_540.
+try rename H_tree_xs_540 into H_tree_x_540.
 try rename h_sll_tacc_542 into h_sll_y2acc_541.
 try rename H_sll_tacc_542 into H_sll_y2acc_541.
 ssl_emp;
@@ -116,16 +116,16 @@ move=>[phi_tree_xs_5400].
 move=>[sigma_tree_xs_540].
 subst h_tree_xs_540.
 move=>[H_tree_lxs1x_535x H_tree_rxs2x_536x].
-try rename h_tree_xs_540 into h_tree_xvxs1xs2x_540.
-try rename H_tree_xs_540 into H_tree_xvxs1xs2x_540.
 try rename h_sll_tsacc_542 into h_sll_tvxs1xs2xacc_542.
 try rename H_sll_tsacc_542 into H_sll_tvxs1xs2xacc_542.
+try rename h_tree_xs_540 into h_tree_xvxs1xs2x_540.
+try rename H_tree_xs_540 into H_tree_xvxs1xs2x_540.
 ssl_read x.
 try rename vx into vx2.
-try rename h_tree_xvxs1xs2x_540 into h_tree_xvx2s1xs2x_540.
-try rename H_tree_xvxs1xs2x_540 into H_tree_xvx2s1xs2x_540.
 try rename h_sll_tvxs1xs2xacc_542 into h_sll_tvx2s1xs2xacc_542.
 try rename H_sll_tvxs1xs2xacc_542 into H_sll_tvx2s1xs2xacc_542.
+try rename h_tree_xvxs1xs2x_540 into h_tree_xvx2s1xs2x_540.
+try rename H_tree_xvxs1xs2x_540 into H_tree_xvx2s1xs2x_540.
 ssl_read (x .+ 1).
 try rename lx into lx2.
 try rename h_tree_lxs1x_535x into h_tree_lx2s1x_535x.
@@ -201,7 +201,7 @@ ssl_emp;
 exists (((([:: vx2]) ++ (s1x)) ++ (s2x)) ++ (acc)), (t3);
 exists (t3 :-> vx2 \+ t3 .+ 1 :-> t22 \+ h_sll_t22s2xs1xacc_5422);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx2), ((s2x) ++ ((s1x) ++ (acc))), (t22), (h_sll_t22s2xs1xacc_5422);
 sslauto.
 ssl_frame_unfold.

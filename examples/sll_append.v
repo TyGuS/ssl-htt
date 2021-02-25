@@ -140,7 +140,7 @@ ssl_emp;
 exists ((([:: vx12]) ++ (s1x1)) ++ (s2)), (x1);
 exists (x1 :-> vx12 \+ x1 .+ 1 :-> y12 \+ h_sll_y12s1x1s2_5671);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx12), ((s1x1) ++ (s2)), (y12), (h_sll_y12s1x1s2_5671);
 sslauto.
 ssl_frame_unfold.

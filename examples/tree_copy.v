@@ -112,9 +112,9 @@ exists (null);
 exists (empty);
 exists (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim vx2 s1x2 s2x2 lx2 rx2.
 ex_elim h_tree_lx2s1x2_548x2 h_tree_rx2s2x2_549x2.
@@ -128,10 +128,10 @@ try rename h_tree_ys_a into h_tree_yvx2s1x2s2x2_a.
 try rename H_tree_ys_a into H_tree_yvx2s1x2s2x2_a.
 ssl_read x2.
 try rename vx2 into vx22.
-try rename h_tree_yvx2s1x2s2x2_a into h_tree_yvx22s1x2s2x2_a.
-try rename H_tree_yvx2s1x2s2x2_a into H_tree_yvx22s1x2s2x2_a.
 try rename h_tree_x2vx2s1x2s2x2_a into h_tree_x2vx22s1x2s2x2_a.
 try rename H_tree_x2vx2s1x2s2x2_a into H_tree_x2vx22s1x2s2x2_a.
+try rename h_tree_yvx2s1x2s2x2_a into h_tree_yvx22s1x2s2x2_a.
+try rename H_tree_yvx2s1x2s2x2_a into H_tree_yvx22s1x2s2x2_a.
 ssl_read (x2 .+ 1).
 try rename lx2 into lx22.
 try rename h_tree_lx2s1x2_548x2 into h_tree_lx22s1x2_548x2.
@@ -203,12 +203,12 @@ exists (y3);
 exists (x2 :-> vx22 \+ x2 .+ 1 :-> lx22 \+ x2 .+ 2 :-> rx22 \+ h_tree_lx22s1x2_548x2 \+ h_tree_rx22s2x2_549x2);
 exists (y3 :-> vx22 \+ y3 .+ 1 :-> y12 \+ y3 .+ 2 :-> y22 \+ h_tree_y12s1x2_548x2 \+ h_tree_y22s2x2_549x2);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), (s1x2), (s2x2), (lx22), (rx22), (h_tree_lx22s1x2_548x2), (h_tree_rx22s2x2_549x2);
 sslauto.
 shelve.
 shelve.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), (s1x2), (s2x2), (y12), (y22), (h_tree_y12s1x2_548x2), (h_tree_y22s2x2_549x2);
 sslauto.
 shelve.

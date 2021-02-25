@@ -23,8 +23,8 @@ Definition mk_acc_type :=
       let: (r, id) := vprogs in
       let: (bal) := vghosts in
       exists x,
-      exists h_account_xidbal_513,
-      h = r :-> x \+ h_account_xidbal_513 /\ account x id bal h_account_xidbal_513
+      exists h_account_xidbal_639,
+      h = r :-> x \+ h_account_xidbal_639 /\ account x id bal h_account_xidbal_639
     ]).
 
 Program Definition mk_acc : mk_acc_type :=
@@ -47,12 +47,12 @@ subst h_self.
 ssl_ghostelim_post.
 ssl_read r.
 try rename bal into bal2.
-try rename h_account_xidbal_513 into h_account_xidbal2_513.
-try rename H_account_xidbal_513 into H_account_xidbal2_513.
+try rename h_account_xidbal_639 into h_account_xidbal2_639.
+try rename H_account_xidbal_639 into H_account_xidbal2_639.
 ssl_alloc x2.
 try rename x into x2.
-try rename h_account_xidbal2_513 into h_account_x2idbal2_513.
-try rename H_account_xidbal2_513 into H_account_x2idbal2_513.
+try rename h_account_xidbal2_639 into h_account_x2idbal2_639.
+try rename H_account_xidbal2_639 into H_account_x2idbal2_639.
 ssl_write r.
 ssl_write_post r.
 ssl_write x2.
@@ -63,6 +63,6 @@ ssl_emp;
 exists (x2);
 exists (x2 :-> id \+ x2 .+ 1 :-> bal2);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 Qed.

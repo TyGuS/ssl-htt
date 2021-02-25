@@ -76,9 +76,9 @@ ssl_emp;
 exists ([:: x]), (y2);
 exists (y2 :-> x \+ y2 .+ 1 :-> null);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (x), (nil), (null), (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 Qed.

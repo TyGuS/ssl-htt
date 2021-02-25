@@ -29,7 +29,7 @@ Lemma lseg2_perm_eq_trans12 x y h s_1 s_2 : perm_eq s_1 s_2 -> lseg2 x y s_1 h -
 Hint Resolve lseg2_perm_eq_trans12: ssl_pred.
 Lemma pure13 : @perm_eq nat_eqType (nil) (nil). Admitted.
 Hint Resolve pure13: ssl_pure.
-Lemma pure14 : (null) == (null). Admitted.
+Lemma pure14 : (null) = (null). Admitted.
 Hint Resolve pure14: ssl_pure.
 Lemma pure15 vx2 s1x : @perm_eq nat_eqType (([:: vx2]) ++ (s1x)) (([:: vx2]) ++ (s1x)). Admitted.
 Hint Resolve pure15: ssl_pure.
@@ -90,7 +90,7 @@ ssl_emp;
 exists (null);
 exists (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim vx s1x nxtx.
 ex_elim h_lseg2_nxtxs1x_522x.
@@ -104,10 +104,10 @@ try rename h_lseg_ys_524 into h_lseg_yvxs1x_524.
 try rename H_lseg_ys_524 into H_lseg_yvxs1x_524.
 ssl_read x.
 try rename vx into vx2.
-try rename h_lseg2_xvxs1x_523 into h_lseg2_xvx2s1x_523.
-try rename H_lseg2_xvxs1x_523 into H_lseg2_xvx2s1x_523.
 try rename h_lseg_yvxs1x_524 into h_lseg_yvx2s1x_524.
 try rename H_lseg_yvxs1x_524 into H_lseg_yvx2s1x_524.
+try rename h_lseg2_xvxs1x_523 into h_lseg2_xvx2s1x_523.
+try rename H_lseg2_xvxs1x_523 into H_lseg2_xvx2s1x_523.
 ssl_read (x .+ 1).
 try rename nxtx into nxtx2.
 try rename h_lseg2_nxtxs1x_522x into h_lseg2_nxtx2s1x_522x.
@@ -142,7 +142,7 @@ ssl_emp;
 exists (x);
 exists (x :-> vx2 \+ x .+ 1 :-> y12 \+ h_lseg_y12s1x_5241);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx2), (s1x), (y12), (h_lseg_y12s1x_5241);
 sslauto.
 ssl_frame_unfold.

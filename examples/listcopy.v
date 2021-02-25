@@ -103,9 +103,9 @@ exists (null);
 exists (empty);
 exists (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim vx2 s1x2 nxtx2.
 ex_elim h_lseg_nxtx2s1x2_516x2.
@@ -121,12 +121,12 @@ try rename h_lseg_x2s_518 into h_lseg_x2vx2s1x2_518.
 try rename H_lseg_x2s_518 into H_lseg_x2vx2s1x2_518.
 ssl_read x2.
 try rename vx2 into vx22.
-try rename h_lseg_x2vx2s1x2_518 into h_lseg_x2vx22s1x2_518.
-try rename H_lseg_x2vx2s1x2_518 into H_lseg_x2vx22s1x2_518.
-try rename h_lseg_yvx2s1x2_520 into h_lseg_yvx22s1x2_520.
-try rename H_lseg_yvx2s1x2_520 into H_lseg_yvx22s1x2_520.
 try rename h_lseg_x2vx2s1x2_519 into h_lseg_x2vx22s1x2_519.
 try rename H_lseg_x2vx2s1x2_519 into H_lseg_x2vx22s1x2_519.
+try rename h_lseg_yvx2s1x2_520 into h_lseg_yvx22s1x2_520.
+try rename H_lseg_yvx2s1x2_520 into H_lseg_yvx22s1x2_520.
+try rename h_lseg_x2vx2s1x2_518 into h_lseg_x2vx22s1x2_518.
+try rename H_lseg_x2vx2s1x2_518 into H_lseg_x2vx22s1x2_518.
 ssl_read (x2 .+ 1).
 try rename nxtx2 into nxtx22.
 try rename h_lseg_nxtx2s1x2_516x2 into h_lseg_nxtx22s1x2_516x2.
@@ -169,11 +169,11 @@ exists (y2);
 exists (x2 :-> vx22 \+ x2 .+ 1 :-> nxtx22 \+ h_lseg_nxtx22s1x2_5191);
 exists (y2 :-> vx22 \+ y2 .+ 1 :-> y12 \+ h_lseg_y12s1x2_5201);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), (s1x2), (nxtx22), (h_lseg_nxtx22s1x2_5191);
 sslauto.
 shelve.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), (s1x2), (y12), (h_lseg_y12s1x2_5201);
 sslauto.
 shelve.

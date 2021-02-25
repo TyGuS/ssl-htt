@@ -96,10 +96,10 @@ ssl_open ((x1) == (null)) H_dll_x1as1_599.
 move=>[phi_dll_x1as1_5990].
 move=>[sigma_dll_x1as1_599].
 subst h_dll_x1as1_599.
-try rename h_dll_ycs1s2_601 into h_dll_ycs2_601.
-try rename H_dll_ycs1s2_601 into H_dll_ycs2_601.
 try rename h_dll_x1as1_599 into h_dll_x1a_599.
 try rename H_dll_x1as1_599 into H_dll_x1a_599.
+try rename h_dll_ycs1s2_601 into h_dll_ycs2_601.
+try rename H_dll_ycs1s2_601 into H_dll_ycs2_601.
 try rename h_dll_ycs2_601 into h_dll_x22bs2_600.
 try rename H_dll_ycs2_601 into H_dll_x22bs2_600.
 ssl_emp;
@@ -113,10 +113,10 @@ move=>[phi_dll_x1as1_5990].
 move=>[sigma_dll_x1as1_599].
 subst h_dll_x1as1_599.
 move=>H_dll_wx1x1s1x1_597x1.
-try rename h_dll_ycs1s2_601 into h_dll_ycvx1s1x1s2_601.
-try rename H_dll_ycs1s2_601 into H_dll_ycvx1s1x1s2_601.
 try rename h_dll_x1as1_599 into h_dll_x1avx1s1x1_599.
 try rename H_dll_x1as1_599 into H_dll_x1avx1s1x1_599.
+try rename h_dll_ycs1s2_601 into h_dll_ycvx1s1x1s2_601.
+try rename H_dll_ycs1s2_601 into H_dll_ycvx1s1x1s2_601.
 ssl_read x1.
 try rename vx1 into vx12.
 try rename h_dll_ycvx1s1x1s2_601 into h_dll_ycvx12s1x1s2_601.
@@ -177,10 +177,10 @@ ssl_emp;
 exists ((([:: vx12]) ++ (s1x1)) ++ (s2)), (x1), (a2);
 exists (x1 :-> vx12 \+ x1 .+ 1 :-> null \+ x1 .+ 2 :-> a2);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx12), (nil), (null), (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim vy12 s1y12 wy12.
 ex_elim h_dll_wy12y12s1y12_597y12.
@@ -206,10 +206,10 @@ try rename h_dll_wyyvwys12wy_597y into h_dll_wyyvwys1y12_597y.
 try rename H_dll_wyyvwys12wy_597y into H_dll_wyyvwys1y12_597y.
 try rename h_dll_wyyvwys1y12_597y into h_dll_y12yvwys1y12_597y.
 try rename H_dll_wyyvwys1y12_597y into H_dll_y12yvwys1y12_597y.
-try rename h_dll_ycvx12s1x1s2_601 into h_dll_x1cvx12s1x1s2_601.
-try rename H_dll_ycvx12s1x1s2_601 into H_dll_x1cvx12s1x1s2_601.
 try rename h_dll_y12yvwys1y12_597y into h_dll_y12x1vwys1y12_597y.
 try rename H_dll_y12yvwys1y12_597y into H_dll_y12x1vwys1y12_597y.
+try rename h_dll_ycvx12s1x1s2_601 into h_dll_x1cvx12s1x1s2_601.
+try rename H_dll_ycvx12s1x1s2_601 into H_dll_x1cvx12s1x1s2_601.
 ssl_write (y12 .+ 2).
 ssl_write_post (y12 .+ 2).
 ssl_write (x1 .+ 1).
@@ -224,10 +224,10 @@ ssl_emp;
 exists ((([:: vx12]) ++ (s1x1)) ++ (s2)), (x1), (a2);
 exists (x1 :-> vx12 \+ x1 .+ 1 :-> y12 \+ x1 .+ 2 :-> a2 \+ y12 :-> vy122 \+ y12 .+ 1 :-> wy122 \+ y12 .+ 2 :-> x1 \+ h_dll_wy122y12s1y12_597y12);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx12), (([:: vy122]) ++ (s1y12)), (y12), (y12 :-> vy122 \+ y12 .+ 1 :-> wy122 \+ y12 .+ 2 :-> x1 \+ h_dll_wy122y12s1y12_597y12);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vy122), (s1y12), (wy122), (h_dll_wy122y12s1y12_597y12);
 sslauto.
 ssl_frame_unfold.

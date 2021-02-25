@@ -44,7 +44,7 @@ ssl_ghostelim_pre.
 move=>[sigma_self].
 subst h_self.
 ssl_ghostelim_post.
-ssl_abduce_branch ((x) <= (y)).
+ssl_branch ((x) <= (y)).
 ssl_write r.
 ssl_write_post r.
 ssl_emp;

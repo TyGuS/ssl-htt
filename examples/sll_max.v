@@ -15,15 +15,15 @@ Inductive sll (x : ptr) (len : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
   exists h_sll_nxtlen1lo1hi1_579,
   (0) <= (len1) /\ (0) <= (v) /\ (hi) == ((if (hi1) <= (v) then v else hi1)) /\ (len) == ((1) + (len1)) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (v) <= (7) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxtlen1lo1hi1_579 /\ sll nxt len1 lo1 hi1 h_sll_nxtlen1lo1hi1_579.
 
-Lemma pure59 : (0) == (0). Admitted.
+Lemma pure59 : (0) = (0). Admitted.
 Hint Resolve pure59: ssl_pure.
-Lemma pure60 : (7) == (7). Admitted.
+Lemma pure60 : (7) = (7). Admitted.
 Hint Resolve pure60: ssl_pure.
-Lemma pure61 len1x : (0) <= (len1x) -> ((1) + (len1x)) == ((1) + (len1x)). Admitted.
+Lemma pure61 len1x : (0) <= (len1x) -> ((1) + (len1x)) = ((1) + (len1x)). Admitted.
 Hint Resolve pure61: ssl_pure.
-Lemma pure62 hi1x2 vx2 : (0) <= (vx2) -> (vx2) <= (7) -> ((if (hi1x2) <= (vx2) then vx2 else hi1x2)) == ((if (hi1x2) <= (vx2) then vx2 else hi1x2)). Admitted.
+Lemma pure62 hi1x2 vx2 : (vx2) <= (7) -> (0) <= (vx2) -> ((if (hi1x2) <= (vx2) then vx2 else hi1x2)) = ((if (hi1x2) <= (vx2) then vx2 else hi1x2)). Admitted.
 Hint Resolve pure62: ssl_pure.
-Lemma pure63 vx2 lo1x : (0) <= (vx2) -> (vx2) <= (7) -> ((if (vx2) <= (lo1x) then vx2 else lo1x)) == ((if (vx2) <= (lo1x) then vx2 else lo1x)). Admitted.
+Lemma pure63 vx2 lo1x : (vx2) <= (7) -> (0) <= (vx2) -> ((if (vx2) <= (lo1x) then vx2 else lo1x)) = ((if (vx2) <= (lo1x) then vx2 else lo1x)). Admitted.
 Hint Resolve pure63: ssl_pure.
 
 Definition sll_max_type :=
@@ -91,7 +91,7 @@ ssl_write_post r.
 ssl_emp;
 exists (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim len1x vx hi1x lo1x nxtx.
 ex_elim h_sll_nxtxlen1xlo1xhi1x_579x.
@@ -107,10 +107,10 @@ try rename h_sll_xnlohi1xvxvxhi1x_580 into h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_580.
 try rename H_sll_xnlohi1xvxvxhi1x_580 into H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_580.
 try rename h_sll_xnlohi1xvxvxhi1x_581 into h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_581.
 try rename H_sll_xnlohi1xvxvxhi1x_581 into H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_581.
-try rename h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_581 into h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_581.
-try rename H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_581 into H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_581.
 try rename h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_580 into h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_580.
 try rename H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_580 into H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_580.
+try rename h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_581 into h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_581.
+try rename H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_581 into H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_581.
 ssl_read x.
 try rename vx into vx2.
 try rename h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_581 into h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_581.
@@ -138,10 +138,10 @@ ssl_read r.
 try rename hi1x into hi1x2.
 try rename h_sll_nxtx2len1xlo1xhi1x_579x into h_sll_nxtx2len1xlo1xhi1x2_579x.
 try rename H_sll_nxtx2len1xlo1xhi1x_579x into H_sll_nxtx2len1xlo1xhi1x2_579x.
-try rename h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_580 into h_sll_xlen1xvx2lo1xvx2lo1xhi1x2vx2vx2hi1x2_580.
-try rename H_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_580 into H_sll_xlen1xvx2lo1xvx2lo1xhi1x2vx2vx2hi1x2_580.
 try rename h_sll_nxtx2len1xlo1xhi1x_5811 into h_sll_nxtx2len1xlo1xhi1x2_5811.
 try rename H_sll_nxtx2len1xlo1xhi1x_5811 into H_sll_nxtx2len1xlo1xhi1x2_5811.
+try rename h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_580 into h_sll_xlen1xvx2lo1xvx2lo1xhi1x2vx2vx2hi1x2_580.
+try rename H_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_580 into H_sll_xlen1xvx2lo1xvx2lo1xhi1x2vx2vx2hi1x2_580.
 try rename h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_581 into h_sll_xlen1xvx2lo1xvx2lo1xhi1x2vx2vx2hi1x2_581.
 try rename H_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_581 into H_sll_xlen1xvx2lo1xvx2lo1xhi1x2vx2vx2hi1x2_581.
 try rename h_sll_nxtx1len1x1lo11xhi11x_579x1 into h_sll_nxtx2len1xlo1xhi1x2_5811.
@@ -151,7 +151,7 @@ ssl_write_post r.
 ssl_emp;
 exists (x :-> vx2 \+ x .+ 1 :-> nxtx2 \+ h_sll_nxtx2len1xlo1xhi1x2_5811);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (len1x), (vx2), (hi1x2), (lo1x), (nxtx2), (h_sll_nxtx2len1xlo1xhi1x2_5811);
 sslauto.
 ssl_frame_unfold.

@@ -91,9 +91,9 @@ exists (null);
 exists (empty);
 exists (empty);
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
-unfold_constructor 1;
+ssl_close 1;
 sslauto.
 ex_elim vx2 s1x2 nxtx2.
 ex_elim h_sll_nxtx2s1x2_561x2.
@@ -153,11 +153,11 @@ exists (y2);
 exists (x2 :-> vx22 \+ x2 .+ 1 :-> nxtx22 \+ h_sll_nxtx22s1x2_561x2);
 exists (y2 :-> vx22 \+ y2 .+ 1 :-> y12 \+ h_sll_y12s1x2_b1);
 sslauto.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), (s1x2), (nxtx22), (h_sll_nxtx22s1x2_561x2);
 sslauto.
 shelve.
-unfold_constructor 2;
+ssl_close 2;
 exists (vx22), (s1x2), (y12), (h_sll_y12s1x2_b1);
 sslauto.
 shelve.
