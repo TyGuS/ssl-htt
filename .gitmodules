@@ -1,0 +1,3 @@
+[submodule "mczify"]
+	path = mczify
+	url = https://github.com/math-comp/mczify
