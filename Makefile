@@ -8,6 +8,7 @@ mczify/theories/zify.vo: mczify/theories/zify.v
 	$(MAKE) -C mczify
 
 clean: Makefile.coq
+	$(MAKE) -C examples clean
 	$(MAKE) -C mczify clean
 	make -f Makefile.coq clean
 	rm -f Makefile.coq
@@ -16,7 +17,7 @@ examples: default
 	$(MAKE) -C examples
 
 install: Makefile.coq mczify/Makefile.coq
-	make -f Makefile.coq install
+	$(MAKE) -C mczify install
 	cd mczify; make -f Makefile.coq install
 
 Makefile.coq: _CoqProject
