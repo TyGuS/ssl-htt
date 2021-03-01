@@ -1,5 +1,5 @@
--Q . SSL
--Q ./mczify/theories mathcomp.zify
+-Q ./lib SSL
+-R ./mczify/theories mathcomp.zify
 -arg "-w -notation-overridden"
 
 lib/core.v
