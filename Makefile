@@ -17,8 +17,8 @@ examples: default
 	$(MAKE) -C examples
 
 install: Makefile.coq mczify/Makefile.coq
+	make -f Makefile.coq install
 	$(MAKE) -C mczify install
-	cd mczify; make -f Makefile.coq install
 
 Makefile.coq: _CoqProject
 	coq_makefile -f _CoqProject -o Makefile.coq
