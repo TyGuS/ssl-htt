@@ -1,9 +1,13 @@
+common=common.v
 proofs=$(wildcard %.v, *)
-compiled_files=$(patsubst %.v,%.vo,$(proofs))
+compiled_files=$(patsubst %.v,%.vo,$(filter-out $(common), $(proofs)))
 
 default: all
 
-%.vo: %.v
+common: common.v
+	coqc -R ../../../mczify/theories mathcomp.zify -Q ../../../lib SSL $<	
+
+%.vo: %.v common
 	coqc -R ../../../mczify/theories mathcomp.zify -Q ../../../lib SSL $<
 
 clean:
