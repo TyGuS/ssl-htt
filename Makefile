@@ -9,12 +9,19 @@ mczify/theories/zify.vo: mczify/theories/zify.v
 
 clean: Makefile.coq
 	$(MAKE) -C examples clean
+	$(MAKE) -C benchmarks clean
 	$(MAKE) -C mczify clean
 	make -f Makefile.coq clean
 	rm -f Makefile.coq
 
 examples: default
 	$(MAKE) -C examples
+
+benchmarks: default
+	$(MAKE) -C benchmarks standard
+
+benchmarks-advanced: default
+	$(MAKE) -C benchmarks advanced
 
 install: Makefile.coq mczify/Makefile.coq
 	make -f Makefile.coq install
@@ -25,4 +32,4 @@ Makefile.coq: _CoqProject
 
 
 
-.PHONY: coq clean install doc examples
+.PHONY: coq clean install doc examples benchmarks
