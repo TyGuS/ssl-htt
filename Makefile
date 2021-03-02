@@ -13,9 +13,6 @@ clean: Makefile.coq
 	make -f Makefile.coq clean
 	rm -f Makefile.coq
 
-examples: default
-	$(MAKE) -C examples
-
 benchmarks: default
 	$(MAKE) -C benchmarks standard
 
@@ -29,6 +26,4 @@ install: Makefile.coq mczify/Makefile.coq
 Makefile.coq: _CoqProject
 	coq_makefile -f _CoqProject -o Makefile.coq
 
-
-
-.PHONY: coq clean install doc examples benchmarks
+.PHONY: coq clean install doc benchmarks
