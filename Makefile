@@ -8,7 +8,6 @@ mczify/theories/zify.vo: mczify/theories/zify.v
 	$(MAKE) -C mczify
 
 clean: Makefile.coq
-	$(MAKE) -C examples clean
 	$(MAKE) -C benchmarks clean
 	$(MAKE) -C mczify clean
 	make -f Makefile.coq clean
