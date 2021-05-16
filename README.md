@@ -10,6 +10,15 @@ Coq tactics for the [HTT](https://github.com/imdea-software/htt) framework to su
 * [Hoare Type Theory](https://github.com/TyGuS/htt)
 * [CoqHammer](https://coqhammer.github.io)
 
+## Setup
+
+This project depends on [mczify](https://github.com/math-comp/mczify); it is included as a submodule. To begin, set up the submodule.
+
+```
+git submodule init
+git submodule update
+```
+
 ## Installing
 
 ### With OPAM
