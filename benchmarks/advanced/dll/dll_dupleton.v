@@ -25,7 +25,38 @@ Add Search Blacklist "mathcomp.ssreflect.tuple".
 
 Require Import common.
 
-Lemma pure3 (x : nat) (y : nat) : @perm_eq nat_eqType ([:: x; y]) (([:: y]) ++ ([:: x])). solve_perm_eq. (* intros; hammer. *) Qed.
+Lemma dll_perm_eq_congr1 x z h s_1 s_2 : perm_eq s_1 s_2 -> dll x z s_1 h -> dll x z s_2 h.
+  (* intros; hammer. *)
+  move=>Heq Hdll; sslauto.
+  case: Hdll=>cond.
+  move=>[Heq1 ->].
+  constructor 1=>//=; sslauto.
+  move=>[v][s1][w][h'].
+  move=>[Heq1 [->Hdll]].
+  constructor 2=>//=.
+  exists v, s1, w, h'.
+  sslauto.
+  assumption.
+Qed.
+Hint Resolve dll_perm_eq_congr1: ssl_pred.
+Lemma sll_perm_eq_congr2 x h s_1 s_2 : perm_eq s_1 s_2 -> sll x s_1 h -> sll x s_2 h.
+  (* intros; hammer *)
+  move=>Heq Hsll; sslauto.
+  case: Hsll=>cond.
+  move=>[Heq1 ->].
+  constructor 1=>//=; sslauto.
+  move=>[v] [s2] [nxt] [h'].
+  move=>[Heq1 [-> Hssl]].
+  constructor 2=>//=.
+  exists v, s2, nxt, h'.
+  sslauto.
+  assumption.
+Qed.
+Hint Resolve sll_perm_eq_congr2: ssl_pred.
+Lemma pure3 (x : nat) (y : nat) : @perm_eq nat_eqType ([:: x; y]) (([:: y]) ++ ([:: x])).
+  (* intros; hammer. *)
+  solve_perm_eq.
+Qed.
 Hint Resolve pure3: ssl_pure.
 
 Definition dll_dupleton_type :=
@@ -40,8 +71,8 @@ Definition dll_dupleton_type :=
       let: (x, y, r) := vprogs in
       let: (a) := vghosts in
       exists elems z,
-      exists h_dll_zelems_515,
-      @perm_eq nat_eqType (elems) ([:: x; y]) /\ h = r :-> z \+ h_dll_zelems_515 /\ dll z null elems h_dll_zelems_515
+      exists h_dll_zelems_540,
+      @perm_eq nat_eqType (elems) ([:: x; y]) /\ h = r :-> z \+ h_dll_zelems_540 /\ dll z null elems h_dll_zelems_540
     ]).
 
 Program Definition dll_dupleton : dll_dupleton_type :=
@@ -67,30 +98,30 @@ move=>a.
 move=>[sigma_self].
 subst h_self.
 ssl_ghostelim_post.
-try rename h_dll_zelems_515 into h_dll_zxy_515.
-try rename H_dll_zelems_515 into H_dll_zxy_515.
+try rename h_dll_zelems_540 into h_dll_zxy_540.
+try rename H_dll_zelems_540 into H_dll_zxy_540.
 ssl_read r.
 try rename a into a2.
-try rename h_dll_wzzs1z_513z into h_dll_wzzvwzs1wz_513z.
-try rename H_dll_wzzs1z_513z into H_dll_wzzvwzs1wz_513z.
-try rename h_dll_wwzwzs1wz_513wz into h_dll_wwzwz_513wz.
-try rename H_dll_wwzwzs1wz_513wz into H_dll_wwzwz_513wz.
-try rename h_dll_wzzvwzs1wz_513z into h_dll_wzzvwz_513z.
-try rename H_dll_wzzvwzs1wz_513z into H_dll_wzzvwz_513z.
-try rename h_dll_wwzwz_513wz into h_dll_wz_513wz.
-try rename H_dll_wwzwz_513wz into H_dll_wz_513wz.
+try rename h_dll_wzzs1z_538z into h_dll_wzzvwzs1wz_538z.
+try rename H_dll_wzzs1z_538z into H_dll_wzzvwzs1wz_538z.
+try rename h_dll_wzzvwzs1wz_538z into h_dll_wzzvwz_538z.
+try rename H_dll_wzzvwzs1wz_538z into H_dll_wzzvwz_538z.
+try rename h_dll_wwzwzs1wz_538wz into h_dll_wwzwz_538wz.
+try rename H_dll_wwzwzs1wz_538wz into H_dll_wwzwz_538wz.
+try rename h_dll_wwzwz_538wz into h_dll_wz_538wz.
+try rename H_dll_wwzwz_538wz into H_dll_wz_538wz.
 ssl_alloc z2.
 try rename z into z2.
-try rename h_dll_zxy_515 into h_dll_z2xy_515.
-try rename H_dll_zxy_515 into H_dll_z2xy_515.
-try rename h_dll_wzzvwz_513z into h_dll_wzz2vwz_513z.
-try rename H_dll_wzzvwz_513z into H_dll_wzz2vwz_513z.
+try rename h_dll_zxy_540 into h_dll_z2xy_540.
+try rename H_dll_zxy_540 into H_dll_z2xy_540.
+try rename h_dll_wzzvwz_538z into h_dll_wzz2vwz_538z.
+try rename H_dll_wzzvwz_538z into H_dll_wzz2vwz_538z.
 ssl_alloc wz2.
 try rename wz into wz2.
-try rename h_dll_wzz2vwz_513z into h_dll_wz2z2vwz_513z.
-try rename H_dll_wzz2vwz_513z into H_dll_wz2z2vwz_513z.
-try rename h_dll_wz_513wz into h_dll_wz2_513wz.
-try rename H_dll_wz_513wz into H_dll_wz2_513wz.
+try rename h_dll_wzz2vwz_538z into h_dll_wz2z2vwz_538z.
+try rename H_dll_wzz2vwz_538z into H_dll_wz2z2vwz_538z.
+try rename h_dll_wz_538wz into h_dll_wz2_538wz.
+try rename H_dll_wz_538wz into H_dll_wz2_538wz.
 ssl_write r.
 ssl_write_post r.
 ssl_write (z2 .+ 1).
@@ -101,8 +132,8 @@ ssl_write (wz2 .+ 1).
 ssl_write_post (wz2 .+ 1).
 ssl_write (wz2 .+ 2).
 ssl_write_post (wz2 .+ 2).
-try rename h_dll_wz2z2vwz_513z into h_dll_wz2z2x_513z.
-try rename H_dll_wz2z2vwz_513z into H_dll_wz2z2x_513z.
+try rename h_dll_wz2z2vwz_538z into h_dll_wz2z2x_538z.
+try rename H_dll_wz2z2vwz_538z into H_dll_wz2z2x_538z.
 ssl_write z2.
 ssl_write_post z2.
 ssl_write wz2.

@@ -25,6 +25,17 @@ Add Search Blacklist "mathcomp.ssreflect.tuple".
 
 Require Import common.
 
+Lemma pure1 : (0) = (0). intros; hammer. Qed.
+Hint Resolve pure1: ssl_pure.
+Lemma pure2 : (7) = (7). intros; hammer. Qed.
+Hint Resolve pure2: ssl_pure.
+Lemma pure3 (hi1x : nat) (vx2 : nat) : (vx2) <= (7) -> (0) <= (vx2) -> ((if (hi1x) <= (vx2) then vx2 else hi1x)) = ((if (hi1x) <= (vx2) then vx2 else hi1x)). intros; hammer. Qed.
+Hint Resolve pure3: ssl_pure.
+Lemma pure4 (vx2 : nat) (lo1x : nat) : (vx2) <= (7) -> (0) <= (vx2) -> ((if (vx2) <= (lo1x) then vx2 else lo1x)) = ((if (vx2) <= (lo1x) then vx2 else lo1x)). intros; hammer. Qed.
+Hint Resolve pure4: ssl_pure.
+Lemma pure5 (len1x : nat) : (0) <= ((1) + (len1x)) -> (0) <= (len1x) -> ((1) + (len1x)) = ((1) + (len1x)). intros; hammer. Qed.
+Hint Resolve pure5: ssl_pure.
+
 Definition srtl_insert_type :=
   forall (vprogs : ptr * ptr),
   {(vghosts : nat * nat * nat * nat)},
@@ -43,17 +54,6 @@ Definition srtl_insert_type :=
     ]).
 
 Variable srtl_insert : srtl_insert_type.
-
-Lemma pure60 : (0) = (0). intros; hammer. Qed.
-Hint Resolve pure60: ssl_pure.
-Lemma pure61 : (7) = (7). intros; hammer. Qed.
-Hint Resolve pure61: ssl_pure.
-Lemma pure62 (hi1x : nat) (vx2 : nat) : (vx2) <= (7) -> (0) <= (vx2) -> ((if (hi1x) <= (vx2) then vx2 else hi1x)) = ((if (hi1x) <= (vx2) then vx2 else hi1x)). intros; hammer. Qed.
-Hint Resolve pure62: ssl_pure.
-Lemma pure63 (vx2 : nat) (lo1x : nat) : (vx2) <= (7) -> (0) <= (vx2) -> ((if (vx2) <= (lo1x) then vx2 else lo1x)) = ((if (vx2) <= (lo1x) then vx2 else lo1x)). intros; hammer. Qed.
-Hint Resolve pure63: ssl_pure.
-Lemma pure64 (len1x : nat) : (0) <= (len1x) -> (0) <= ((1) + (len1x)) -> ((1) + (len1x)) = ((1) + (len1x)). intros; hammer. Qed.
-Hint Resolve pure64: ssl_pure.
 
 Definition insertion_sort_free_type :=
   forall (vprogs : ptr * ptr),
@@ -135,14 +135,14 @@ try rename h_sll_xnlohi_545 into h_sll_xnlohi1xvxvxhi1x_545.
 try rename H_sll_xnlohi_545 into H_sll_xnlohi1xvxvxhi1x_545.
 try rename h_srtl_ynlohi_546 into h_srtl_ynlohi1xvxvxhi1x_546.
 try rename H_srtl_ynlohi_546 into H_srtl_ynlohi1xvxvxhi1x_546.
-try rename h_sll_xnlohi1xvxvxhi1x_545 into h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_545.
-try rename H_sll_xnlohi1xvxvxhi1x_545 into H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_545.
 try rename h_srtl_ynlohi1xvxvxhi1x_546 into h_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_546.
 try rename H_srtl_ynlohi1xvxvxhi1x_546 into H_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_546.
-try rename h_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_546 into h_srtl_ylen1xvxlo1xvxlo1xhi1xvxvxhi1x_546.
-try rename H_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_546 into H_srtl_ylen1xvxlo1xvxlo1xhi1xvxvxhi1x_546.
+try rename h_sll_xnlohi1xvxvxhi1x_545 into h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_545.
+try rename H_sll_xnlohi1xvxvxhi1x_545 into H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_545.
 try rename h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_545 into h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_545.
 try rename H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_545 into H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_545.
+try rename h_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_546 into h_srtl_ylen1xvxlo1xvxlo1xhi1xvxvxhi1x_546.
+try rename H_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_546 into H_srtl_ylen1xvxlo1xvxlo1xhi1xvxvxhi1x_546.
 ssl_read x.
 try rename vx into vx2.
 try rename h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_545 into h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_545.
