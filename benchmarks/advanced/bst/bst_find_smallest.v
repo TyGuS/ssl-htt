@@ -39,7 +39,7 @@ Lemma pure4 (lo2x : nat) (vx2 : nat) (hi1x : nat) (lo1x : nat) (hi2x : nat) : ((
   apply: (leq_trans H3 H4).
 Qed.
 Hint Resolve pure4: ssl_pure.
-Lemma pure5 (sz1x : nat) (sz2x : nat) : (0) <= (((1) + (sz1x)) + (sz2x)) -> (0) <= (sz2x) -> (0) <= (sz1x) -> (((1) + (sz1x)) + (sz2x)) = (((1) + (sz1x)) + (sz2x)). intros; hammer. Qed.
+Lemma pure5 (sz1x : nat) (sz2x : nat) : (0) <= (sz2x) -> (0) <= (sz1x) -> (0) <= (((1) + (sz1x)) + (sz2x)) -> (((1) + (sz1x)) + (sz2x)) = (((1) + (sz1x)) + (sz2x)). intros; hammer. Qed.
 Hint Resolve pure5: ssl_pure.
 Lemma pure6 (lo2x : nat) (vx2 : nat) (hi1x : nat) (hi2x : nat) (lo1x2 : nat) : ((if (hi2x) <= (vx2) then vx2 else hi2x)) <= (7) -> (vx2) <= (lo2x) -> (0) <= (vx2) -> (0) <= ((if (vx2) <= (lo1x2) then vx2 else lo1x2)) -> (hi1x) <= (vx2) -> (vx2) <= (7) -> ((if (vx2) <= (lo1x2) then vx2 else lo1x2)) = ((if (vx2) <= (lo1x2) then vx2 else lo1x2)). intros; hammer. Qed.
 Hint Resolve pure6: ssl_pure.
@@ -54,12 +54,12 @@ Definition bst_find_smallest_type :=
       let: (x, retv) := vprogs in
       let: (lo, sz, hi, unused) := vghosts in
       exists h_bst_xszlohi_a,
-      (0) <= (lo) /\ (0) <= (sz) /\ (hi) <= (7) /\ h = retv :-> unused \+ h_bst_xszlohi_a /\ bst x sz lo hi h_bst_xszlohi_a,
+      (0) <= (lo) /\ (0) <= (sz) /\ (hi) <= (7) /\ h = retv :-> (unused) \+ h_bst_xszlohi_a /\ bst x sz lo hi h_bst_xszlohi_a,
     [vfun (_: unit) h =>
       let: (x, retv) := vprogs in
       let: (lo, sz, hi, unused) := vghosts in
       exists h_bst_xszlohi_c,
-      h = retv :-> lo \+ h_bst_xszlohi_c /\ bst x sz lo hi h_bst_xszlohi_c
+      h = retv :-> (lo) \+ h_bst_xszlohi_c /\ bst x sz lo hi h_bst_xszlohi_c
     ]).
 
 Program Definition bst_find_smallest : bst_find_smallest_type :=
@@ -150,7 +150,7 @@ try rename h_bst_rxsz2xlo2xhi2x_528x into h_bst_rx2sz2xlo2xhi2x_528x.
 try rename H_bst_rxsz2xlo2xhi2x_528x into H_bst_rx2sz2xlo2xhi2x_528x.
 try rename h_bst_x1sz1lo1hi1_a1 into h_bst_lx2sz1xlo1xhi1x_527x.
 try rename H_bst_x1sz1lo1hi1_a1 into H_bst_lx2sz1xlo1xhi1x_527x.
-ssl_call_pre (retv :-> unused2 \+ h_bst_lx2sz1xlo1xhi1x_527x).
+ssl_call_pre (retv :-> (unused2) \+ h_bst_lx2sz1xlo1xhi1x_527x).
 ssl_call (lo1x, sz1x, hi1x, unused2).
 exists (h_bst_lx2sz1xlo1xhi1x_527x);
 sslauto.
@@ -165,10 +165,10 @@ ssl_read retv.
 try rename lo1x into lo1x2.
 try rename h_bst_lx2sz1xlo1xhi1x_527x into h_bst_lx2sz1xlo1x2hi1x_527x.
 try rename H_bst_lx2sz1xlo1xhi1x_527x into H_bst_lx2sz1xlo1x2hi1x_527x.
-try rename h_bst_xsz1xsz2xvx2lo1xvx2lo1xhi2xvx2vx2hi2x_a into h_bst_xsz1xsz2xvx2lo1x2vx2lo1x2hi2xvx2vx2hi2x_a.
-try rename H_bst_xsz1xsz2xvx2lo1xvx2lo1xhi2xvx2vx2hi2x_a into H_bst_xsz1xsz2xvx2lo1x2vx2lo1x2hi2xvx2vx2hi2x_a.
 try rename h_bst_lx2sz1xlo1xhi1x_c1 into h_bst_lx2sz1xlo1x2hi1x_c1.
 try rename H_bst_lx2sz1xlo1xhi1x_c1 into H_bst_lx2sz1xlo1x2hi1x_c1.
+try rename h_bst_xsz1xsz2xvx2lo1xvx2lo1xhi2xvx2vx2hi2x_a into h_bst_xsz1xsz2xvx2lo1x2vx2lo1x2hi2xvx2vx2hi2x_a.
+try rename H_bst_xsz1xsz2xvx2lo1xvx2lo1xhi2xvx2vx2hi2x_a into H_bst_xsz1xsz2xvx2lo1x2vx2lo1x2hi2xvx2vx2hi2x_a.
 try rename h_bst_xsz1xsz2xvx2lo1xvx2lo1xhi2xvx2vx2hi2x_c into h_bst_xsz1xsz2xvx2lo1x2vx2lo1x2hi2xvx2vx2hi2x_c.
 try rename H_bst_xsz1xsz2xvx2lo1xvx2lo1xhi2xvx2vx2hi2x_c into H_bst_xsz1xsz2xvx2lo1x2vx2lo1x2hi2xvx2vx2hi2x_c.
 try rename h_bst_lx1sz11xlo11xhi11x_527x1 into h_bst_lx2sz1xlo1x2hi1x_c1.
@@ -178,7 +178,7 @@ try rename H_bst_rx1sz2x1lo2x1hi2x1_528x1 into H_bst_rx2sz2xlo2xhi2x_528x.
 ssl_write retv.
 ssl_write_post retv.
 ssl_emp;
-exists (x :-> vx2 \+ x .+ 1 :-> lx2 \+ x .+ 2 :-> rx2 \+ h_bst_lx2sz1xlo1x2hi1x_c1 \+ h_bst_rx2sz2xlo2xhi2x_528x);
+exists (x :-> (vx2) \+ x .+ 1 :-> (lx2) \+ x .+ 2 :-> (rx2) \+ h_bst_lx2sz1xlo1x2hi1x_c1 \+ h_bst_rx2sz2xlo2xhi2x_528x);
 sslauto.
 ssl_close 2;
 exists (sz1x), (sz2x), (vx2), (hi2x), (hi1x), (lo1x2), (lo2x), (lx2), (rx2), (h_bst_lx2sz1xlo1x2hi1x_c1), (h_bst_rx2sz2xlo2xhi2x_528x);

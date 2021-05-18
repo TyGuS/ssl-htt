@@ -66,13 +66,13 @@ Definition dll_dupleton_type :=
     fun h =>
       let: (x, y, r) := vprogs in
       let: (a) := vghosts in
-      h = r :-> a,
+      h = r :-> (a),
     [vfun (_: unit) h =>
       let: (x, y, r) := vprogs in
       let: (a) := vghosts in
       exists elems z,
       exists h_dll_zelems_540,
-      @perm_eq nat_eqType (elems) ([:: x; y]) /\ h = r :-> z \+ h_dll_zelems_540 /\ dll z null elems h_dll_zelems_540
+      @perm_eq nat_eqType (elems) ([:: x; y]) /\ h = r :-> (z) \+ h_dll_zelems_540 /\ dll z null elems h_dll_zelems_540
     ]).
 
 Program Definition dll_dupleton : dll_dupleton_type :=
@@ -118,10 +118,10 @@ try rename h_dll_wzzvwz_538z into h_dll_wzz2vwz_538z.
 try rename H_dll_wzzvwz_538z into H_dll_wzz2vwz_538z.
 ssl_alloc wz2.
 try rename wz into wz2.
-try rename h_dll_wzz2vwz_538z into h_dll_wz2z2vwz_538z.
-try rename H_dll_wzz2vwz_538z into H_dll_wz2z2vwz_538z.
 try rename h_dll_wz_538wz into h_dll_wz2_538wz.
 try rename H_dll_wz_538wz into H_dll_wz2_538wz.
+try rename h_dll_wzz2vwz_538z into h_dll_wz2z2vwz_538z.
+try rename H_dll_wzz2vwz_538z into H_dll_wz2z2vwz_538z.
 ssl_write r.
 ssl_write_post r.
 ssl_write (z2 .+ 1).
@@ -140,10 +140,10 @@ ssl_write wz2.
 ssl_write_post wz2.
 ssl_emp;
 exists ([:: x; y]), (z2);
-exists (z2 :-> y \+ z2 .+ 1 :-> wz2 \+ z2 .+ 2 :-> null \+ wz2 :-> x \+ wz2 .+ 1 :-> null \+ wz2 .+ 2 :-> z2);
+exists (z2 :-> (y) \+ z2 .+ 1 :-> (wz2) \+ z2 .+ 2 :-> (null) \+ wz2 :-> (x) \+ wz2 .+ 1 :-> (null) \+ wz2 .+ 2 :-> (z2));
 sslauto.
 ssl_close 2;
-exists (y), (([:: x]) ++ (@nil nat)), (wz2), (wz2 :-> x \+ wz2 .+ 1 :-> null \+ wz2 .+ 2 :-> z2);
+exists (y), (([:: x]) ++ (@nil nat)), (wz2), (wz2 :-> (x) \+ wz2 .+ 1 :-> (null) \+ wz2 .+ 2 :-> (z2));
 sslauto.
 ssl_close 2;
 exists (x), (@nil nat), (null), (empty);

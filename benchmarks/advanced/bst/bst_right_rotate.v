@@ -25,9 +25,9 @@ Add Search Blacklist "mathcomp.ssreflect.tuple".
 
 Require Import common.
 
-Lemma pure1 (sz2l2 : nat) (sz2 : nat) (sz1l2 : nat) : (0) <= (sz2l2) -> (0) <= (((1) + (sz1l2)) + (sz2l2)) -> (0) <= (sz2) -> (0) <= (sz1l2) -> (0) <= (((1) + (sz2l2)) + (sz2)). intros; hammer. Qed.
+Lemma pure1 (sz1l2 : nat) (sz2l2 : nat) (sz2 : nat) : (0) <= (sz2l2) -> (0) <= (((1) + (sz1l2)) + (sz2l2)) -> (0) <= (sz2) -> (0) <= (sz1l2) -> ((sz1l2) + (((1) + (sz2l2)) + (sz2))) = ((((1) + (sz1l2)) + (sz2l2)) + (sz2)). intros; hammer. Qed.
 Hint Resolve pure1: ssl_pure.
-Lemma pure2 (sz1l2 : nat) (sz2l2 : nat) (sz2 : nat) : (0) <= (sz2l2) -> (0) <= (((1) + (sz1l2)) + (sz2l2)) -> (0) <= (sz2) -> (0) <= (sz1l2) -> ((sz1l2) + (((1) + (sz2l2)) + (sz2))) = ((((1) + (sz1l2)) + (sz2l2)) + (sz2)). intros; hammer. Qed.
+Lemma pure2 (sz2l2 : nat) (sz2 : nat) (sz1l2 : nat) : (0) <= (sz2l2) -> (0) <= (((1) + (sz1l2)) + (sz2l2)) -> (0) <= (sz2) -> (0) <= (sz1l2) -> (0) <= (((1) + (sz2l2)) + (sz2)). intros; hammer. Qed.
 Hint Resolve pure2: ssl_pure.
 Lemma pure3 (lo2 : nat) (hi1l2 : nat) (lo2l2 : nat) (hi2l2 : nat) (v2 : nat) (vl22 : nat) : (v2) <= (lo2) -> (v2) <= (7) -> (hi1l2) <= (vl22) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> (vl22) <= (7) -> (0) <= (vl22) -> (vl22) <= ((if (v2) <= (lo2l2) then v2 else lo2l2)).
   (* intros; hammer. *)
@@ -51,13 +51,13 @@ Definition bst_right_rotate_type :=
       let: (x, retv) := vprogs in
       let: (sz1, sz2, v, hi1, l, lo2, lo1, r, hi2, unused) := vghosts in
       exists h_bst_lsz1lo1hi1_a h_bst_rsz2lo2hi2_b,
-      (0) <= (sz1) /\ (0) <= (sz2) /\ (0) <= (v) /\ (hi1) <= (v) /\ ~~ ((l) == (null)) /\ (v) <= (7) /\ (v) <= (lo2) /\ h = retv :-> unused \+ x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_bst_lsz1lo1hi1_a \+ h_bst_rsz2lo2hi2_b /\ bst l sz1 lo1 hi1 h_bst_lsz1lo1hi1_a /\ bst r sz2 lo2 hi2 h_bst_rsz2lo2hi2_b,
+      (0) <= (sz1) /\ (0) <= (sz2) /\ (0) <= (v) /\ (hi1) <= (v) /\ ~~ ((l) == (null)) /\ (v) <= (7) /\ (v) <= (lo2) /\ h = retv :-> (unused) \+ x :-> (v) \+ x .+ 1 :-> (l) \+ x .+ 2 :-> (r) \+ h_bst_lsz1lo1hi1_a \+ h_bst_rsz2lo2hi2_b /\ bst l sz1 lo1 hi1 h_bst_lsz1lo1hi1_a /\ bst r sz2 lo2 hi2 h_bst_rsz2lo2hi2_b,
     [vfun (_: unit) h =>
       let: (x, retv) := vprogs in
       let: (sz1, sz2, v, hi1, l, lo2, lo1, r, hi2, unused) := vghosts in
       exists sz3 sz4 v3 hi3 lo4 l3 lo3 hi4 y,
       exists h_bst_l3sz3lo3hi3_517 h_bst_xsz4lo4hi4_518,
-      (0) <= (sz3) /\ (0) <= (sz4) /\ (0) <= (v3) /\ (hi3) <= (v3) /\ ((sz3) + (sz4)) == ((sz1) + (sz2)) /\ (v3) <= (7) /\ (v3) <= (lo4) /\ h = retv :-> y \+ y :-> v3 \+ y .+ 1 :-> l3 \+ y .+ 2 :-> x \+ h_bst_l3sz3lo3hi3_517 \+ h_bst_xsz4lo4hi4_518 /\ bst l3 sz3 lo3 hi3 h_bst_l3sz3lo3hi3_517 /\ bst x sz4 lo4 hi4 h_bst_xsz4lo4hi4_518
+      (0) <= (sz3) /\ (0) <= (sz4) /\ (0) <= (v3) /\ (hi3) <= (v3) /\ ((sz3) + (sz4)) == ((sz1) + (sz2)) /\ (v3) <= (7) /\ (v3) <= (lo4) /\ h = retv :-> (y) \+ y :-> (v3) \+ y .+ 1 :-> (l3) \+ y .+ 2 :-> (x) \+ h_bst_l3sz3lo3hi3_517 \+ h_bst_xsz4lo4hi4_518 /\ bst l3 sz3 lo3 hi3 h_bst_l3sz3lo3hi3_517 /\ bst x sz4 lo4 hi4 h_bst_xsz4lo4hi4_518
     ]).
 
 Program Definition bst_right_rotate : bst_right_rotate_type :=
@@ -163,7 +163,7 @@ try rename H_bst_xsz2l2sz2v1xlo2l2v1xlo2l2hi2v1xv1xhi2_518 into H_bst_xsz2l2sz2v
 ssl_emp;
 exists (sz1l2), (((1) + (sz2l2)) + (sz2)), (vl22), (hi1l2), ((if (v2) <= (lo2l2) then v2 else lo2l2)), (ll22), (lo1l2), ((if (hi2) <= (v2) then v2 else hi2)), (l2);
 exists (h_bst_ll22sz1l2lo1l2hi1l2_515l2);
-exists (x :-> v2 \+ x .+ 1 :-> rl22 \+ x .+ 2 :-> r2 \+ h_bst_rl22sz2l2lo2l2hi2l2_516l2 \+ h_bst_r2sz2lo2hi2_b);
+exists (x :-> (v2) \+ x .+ 1 :-> (rl22) \+ x .+ 2 :-> (r2) \+ h_bst_rl22sz2l2lo2l2hi2l2_516l2 \+ h_bst_r2sz2lo2hi2_b);
 sslauto.
 shelve.
 ssl_close 2;

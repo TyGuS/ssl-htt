@@ -29,7 +29,7 @@ Inductive sll (x : ptr) (len : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
 | sll_2 of ~~ ((x) == (null)) of
   exists (len1 : nat) (v : nat) (hi1 : nat) (lo1 : nat) (nxt : ptr),
   exists h_sll_nxtlen1lo1hi1_541,
-  (0) <= (len1) /\ (0) <= (v) /\ (hi) == ((if (hi1) <= (v) then v else hi1)) /\ (len) == ((1) + (len1)) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (v) <= (7) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxtlen1lo1hi1_541 /\ sll nxt len1 lo1 hi1 h_sll_nxtlen1lo1hi1_541.
+  (0) <= (len1) /\ (0) <= (v) /\ (hi) == ((if (hi1) <= (v) then v else hi1)) /\ (len) == ((1) + (len1)) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (v) <= (7) /\ h = x :-> (v) \+ x .+ 1 :-> (nxt) \+ h_sll_nxtlen1lo1hi1_541 /\ sll nxt len1 lo1 hi1 h_sll_nxtlen1lo1hi1_541.
 
 
 Inductive srtl (x : ptr) (len : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
@@ -38,4 +38,4 @@ Inductive srtl (x : ptr) (len : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
 | srtl_2 of ~~ ((x) == (null)) of
   exists (len1 : nat) (v : nat) (hi1 : nat) (lo1 : nat) (nxt : ptr),
   exists h_srtl_nxtlen1lo1hi1_542,
-  (0) <= (len1) /\ (0) <= (v) /\ (hi) == ((if (hi1) <= (v) then v else hi1)) /\ (len) == ((1) + (len1)) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (v) <= (7) /\ (v) <= (lo1) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_srtl_nxtlen1lo1hi1_542 /\ srtl nxt len1 lo1 hi1 h_srtl_nxtlen1lo1hi1_542.
+  (0) <= (len1) /\ (0) <= (v) /\ (hi) == ((if (hi1) <= (v) then v else hi1)) /\ (len) == ((1) + (len1)) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (v) <= (7) /\ (v) <= (lo1) /\ h = x :-> (v) \+ x .+ 1 :-> (nxt) \+ h_srtl_nxtlen1lo1hi1_542 /\ srtl nxt len1 lo1 hi1 h_srtl_nxtlen1lo1hi1_542.

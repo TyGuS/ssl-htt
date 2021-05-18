@@ -33,66 +33,66 @@ Lemma pure3 (k2 : nat) : (k2) <= (7) -> (0) <= (k2) -> ((if (0) <= (k2) then k2 
 Hint Resolve pure3: ssl_pure.
 Lemma pure4 (k2 : nat) : (k2) <= (7) -> (0) <= (k2) -> ((if (k2) <= (7) then k2 else 7)) = ((if (k2) <= (7) then k2 else 7)). intros; hammer. Qed.
 Hint Resolve pure4: ssl_pure.
-Lemma pure5 (len1x : nat) : (0) <= ((1) + (len1x)) -> (0) <= (len1x) -> (((1) + (len1x)) + (1)) = ((1) + ((1) + (len1x))). intros; hammer. Qed.
+Lemma pure5 (len1x : nat) : (0) <= (len1x) -> (0) <= ((1) + (len1x)) -> (((1) + (len1x)) + (1)) = ((1) + ((1) + (len1x))). intros; hammer. Qed.
 Hint Resolve pure5: ssl_pure.
-Lemma pure6 (k2 : nat) (lo1x : nat) (vx2 : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (k2) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> (k2) <= (lo1x).
-  (* intros; hammer. *)
-  intros.
-  exact (leq_trans H2 H).
-Qed.
-Hint Resolve pure6: ssl_pure.
-Lemma pure7 (hi1x : nat) (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (k2) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))) = ((if ((if (hi1x) <= (k2) then k2 else hi1x)) <= (vx2) then vx2 else (if (hi1x) <= (k2) then k2 else hi1x))).
-  (* intros; hammer. *)
-  intros.
-  destruct (hi1x <= vx2) eqn:H6;
-  destruct (hi1x <= k2) eqn:H7;
-  sauto.
-Qed.
-Hint Resolve pure7: ssl_pure.
-Lemma pure8 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (k2) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))) = ((if (vx2) <= ((if (k2) <= (lo1x) then k2 else lo1x)) then vx2 else (if (k2) <= (lo1x) then k2 else lo1x))).
+Lemma pure6 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (k2) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))) = ((if (vx2) <= ((if (k2) <= (lo1x) then k2 else lo1x)) then vx2 else (if (k2) <= (lo1x) then k2 else lo1x))).
   (* intros; hammer. *)
   intros.
   destruct (vx2 <= lo1x) eqn:H6;
   destruct (k2 <= lo1x) eqn:H7;
   sauto.
 Qed.
+Hint Resolve pure6: ssl_pure.
+Lemma pure7 (k2 : nat) (lo1x : nat) (vx2 : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (k2) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> (k2) <= (lo1x).
+  (* intros; hammer. *)
+  intros.
+  exact (leq_trans H2 H).
+Qed.
+Hint Resolve pure7: ssl_pure.
+Lemma pure8 (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (k2) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> (vx2) <= ((if (k2) <= (lo1x) then k2 else lo1x)). intros; hammer. Qed.
 Hint Resolve pure8: ssl_pure.
-Lemma pure9 (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (k2) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> (vx2) <= ((if (k2) <= (lo1x) then k2 else lo1x)). intros; hammer. Qed.
+Lemma pure9 (hi1x : nat) (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (k2) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))) = ((if ((if (hi1x) <= (k2) then k2 else hi1x)) <= (vx2) then vx2 else (if (hi1x) <= (k2) then k2 else hi1x))).
+  (* intros; hammer. *)
+  intros.
+  destruct (hi1x <= vx2) eqn:H6;
+  destruct (hi1x <= k2) eqn:H7;
+  sauto.
+Qed.
 Hint Resolve pure9: ssl_pure.
-Lemma pure10 (len1x : nat) : (0) <= ((1) + (len1x)) -> (0) <= (len1x) -> (0) <= ((len1x) + (1)). intros; hammer. Qed.
+Lemma pure10 (len1x : nat) : (0) <= (len1x) -> (0) <= ((1) + (len1x)) -> (0) <= ((len1x) + (1)). intros; hammer. Qed.
 Hint Resolve pure10: ssl_pure.
-Lemma pure11 (len1x : nat) : (0) <= ((1) + (len1x)) -> (0) <= (len1x) -> (((1) + (len1x)) + (1)) = ((1) + ((len1x) + (1))). intros; hammer. Qed.
+Lemma pure11 (len1x : nat) : (0) <= (len1x) -> (0) <= ((1) + (len1x)) -> (((1) + (len1x)) + (1)) = ((1) + ((len1x) + (1))). intros; hammer. Qed.
 Hint Resolve pure11: ssl_pure.
-Lemma pure12 (hi1x : nat) (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (~~ ((k2) <= (vx2))) || (~~ ((vx2) <= (k2))) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))) = ((if ((if (hi1x) <= (k2) then k2 else hi1x)) <= (vx2) then vx2 else (if (hi1x) <= (k2) then k2 else hi1x))).
+Lemma pure12 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (~~ ((k2) <= (vx2))) || (~~ ((vx2) <= (k2))) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))) = ((if (vx2) <= ((if (k2) <= (lo1x) then k2 else lo1x)) then vx2 else (if (k2) <= (lo1x) then k2 else lo1x))).
+  (* intros; hammer. *)
+  intros.
+  destruct (vx2 <= lo1x) eqn:H6;
+  destruct (k2 <= lo1x) eqn:H7;
+  sauto.
+Qed.
+Hint Resolve pure12: ssl_pure.
+Lemma pure13 (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (~~ ((k2) <= (vx2))) || (~~ ((vx2) <= (k2))) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> (vx2) <= ((if (k2) <= (lo1x) then k2 else lo1x)). intros; hammer. Qed.
+Hint Resolve pure13: ssl_pure.
+Lemma pure14 (hi1x : nat) (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (~~ ((k2) <= (vx2))) || (~~ ((vx2) <= (k2))) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))) = ((if ((if (hi1x) <= (k2) then k2 else hi1x)) <= (vx2) then vx2 else (if (hi1x) <= (k2) then k2 else hi1x))).
   (* intros; hammer. Qed. *)
   intros.
   destruct (hi1x <= vx2) eqn:H6;
   destruct (hi1x <= k2) eqn:H7;
   sauto.
 Qed.
-Hint Resolve pure12: ssl_pure.
-Lemma pure13 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (~~ ((k2) <= (vx2))) || (~~ ((vx2) <= (k2))) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))) = ((if (vx2) <= ((if (k2) <= (lo1x) then k2 else lo1x)) then vx2 else (if (k2) <= (lo1x) then k2 else lo1x))).
-  (* intros; hammer. *)
-  intros.
-  destruct (vx2 <= lo1x) eqn:H6;
-  destruct (k2 <= lo1x) eqn:H7;
-  sauto.
-Qed.
-Hint Resolve pure13: ssl_pure.
-Lemma pure14 (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (vx2) <= (k2) -> (0) <= (vx2) -> (~~ ((k2) <= (vx2))) || (~~ ((vx2) <= (k2))) -> (vx2) <= (7) -> (0) <= (k2) -> (k2) <= (7) -> (vx2) <= ((if (k2) <= (lo1x) then k2 else lo1x)). intros; hammer. Qed.
 Hint Resolve pure14: ssl_pure.
-Lemma pure15 (len1x : nat) : (0) <= ((1) + (len1x)) -> (0) <= (len1x) -> (((1) + (len1x)) + (1)) = ((1) + ((1) + (len1x))). intros; hammer. Qed.
+Lemma pure15 (len1x : nat) : (0) <= (len1x) -> (0) <= ((1) + (len1x)) -> (((1) + (len1x)) + (1)) = ((1) + ((1) + (len1x))). intros; hammer. Qed.
 Hint Resolve pure15: ssl_pure.
-Lemma pure16 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))) = ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))). intros; hammer. Qed.
+Lemma pure16 (hi1x : nat) (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))) = ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))). intros; hammer. Qed.
 Hint Resolve pure16: ssl_pure.
-Lemma pure17 (hi1x : nat) (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))) = ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))). intros; hammer. Qed.
-Hint Resolve pure17: ssl_pure.
-Lemma pure18 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)).
+Lemma pure17 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)).
   (* intros; hammer. *)
   intros.
   destruct (vx2 <= lo1x) eqn:H5;
   rewrite -ltnNge in H3; by apply ltnW.
 Qed.
+Hint Resolve pure17: ssl_pure.
+Lemma pure18 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))) = ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))). intros; hammer. Qed.
 Hint Resolve pure18: ssl_pure.
 
 Definition srtl_insert_type :=
@@ -103,13 +103,13 @@ Definition srtl_insert_type :=
       let: (x, r) := vprogs in
       let: (k, n, lo, hi) := vghosts in
       exists h_srtl_xnlohi_553,
-      (0) <= (k) /\ (0) <= (n) /\ (k) <= (7) /\ h = r :-> k \+ h_srtl_xnlohi_553 /\ srtl x n lo hi h_srtl_xnlohi_553,
+      (0) <= (k) /\ (0) <= (n) /\ (k) <= (7) /\ h = r :-> (k) \+ h_srtl_xnlohi_553 /\ srtl x n lo hi h_srtl_xnlohi_553,
     [vfun (_: unit) h =>
       let: (x, r) := vprogs in
       let: (k, n, lo, hi) := vghosts in
       exists hi1 lo1 n1 y,
       exists h_srtl_yn1lo1hi1_554,
-      (hi1) == ((if (hi) <= (k) then k else hi)) /\ (lo1) == ((if (k) <= (lo) then k else lo)) /\ (n1) == ((n) + (1)) /\ h = r :-> y \+ h_srtl_yn1lo1hi1_554 /\ srtl y n1 lo1 hi1 h_srtl_yn1lo1hi1_554
+      (hi1) == ((if (hi) <= (k) then k else hi)) /\ (lo1) == ((if (k) <= (lo) then k else lo)) /\ (n1) == ((n) + (1)) /\ h = r :-> (y) \+ h_srtl_yn1lo1hi1_554 /\ srtl y n1 lo1 hi1 h_srtl_yn1lo1hi1_554
     ]).
 
 Program Definition srtl_insert : srtl_insert_type :=
@@ -186,10 +186,10 @@ try rename h_srtl_xnlo_553 into h_srtl_xn_553.
 try rename H_srtl_xnlo_553 into H_srtl_xn_553.
 try rename h_srtl_ynk2lok2lok2k2_554 into h_srtl_ynk2k2k2k2_554.
 try rename H_srtl_ynk2lok2lok2k2_554 into H_srtl_ynk2k2k2k2_554.
-try rename h_srtl_ynk2k2k2k2_554 into h_srtl_yk2k2k2k2_554.
-try rename H_srtl_ynk2k2k2k2_554 into H_srtl_yk2k2k2k2_554.
 try rename h_srtl_xn_553 into h_srtl_x_553.
 try rename H_srtl_xn_553 into H_srtl_x_553.
+try rename h_srtl_ynk2k2k2k2_554 into h_srtl_yk2k2k2k2_554.
+try rename H_srtl_ynk2k2k2k2_554 into H_srtl_yk2k2k2k2_554.
 try rename h_srtl_nxtylen1ylo11yhi11y_552y into h_srtl_nxtylen1ylo11y_552y.
 try rename H_srtl_nxtylen1ylo11yhi11y_552y into H_srtl_nxtylen1ylo11y_552y.
 try rename h_srtl_nxtylen1ylo11y_552y into h_srtl_nxtylo11y_552y.
@@ -210,7 +210,7 @@ ssl_write y2.
 ssl_write_post y2.
 ssl_emp;
 exists ((if (0) <= (k2) then k2 else 0)), ((if (k2) <= (7) then k2 else 7)), ((0) + (1)), (y2);
-exists (y2 :-> k2 \+ y2 .+ 1 :-> null);
+exists (y2 :-> (k2) \+ y2 .+ 1 :-> (null));
 sslauto.
 ssl_close 2;
 exists (0), (k2), (0), (7), (null), (empty);
@@ -278,10 +278,10 @@ ssl_write nxty2.
 ssl_write_post nxty2.
 ssl_emp;
 exists ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))), ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))), (((1) + (len1x)) + (1)), (x);
-exists (x :-> vx2 \+ x .+ 1 :-> nxty2 \+ nxty2 :-> k2 \+ nxty2 .+ 1 :-> nxtx2 \+ h_srtl_nxtx2len1xlo1xhi1x_552x);
+exists (x :-> (vx2) \+ x .+ 1 :-> (nxty2) \+ nxty2 :-> (k2) \+ nxty2 .+ 1 :-> (nxtx2) \+ h_srtl_nxtx2len1xlo1xhi1x_552x);
 sslauto.
 ssl_close 2;
-exists ((1) + (len1x)), (vx2), ((if (hi1x) <= (k2) then k2 else hi1x)), ((if (k2) <= (lo1x) then k2 else lo1x)), (nxty2), (nxty2 :-> k2 \+ nxty2 .+ 1 :-> nxtx2 \+ h_srtl_nxtx2len1xlo1xhi1x_552x);
+exists ((1) + (len1x)), (vx2), ((if (hi1x) <= (k2) then k2 else hi1x)), ((if (k2) <= (lo1x) then k2 else lo1x)), (nxty2), (nxty2 :-> (k2) \+ nxty2 .+ 1 :-> (nxtx2) \+ h_srtl_nxtx2len1xlo1xhi1x_552x);
 sslauto.
 ssl_close 2;
 exists (len1x), (k2), (hi1x), (lo1x), (nxtx2), (h_srtl_nxtx2len1xlo1xhi1x_552x);
@@ -294,7 +294,7 @@ try rename h_srtl_nxtxlen1xlo1xhi1x_552x into h_srtl_nxtx2len1xlo1xhi1x_552x.
 try rename H_srtl_nxtxlen1xlo1xhi1x_552x into H_srtl_nxtx2len1xlo1xhi1x_552x.
 try rename h_srtl_x1n2lo2hi2_5531 into h_srtl_nxtx2len1xlo1xhi1x_552x.
 try rename H_srtl_x1n2lo2hi2_5531 into H_srtl_nxtx2len1xlo1xhi1x_552x.
-ssl_call_pre (r :-> k2 \+ h_srtl_nxtx2len1xlo1xhi1x_552x).
+ssl_call_pre (r :-> (k2) \+ h_srtl_nxtx2len1xlo1xhi1x_552x).
 ssl_call (k2, len1x, lo1x, hi1x).
 exists (h_srtl_nxtx2len1xlo1xhi1x_552x);
 sslauto.
@@ -327,7 +327,7 @@ ssl_write r.
 ssl_write_post r.
 ssl_emp;
 exists ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))), ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))), (((1) + (len1x)) + (1)), (x);
-exists (x :-> vx2 \+ x .+ 1 :-> y12 \+ h_srtl_y12len1xk2lo1xk2lo1xhi1xk2k2hi1x_5541);
+exists (x :-> (vx2) \+ x .+ 1 :-> (y12) \+ h_srtl_y12len1xk2lo1xk2lo1xhi1xk2k2hi1x_5541);
 sslauto.
 ssl_close 2;
 exists ((len1x) + (1)), (vx2), ((if (hi1x) <= (k2) then k2 else hi1x)), ((if (k2) <= (lo1x) then k2 else lo1x)), (y12), (h_srtl_y12len1xk2lo1xk2lo1xhi1xk2k2hi1x_5541);
@@ -371,10 +371,10 @@ ssl_write nxty2.
 ssl_write_post nxty2.
 ssl_emp;
 exists ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))), ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))), (((1) + (len1x)) + (1)), (x);
-exists (x :-> k2 \+ x .+ 1 :-> nxty2 \+ nxty2 :-> vx2 \+ nxty2 .+ 1 :-> nxtx2 \+ h_srtl_nxtx2len1xlo1xhi1x_552x);
+exists (x :-> (k2) \+ x .+ 1 :-> (nxty2) \+ nxty2 :-> (vx2) \+ nxty2 .+ 1 :-> (nxtx2) \+ h_srtl_nxtx2len1xlo1xhi1x_552x);
 sslauto.
 ssl_close 2;
-exists ((1) + (len1x)), (k2), ((if (hi1x) <= (vx2) then vx2 else hi1x)), ((if (vx2) <= (lo1x) then vx2 else lo1x)), (nxty2), (nxty2 :-> vx2 \+ nxty2 .+ 1 :-> nxtx2 \+ h_srtl_nxtx2len1xlo1xhi1x_552x);
+exists ((1) + (len1x)), (k2), ((if (hi1x) <= (vx2) then vx2 else hi1x)), ((if (vx2) <= (lo1x) then vx2 else lo1x)), (nxty2), (nxty2 :-> (vx2) \+ nxty2 .+ 1 :-> (nxtx2) \+ h_srtl_nxtx2len1xlo1xhi1x_552x);
 sslauto.
 ssl_close 2;
 exists (len1x), (vx2), (hi1x), (lo1x), (nxtx2), (h_srtl_nxtx2len1xlo1xhi1x_552x);

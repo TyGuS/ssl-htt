@@ -29,11 +29,11 @@ Lemma pure1 : (0) = (0). intros; hammer. Qed.
 Hint Resolve pure1: ssl_pure.
 Lemma pure2 : (7) = (7). intros; hammer. Qed.
 Hint Resolve pure2: ssl_pure.
-Lemma pure3 (len1x : nat) : (0) <= ((1) + (len1x)) -> (0) <= (len1x) -> ((1) + (len1x)) = ((1) + (len1x)). intros; hammer. Qed.
+Lemma pure3 (vx2 : nat) (lo1x : nat) : (vx2) <= (7) -> (0) <= (vx2) -> ((if (vx2) <= (lo1x) then vx2 else lo1x)) = ((if (vx2) <= (lo1x) then vx2 else lo1x)). intros; hammer. Qed.
 Hint Resolve pure3: ssl_pure.
-Lemma pure4 (vx2 : nat) (lo1x : nat) : (vx2) <= (7) -> (0) <= (vx2) -> ((if (vx2) <= (lo1x) then vx2 else lo1x)) = ((if (vx2) <= (lo1x) then vx2 else lo1x)). intros; hammer. Qed.
+Lemma pure4 (hi1x : nat) (vx2 : nat) : (vx2) <= (7) -> (0) <= (vx2) -> ((if (hi1x) <= (vx2) then vx2 else hi1x)) = ((if (hi1x) <= (vx2) then vx2 else hi1x)). intros; hammer. Qed.
 Hint Resolve pure4: ssl_pure.
-Lemma pure5 (hi1x : nat) (vx2 : nat) : (vx2) <= (7) -> (0) <= (vx2) -> ((if (hi1x) <= (vx2) then vx2 else hi1x)) = ((if (hi1x) <= (vx2) then vx2 else hi1x)). intros; hammer. Qed.
+Lemma pure5 (len1x : nat) : (0) <= (len1x) -> (0) <= ((1) + (len1x)) -> ((1) + (len1x)) = ((1) + (len1x)). intros; hammer. Qed.
 Hint Resolve pure5: ssl_pure.
 Lemma pure6 (hi1x : nat) (vx2 : nat) : (vx2) <= (7) -> (0) <= (vx2) -> ((if (hi1x) <= (vx2) then vx2 else hi1x)) = ((if (hi1x) <= (vx2) then vx2 else hi1x)). intros; hammer. Qed.
 Hint Resolve pure6: ssl_pure.
@@ -48,13 +48,13 @@ Definition srtl_insert_type :=
       let: (x, r) := vprogs in
       let: (k, n, lo, hi) := vghosts in
       exists h_srtl_xnlohi_557,
-      (0) <= (k) /\ (0) <= (n) /\ (k) <= (7) /\ h = r :-> k \+ h_srtl_xnlohi_557 /\ srtl x n lo hi h_srtl_xnlohi_557,
+      (0) <= (k) /\ (0) <= (n) /\ (k) <= (7) /\ h = r :-> (k) \+ h_srtl_xnlohi_557 /\ srtl x n lo hi h_srtl_xnlohi_557,
     [vfun (_: unit) h =>
       let: (x, r) := vprogs in
       let: (k, n, lo, hi) := vghosts in
       exists hi1 lo1 n1 y,
       exists h_srtl_yn1lo1hi1_558,
-      (hi1) == ((if (hi) <= (k) then k else hi)) /\ (lo1) == ((if (k) <= (lo) then k else lo)) /\ (n1) == ((1) + (n)) /\ h = r :-> y \+ h_srtl_yn1lo1hi1_558 /\ srtl y n1 lo1 hi1 h_srtl_yn1lo1hi1_558
+      (hi1) == ((if (hi) <= (k) then k else hi)) /\ (lo1) == ((if (k) <= (lo) then k else lo)) /\ (n1) == ((1) + (n)) /\ h = r :-> (y) \+ h_srtl_yn1lo1hi1_558 /\ srtl y n1 lo1 hi1 h_srtl_yn1lo1hi1_558
     ]).
 
 Variable srtl_insert : srtl_insert_type.
@@ -67,13 +67,13 @@ Definition insertion_sort_type :=
       let: (x, r) := vprogs in
       let: (n, lo, hi) := vghosts in
       exists h_sll_xnlohi_559,
-      (0) <= (n) /\ h = r :-> null \+ h_sll_xnlohi_559 /\ sll x n lo hi h_sll_xnlohi_559,
+      (0) <= (n) /\ h = r :-> (null) \+ h_sll_xnlohi_559 /\ sll x n lo hi h_sll_xnlohi_559,
     [vfun (_: unit) h =>
       let: (x, r) := vprogs in
       let: (n, lo, hi) := vghosts in
       exists y,
       exists h_sll_xnlohi_560 h_srtl_ynlohi_561,
-      h = r :-> y \+ h_sll_xnlohi_560 \+ h_srtl_ynlohi_561 /\ sll x n lo hi h_sll_xnlohi_560 /\ srtl y n lo hi h_srtl_ynlohi_561
+      h = r :-> (y) \+ h_sll_xnlohi_560 \+ h_srtl_ynlohi_561 /\ sll x n lo hi h_sll_xnlohi_560 /\ srtl y n lo hi h_srtl_ynlohi_561
     ]).
 
 Program Definition insertion_sort : insertion_sort_type :=
@@ -148,12 +148,12 @@ try rename h_sll_xnlohi_560 into h_sll_xnlohi1xvxvxhi1x_560.
 try rename H_sll_xnlohi_560 into H_sll_xnlohi1xvxvxhi1x_560.
 try rename h_srtl_ynlohi_561 into h_srtl_ynlohi1xvxvxhi1x_561.
 try rename H_srtl_ynlohi_561 into H_srtl_ynlohi1xvxvxhi1x_561.
+try rename h_srtl_ynlohi1xvxvxhi1x_561 into h_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_561.
+try rename H_srtl_ynlohi1xvxvxhi1x_561 into H_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_561.
 try rename h_sll_xnlohi1xvxvxhi1x_559 into h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_559.
 try rename H_sll_xnlohi1xvxvxhi1x_559 into H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_559.
 try rename h_sll_xnlohi1xvxvxhi1x_560 into h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_560.
 try rename H_sll_xnlohi1xvxvxhi1x_560 into H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_560.
-try rename h_srtl_ynlohi1xvxvxhi1x_561 into h_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_561.
-try rename H_srtl_ynlohi1xvxvxhi1x_561 into H_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_561.
 try rename h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_560 into h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_560.
 try rename H_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_560 into H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_560.
 try rename h_sll_xnvxlo1xvxlo1xhi1xvxvxhi1x_559 into h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_559.
@@ -162,19 +162,19 @@ try rename h_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_561 into h_srtl_ylen1xvxlo1xvxlo1xh
 try rename H_srtl_ynvxlo1xvxlo1xhi1xvxvxhi1x_561 into H_srtl_ylen1xvxlo1xvxlo1xhi1xvxvxhi1x_561.
 ssl_read x.
 try rename vx into vx2.
-try rename h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_560 into h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_560.
-try rename H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_560 into H_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_560.
 try rename h_srtl_ylen1xvxlo1xvxlo1xhi1xvxvxhi1x_561 into h_srtl_ylen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_561.
 try rename H_srtl_ylen1xvxlo1xvxlo1xhi1xvxvxhi1x_561 into H_srtl_ylen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_561.
 try rename h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_559 into h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_559.
 try rename H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_559 into H_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_559.
+try rename h_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_560 into h_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_560.
+try rename H_sll_xlen1xvxlo1xvxlo1xhi1xvxvxhi1x_560 into H_sll_xlen1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_560.
 ssl_read (x .+ 1).
 try rename nxtx into nxtx2.
 try rename h_sll_nxtxlen1xlo1xhi1x_555x into h_sll_nxtx2len1xlo1xhi1x_555x.
 try rename H_sll_nxtxlen1xlo1xhi1x_555x into H_sll_nxtx2len1xlo1xhi1x_555x.
 try rename h_sll_x1n1lo1hi1_5591 into h_sll_nxtx2len1xlo1xhi1x_555x.
 try rename H_sll_x1n1lo1hi1_5591 into H_sll_nxtx2len1xlo1xhi1x_555x.
-ssl_call_pre (r :-> null \+ h_sll_nxtx2len1xlo1xhi1x_555x).
+ssl_call_pre (r :-> (null) \+ h_sll_nxtx2len1xlo1xhi1x_555x).
 ssl_call (len1x, lo1x, hi1x).
 exists (h_sll_nxtx2len1xlo1xhi1x_555x);
 sslauto.
@@ -193,7 +193,7 @@ try rename H_srtl_y1len1xlo1xhi1x_5611 into H_srtl_y12len1xlo1xhi1x_5611.
 try rename h_srtl_x2n2lo2hi2_557 into h_srtl_y12len1xlo1xhi1x_5611.
 try rename H_srtl_x2n2lo2hi2_557 into H_srtl_y12len1xlo1xhi1x_5611.
 ssl_write r.
-ssl_call_pre (r :-> vx2 \+ h_srtl_y12len1xlo1xhi1x_5611).
+ssl_call_pre (r :-> (vx2) \+ h_srtl_y12len1xlo1xhi1x_5611).
 ssl_call (vx2, len1x, lo1x, hi1x).
 exists (h_srtl_y12len1xlo1xhi1x_5611);
 sslauto.
@@ -222,7 +222,7 @@ try rename h_sll_nxtx1len1x1lo12xhi12x_555x1 into h_sll_nxtx2len1xlo1xhi1x_5601.
 try rename H_sll_nxtx1len1x1lo12xhi12x_555x1 into H_sll_nxtx2len1xlo1xhi1x_5601.
 ssl_emp;
 exists (y22);
-exists (x :-> vx2 \+ x .+ 1 :-> nxtx2 \+ h_sll_nxtx2len1xlo1xhi1x_5601);
+exists (x :-> (vx2) \+ x .+ 1 :-> (nxtx2) \+ h_sll_nxtx2len1xlo1xhi1x_5601);
 exists (h_srtl_y22len1xvx2lo1xvx2lo1xhi1xvx2vx2hi1x_558);
 sslauto.
 ssl_close 2;

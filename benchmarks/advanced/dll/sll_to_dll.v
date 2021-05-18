@@ -68,13 +68,13 @@ Definition sll_to_dll_type :=
       let: (f) := vprogs in
       let: (x, s) := vghosts in
       exists h_sll_xs_536,
-      h = f :-> x \+ h_sll_xs_536 /\ sll x s h_sll_xs_536,
+      h = f :-> (x) \+ h_sll_xs_536 /\ sll x s h_sll_xs_536,
     [vfun (_: unit) h =>
       let: (f) := vprogs in
       let: (x, s) := vghosts in
       exists i,
       exists h_dll_is_537,
-      h = f :-> i \+ h_dll_is_537 /\ dll i null s h_dll_is_537
+      h = f :-> (i) \+ h_dll_is_537 /\ dll i null s h_dll_is_537
     ]).
 
 Program Definition sll_to_dll : sll_to_dll_type :=
@@ -166,7 +166,7 @@ try rename H_sll_nxtx2s1x2_535x2 into H_sll_nxtx22s1x2_535x2.
 try rename h_sll_x1s1_5361 into h_sll_nxtx22s1x2_535x2.
 try rename H_sll_x1s1_5361 into H_sll_nxtx22s1x2_535x2.
 ssl_write f.
-ssl_call_pre (f :-> nxtx22 \+ h_sll_nxtx22s1x2_535x2).
+ssl_call_pre (f :-> (nxtx22) \+ h_sll_nxtx22s1x2_535x2).
 ssl_call (nxtx22, s1x2).
 exists (h_sll_nxtx22s1x2_535x2);
 sslauto.
@@ -188,12 +188,12 @@ move=>[sigma_dll_i12s1x2_5371].
 subst h_dll_i12s1x2_5371.
 try rename h_sll_nxtx22s1x2_535x2 into h_sll_nxtx22_535x2.
 try rename H_sll_nxtx22s1x2_535x2 into H_sll_nxtx22_535x2.
+try rename h_dll_ivx22s1x2_537 into h_dll_ivx22_537.
+try rename H_dll_ivx22s1x2_537 into H_dll_ivx22_537.
 try rename h_dll_i12s1x2_5371 into h_dll_i12_5371.
 try rename H_dll_i12s1x2_5371 into H_dll_i12_5371.
 try rename h_sll_x2vx22s1x2_536 into h_sll_x2vx22_536.
 try rename H_sll_x2vx22s1x2_536 into H_sll_x2vx22_536.
-try rename h_dll_ivx22s1x2_537 into h_dll_ivx22_537.
-try rename H_dll_ivx22s1x2_537 into H_dll_ivx22_537.
 try rename h_dll_wiis11i_534i into h_dll_wii_534i.
 try rename H_dll_wiis11i_534i into H_dll_wii_534i.
 try rename h_dll_wii_534i into h_dll_i_534i.
@@ -216,7 +216,7 @@ ssl_write i2.
 ssl_write_post i2.
 ssl_emp;
 exists (i2);
-exists (i2 :-> vx22 \+ i2 .+ 1 :-> null \+ i2 .+ 2 :-> null);
+exists (i2 :-> (vx22) \+ i2 .+ 1 :-> (null) \+ i2 .+ 2 :-> (null));
 sslauto.
 ssl_close 2;
 exists (vx22), (@nil nat), (null), (empty);
@@ -231,22 +231,22 @@ subst h_dll_i12s1x2_5371.
 move=>H_dll_wi12i12s1i12_534i12.
 try rename h_sll_nxtx22s1x2_535x2 into h_sll_nxtx22vi12s1i12_535x2.
 try rename H_sll_nxtx22s1x2_535x2 into H_sll_nxtx22vi12s1i12_535x2.
+try rename h_dll_ivx22s1x2_537 into h_dll_ivx22vi12s1i12_537.
+try rename H_dll_ivx22s1x2_537 into H_dll_ivx22vi12s1i12_537.
 try rename h_dll_i12s1x2_5371 into h_dll_i12vi12s1i12_5371.
 try rename H_dll_i12s1x2_5371 into H_dll_i12vi12s1i12_5371.
 try rename h_sll_x2vx22s1x2_536 into h_sll_x2vx22vi12s1i12_536.
 try rename H_sll_x2vx22s1x2_536 into H_sll_x2vx22vi12s1i12_536.
-try rename h_dll_ivx22s1x2_537 into h_dll_ivx22vi12s1i12_537.
-try rename H_dll_ivx22s1x2_537 into H_dll_ivx22vi12s1i12_537.
 ssl_read i12.
 try rename vi12 into vi122.
-try rename h_sll_nxtx22vi12s1i12_535x2 into h_sll_nxtx22vi122s1i12_535x2.
-try rename H_sll_nxtx22vi12s1i12_535x2 into H_sll_nxtx22vi122s1i12_535x2.
-try rename h_dll_ivx22vi12s1i12_537 into h_dll_ivx22vi122s1i12_537.
-try rename H_dll_ivx22vi12s1i12_537 into H_dll_ivx22vi122s1i12_537.
 try rename h_sll_x2vx22vi12s1i12_536 into h_sll_x2vx22vi122s1i12_536.
 try rename H_sll_x2vx22vi12s1i12_536 into H_sll_x2vx22vi122s1i12_536.
+try rename h_dll_ivx22vi12s1i12_537 into h_dll_ivx22vi122s1i12_537.
+try rename H_dll_ivx22vi12s1i12_537 into H_dll_ivx22vi122s1i12_537.
 try rename h_dll_i12vi12s1i12_5371 into h_dll_i12vi122s1i12_5371.
 try rename H_dll_i12vi12s1i12_5371 into H_dll_i12vi122s1i12_5371.
+try rename h_sll_nxtx22vi12s1i12_535x2 into h_sll_nxtx22vi122s1i12_535x2.
+try rename H_sll_nxtx22vi12s1i12_535x2 into H_sll_nxtx22vi122s1i12_535x2.
 ssl_read (i12 .+ 1).
 try rename wi12 into wi122.
 try rename h_dll_wi12i12s1i12_534i12 into h_dll_wi122i12s1i12_534i12.
@@ -261,10 +261,10 @@ try rename h_dll_i12ivwis11wi_534i into h_dll_i12ivwis1i12_534i.
 try rename H_dll_i12ivwis11wi_534i into H_dll_i12ivwis1i12_534i.
 ssl_alloc i2.
 try rename i into i2.
-try rename h_dll_ivx22vi122s1i12_537 into h_dll_i2vx22vi122s1i12_537.
-try rename H_dll_ivx22vi122s1i12_537 into H_dll_i2vx22vi122s1i12_537.
 try rename h_dll_i12ivwis1i12_534i into h_dll_i12i2vwis1i12_534i.
 try rename H_dll_i12ivwis1i12_534i into H_dll_i12i2vwis1i12_534i.
+try rename h_dll_ivx22vi122s1i12_537 into h_dll_i2vx22vi122s1i12_537.
+try rename H_dll_ivx22vi122s1i12_537 into H_dll_i2vx22vi122s1i12_537.
 ssl_dealloc x2.
 ssl_dealloc (x2 .+ 1).
 ssl_write (i12 .+ 2).
@@ -281,10 +281,10 @@ ssl_write i2.
 ssl_write_post i2.
 ssl_emp;
 exists (i2);
-exists (i2 :-> vx22 \+ i2 .+ 1 :-> i12 \+ i2 .+ 2 :-> null \+ i12 :-> vi122 \+ i12 .+ 1 :-> wi122 \+ i12 .+ 2 :-> i2 \+ h_dll_wi122i12s1i12_534i12);
+exists (i2 :-> (vx22) \+ i2 .+ 1 :-> (i12) \+ i2 .+ 2 :-> (null) \+ i12 :-> (vi122) \+ i12 .+ 1 :-> (wi122) \+ i12 .+ 2 :-> (i2) \+ h_dll_wi122i12s1i12_534i12);
 sslauto.
 ssl_close 2;
-exists (vx22), (([:: vi122]) ++ (s1i12)), (i12), (i12 :-> vi122 \+ i12 .+ 1 :-> wi122 \+ i12 .+ 2 :-> i2 \+ h_dll_wi122i12s1i12_534i12);
+exists (vx22), (([:: vi122]) ++ (s1i12)), (i12), (i12 :-> (vi122) \+ i12 .+ 1 :-> (wi122) \+ i12 .+ 2 :-> (i2) \+ h_dll_wi122i12s1i12_534i12);
 sslauto.
 ssl_close 2;
 exists (vi122), (s1i12), (wi122), (h_dll_wi122i12s1i12_534i12);

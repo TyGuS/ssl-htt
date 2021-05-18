@@ -27,7 +27,7 @@ Require Import common.
 
 Lemma pure1 (n : nat) : (0) <= (n) -> ((n) + (1)) = ((1) + (n)). intros; hammer. Qed.
 Hint Resolve pure1: ssl_pure.
-Lemma pure2 (k : nat) (lo : nat) : (0) <= (k) -> (k) <= (lo) -> (k) <= (7) -> (k) = ((if (k) <= (lo) then k else lo)). intros; hammer. Qed.
+Lemma pure2 (k : nat) (lo : nat) : (k) <= (lo) -> (k) <= (7) -> (0) <= (k) -> (k) = ((if (k) <= (lo) then k else lo)). intros; hammer. Qed.
 Hint Resolve pure2: ssl_pure.
 
 Definition srtl_prepend_type :=
@@ -38,13 +38,13 @@ Definition srtl_prepend_type :=
       let: (x, k, r) := vprogs in
       let: (n, lo, hi, a) := vghosts in
       exists h_srtl_xnlohi_549,
-      (0) <= (k) /\ (0) <= (n) /\ (k) <= (7) /\ (k) <= (lo) /\ h = r :-> a \+ h_srtl_xnlohi_549 /\ srtl x n lo hi h_srtl_xnlohi_549,
+      (0) <= (k) /\ (0) <= (n) /\ (k) <= (7) /\ (k) <= (lo) /\ h = r :-> (a) \+ h_srtl_xnlohi_549 /\ srtl x n lo hi h_srtl_xnlohi_549,
     [vfun (_: unit) h =>
       let: (x, k, r) := vprogs in
       let: (n, lo, hi, a) := vghosts in
       exists n1 y hi1,
       exists h_srtl_yn1khi1_550,
-      (n1) == ((n) + (1)) /\ h = r :-> y \+ h_srtl_yn1khi1_550 /\ srtl y n1 k hi1 h_srtl_yn1khi1_550
+      (n1) == ((n) + (1)) /\ h = r :-> (y) \+ h_srtl_yn1khi1_550 /\ srtl y n1 k hi1 h_srtl_yn1khi1_550
     ]).
 
 Program Definition srtl_prepend : srtl_prepend_type :=
@@ -92,7 +92,7 @@ ssl_write y2.
 ssl_write_post y2.
 ssl_emp;
 exists ((n) + (1)), (y2), ((if (hi) <= (k) then k else hi));
-exists (y2 :-> k \+ y2 .+ 1 :-> x \+ h_srtl_xnlohi_549);
+exists (y2 :-> (k) \+ y2 .+ 1 :-> (x) \+ h_srtl_xnlohi_549);
 sslauto.
 ssl_close 2;
 exists (n), (k), (hi), (lo), (x), (h_srtl_xnlohi_549);

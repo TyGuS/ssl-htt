@@ -29,7 +29,7 @@ Inductive dll (x : ptr) (z : ptr) (s : seq nat) (h : heap) : Prop :=
 | dll_2 of ~~ ((x) == (null)) of
   exists (v : nat) (s1 : seq nat) (w : ptr),
   exists h_dll_wxs1_529,
-  @perm_eq nat_eqType (s) (([:: v]) ++ (s1)) /\ h = x :-> v \+ x .+ 1 :-> w \+ x .+ 2 :-> z \+ h_dll_wxs1_529 /\ dll w x s1 h_dll_wxs1_529.
+  @perm_eq nat_eqType (s) (([:: v]) ++ (s1)) /\ h = x :-> (v) \+ x .+ 1 :-> (w) \+ x .+ 2 :-> (z) \+ h_dll_wxs1_529 /\ dll w x s1 h_dll_wxs1_529.
 
 
 Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
@@ -38,4 +38,4 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
 | sll_2 of ~~ ((x) == (null)) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
   exists h_sll_nxts1_530,
-  @perm_eq nat_eqType (s) (([:: v]) ++ (s1)) /\ h = x :-> v \+ x .+ 1 :-> nxt \+ h_sll_nxts1_530 /\ sll nxt s1 h_sll_nxts1_530.
+  @perm_eq nat_eqType (s) (([:: v]) ++ (s1)) /\ h = x :-> (v) \+ x .+ 1 :-> (nxt) \+ h_sll_nxts1_530 /\ sll nxt s1 h_sll_nxts1_530.

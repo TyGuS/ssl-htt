@@ -29,14 +29,7 @@ Lemma pure1 (sz1 : nat) (sz1r2 : nat) (sz2r2 : nat) : (0) <= (sz2r2) -> (0) <= (
 Hint Resolve pure1: ssl_pure.
 Lemma pure2 (sz1 : nat) (sz1r2 : nat) (sz2r2 : nat) : (0) <= (sz2r2) -> (0) <= (sz1r2) -> (0) <= (sz1) -> (0) <= (((1) + (sz1r2)) + (sz2r2)) -> ((((1) + (sz1)) + (sz1r2)) + (sz2r2)) = ((sz1) + (((1) + (sz1r2)) + (sz2r2))). intros; hammer. Qed.
 Hint Resolve pure2: ssl_pure.
-Lemma pure3 (hi1r2 : nat) (vr22 : nat) (hi1 : nat) (v2 : nat) (lo1r2 : nat) (lo2r2 : nat) : (v2) <= (7) -> (0) <= (v2) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> (vr22) <= (lo2r2) -> (hi1) <= (v2) -> (v2) <= (lo1r2).
-  (* intros; hammer. *)
-  intros.
-  destruct (vr22 <= lo1r2) eqn: H7; last by done.
-  apply (leq_trans H2 H7).  
-Qed.
-Hint Resolve pure3: ssl_pure.
-Lemma pure4 (hi1r2 : nat) (vr22 : nat) (hi1 : nat) (v2 : nat) (lo1r2 : nat) (lo2r2 : nat) : (v2) <= (7) -> (0) <= (v2) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> (vr22) <= (lo2r2) -> (hi1) <= (v2) -> ((if (hi1r2) <= (v2) then v2 else hi1r2)) <= (vr22).
+Lemma pure3 (hi1r2 : nat) (vr22 : nat) (hi1 : nat) (v2 : nat) (lo1r2 : nat) (lo2r2 : nat) : (v2) <= (7) -> (0) <= (v2) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> (vr22) <= (lo2r2) -> (hi1) <= (v2) -> ((if (hi1r2) <= (v2) then v2 else hi1r2)) <= (vr22).
   (* intros; hammer. *)
   intros.
   case (hi1r2 <= v2); last by done.
@@ -45,6 +38,13 @@ Lemma pure4 (hi1r2 : nat) (vr22 : nat) (hi1 : nat) (v2 : nat) (lo1r2 : nat) (lo2
   rewrite -ltnNge in H7.
   apply ltnW.
   exact (leq_ltn_trans H2 H7).
+Qed.
+Hint Resolve pure3: ssl_pure.
+Lemma pure4 (hi1r2 : nat) (vr22 : nat) (hi1 : nat) (v2 : nat) (lo1r2 : nat) (lo2r2 : nat) : (v2) <= (7) -> (0) <= (v2) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> (vr22) <= (lo2r2) -> (hi1) <= (v2) -> (v2) <= (lo1r2).
+  (* intros; hammer. *)
+  intros.
+  destruct (vr22 <= lo1r2) eqn: H7; last by done.
+  apply (leq_trans H2 H7).  
 Qed.
 Hint Resolve pure4: ssl_pure.
 
@@ -56,13 +56,13 @@ Definition bst_left_rotate_type :=
       let: (x, retv) := vprogs in
       let: (sz1, sz2, v, hi1, r, lo2, l, lo1, hi2, unused) := vghosts in
       exists h_bst_lsz1lo1hi1_a h_bst_rsz2lo2hi2_b,
-      (0) <= (sz1) /\ (0) <= (sz2) /\ (0) <= (v) /\ (hi1) <= (v) /\ ~~ ((r) == (null)) /\ (v) <= (7) /\ (v) <= (lo2) /\ h = retv :-> unused \+ x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_bst_lsz1lo1hi1_a \+ h_bst_rsz2lo2hi2_b /\ bst l sz1 lo1 hi1 h_bst_lsz1lo1hi1_a /\ bst r sz2 lo2 hi2 h_bst_rsz2lo2hi2_b,
+      (0) <= (sz1) /\ (0) <= (sz2) /\ (0) <= (v) /\ (hi1) <= (v) /\ ~~ ((r) == (null)) /\ (v) <= (7) /\ (v) <= (lo2) /\ h = retv :-> (unused) \+ x :-> (v) \+ x .+ 1 :-> (l) \+ x .+ 2 :-> (r) \+ h_bst_lsz1lo1hi1_a \+ h_bst_rsz2lo2hi2_b /\ bst l sz1 lo1 hi1 h_bst_lsz1lo1hi1_a /\ bst r sz2 lo2 hi2 h_bst_rsz2lo2hi2_b,
     [vfun (_: unit) h =>
       let: (x, retv) := vprogs in
       let: (sz1, sz2, v, hi1, r, lo2, l, lo1, hi2, unused) := vghosts in
       exists sz3 sz4 v3 hi3 lo4 lo3 r3 hi4 y,
       exists h_bst_xsz3lo3hi3_525 h_bst_r3sz4lo4hi4_526,
-      (0) <= (sz3) /\ (0) <= (sz4) /\ (0) <= (v3) /\ (hi3) <= (v3) /\ ((sz3) + (sz4)) == ((sz1) + (sz2)) /\ (v3) <= (7) /\ (v3) <= (lo4) /\ h = retv :-> y \+ y :-> v3 \+ y .+ 1 :-> x \+ y .+ 2 :-> r3 \+ h_bst_xsz3lo3hi3_525 \+ h_bst_r3sz4lo4hi4_526 /\ bst x sz3 lo3 hi3 h_bst_xsz3lo3hi3_525 /\ bst r3 sz4 lo4 hi4 h_bst_r3sz4lo4hi4_526
+      (0) <= (sz3) /\ (0) <= (sz4) /\ (0) <= (v3) /\ (hi3) <= (v3) /\ ((sz3) + (sz4)) == ((sz1) + (sz2)) /\ (v3) <= (7) /\ (v3) <= (lo4) /\ h = retv :-> (y) \+ y :-> (v3) \+ y .+ 1 :-> (x) \+ y .+ 2 :-> (r3) \+ h_bst_xsz3lo3hi3_525 \+ h_bst_r3sz4lo4hi4_526 /\ bst x sz3 lo3 hi3 h_bst_xsz3lo3hi3_525 /\ bst r3 sz4 lo4 hi4 h_bst_r3sz4lo4hi4_526
     ]).
 
 Program Definition bst_left_rotate : bst_left_rotate_type :=
@@ -167,7 +167,7 @@ try rename h_bst_xsz1sz1r2v1xlo1v1xlo1hi1r2v1xv1xhi1r2_525 into h_bst_xsz1sz1r2v
 try rename H_bst_xsz1sz1r2v1xlo1v1xlo1hi1r2v1xv1xhi1r2_525 into H_bst_xsz1sz1r2v2lo1v2lo1hi1r2v2v2hi1r2_525.
 ssl_emp;
 exists (((1) + (sz1)) + (sz1r2)), (sz2r2), (vr22), ((if (hi1r2) <= (v2) then v2 else hi1r2)), (lo2r2), ((if (v2) <= (lo1) then v2 else lo1)), (rr22), (hi2r2), (r2);
-exists (x :-> v2 \+ x .+ 1 :-> l2 \+ x .+ 2 :-> lr22 \+ h_bst_l2sz1lo1hi1_a \+ h_bst_lr22sz1r2lo1r2hi1r2_523r2);
+exists (x :-> (v2) \+ x .+ 1 :-> (l2) \+ x .+ 2 :-> (lr22) \+ h_bst_l2sz1lo1hi1_a \+ h_bst_lr22sz1r2lo1r2hi1r2_523r2);
 exists (h_bst_rr22sz2r2lo2r2hi2r2_524r2);
 sslauto.
 ssl_close 2;

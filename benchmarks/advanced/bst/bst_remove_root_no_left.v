@@ -31,11 +31,11 @@ Lemma pure2 (r2 : ptr) : (r2) = (null) -> ((if (r2) == (null) then (if (null) ==
 Hint Resolve pure2: ssl_pure.
 Lemma pure3 : (0) = (0). intros; hammer. Qed.
 Hint Resolve pure3: ssl_pure.
-Lemma pure4 (sz1r2 : nat) (sz2r2 : nat) : (0) <= (sz1r2) -> (0) <= (sz2r2) -> (0) <= (((1) + (sz1r2)) + (sz2r2)) -> (((1) + (sz1r2)) + (sz2r2)) = (((1) + (sz1r2)) + (sz2r2)). intros; hammer. Qed.
+Lemma pure4 (sz1r2 : nat) (sz2r2 : nat) : (0) <= (((1) + (sz1r2)) + (sz2r2)) -> (0) <= (sz1r2) -> (0) <= (sz2r2) -> (((1) + (sz1r2)) + (sz2r2)) = (((1) + (sz1r2)) + (sz2r2)). intros; hammer. Qed.
 Hint Resolve pure4: ssl_pure.
-Lemma pure5 (hi1r2 : nat) (r2 : ptr) (vr22 : nat) (retv : ptr) (v2 : nat) (lo1r2 : nat) (x : ptr) (hi2r2 : nat) (lo2r2 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (0) <= (v2) -> ~~ ((r2) == (null)) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> ~~ ((r2) == (retv)) -> (vr22) <= (lo2r2) -> ~~ ((retv) == (x)) -> ~~ ((r2) == (x)) -> ((if (r2) == (null) then (if (null) == (null) then 0 else 0) else (if (hi2r2) <= (vr22) then vr22 else hi2r2))) = ((if (hi2r2) <= (vr22) then vr22 else hi2r2)). intros; hammer. Qed.
+Lemma pure5 (hi1r2 : nat) (r2 : ptr) (vr22 : nat) (retv : ptr) (v2 : nat) (lo1r2 : nat) (x : ptr) (lo2r2 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (0) <= (v2) -> ~~ ((r2) == (null)) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> ~~ ((r2) == (retv)) -> (vr22) <= (lo2r2) -> ~~ ((retv) == (x)) -> ~~ ((r2) == (x)) -> ((if (null) == (null) then (if (r2) == (null) then 7 else (if (vr22) <= (lo1r2) then vr22 else lo1r2)) else 7)) = ((if (vr22) <= (lo1r2) then vr22 else lo1r2)). intros; hammer. Qed.
 Hint Resolve pure5: ssl_pure.
-Lemma pure6 (hi1r2 : nat) (r2 : ptr) (vr22 : nat) (retv : ptr) (v2 : nat) (lo1r2 : nat) (x : ptr) (lo2r2 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (0) <= (v2) -> ~~ ((r2) == (null)) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> ~~ ((r2) == (retv)) -> (vr22) <= (lo2r2) -> ~~ ((retv) == (x)) -> ~~ ((r2) == (x)) -> ((if (null) == (null) then (if (r2) == (null) then 7 else (if (vr22) <= (lo1r2) then vr22 else lo1r2)) else 7)) = ((if (vr22) <= (lo1r2) then vr22 else lo1r2)). intros; hammer. Qed.
+Lemma pure6 (hi1r2 : nat) (r2 : ptr) (vr22 : nat) (retv : ptr) (v2 : nat) (lo1r2 : nat) (x : ptr) (hi2r2 : nat) (lo2r2 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (0) <= (v2) -> ~~ ((r2) == (null)) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> ~~ ((r2) == (retv)) -> (vr22) <= (lo2r2) -> ~~ ((retv) == (x)) -> ~~ ((r2) == (x)) -> ((if (r2) == (null) then (if (null) == (null) then 0 else 0) else (if (hi2r2) <= (vr22) then vr22 else hi2r2))) = ((if (hi2r2) <= (vr22) then vr22 else hi2r2)). intros; hammer. Qed.
 Hint Resolve pure6: ssl_pure.
 
 Definition bst_remove_root_no_left_type :=
@@ -46,13 +46,13 @@ Definition bst_remove_root_no_left_type :=
       let: (x, retv) := vprogs in
       let: (sz1, sz2, v, hi1, l, lo2, lo1, r, hi2, unused) := vghosts in
       exists h_bst_lsz1lo1hi1_a h_bst_rsz2lo2hi2_b,
-      (0) <= (sz1) /\ (0) <= (sz2) /\ (0) <= (v) /\ (hi1) <= (v) /\ (l) == (null) /\ (v) <= (7) /\ (v) <= (lo2) /\ h = retv :-> unused \+ x :-> v \+ x .+ 1 :-> l \+ x .+ 2 :-> r \+ h_bst_lsz1lo1hi1_a \+ h_bst_rsz2lo2hi2_b /\ bst l sz1 lo1 hi1 h_bst_lsz1lo1hi1_a /\ bst r sz2 lo2 hi2 h_bst_rsz2lo2hi2_b,
+      (0) <= (sz1) /\ (0) <= (sz2) /\ (0) <= (v) /\ (hi1) <= (v) /\ (l) == (null) /\ (v) <= (7) /\ (v) <= (lo2) /\ h = retv :-> (unused) \+ x :-> (v) \+ x .+ 1 :-> (l) \+ x .+ 2 :-> (r) \+ h_bst_lsz1lo1hi1_a \+ h_bst_rsz2lo2hi2_b /\ bst l sz1 lo1 hi1 h_bst_lsz1lo1hi1_a /\ bst r sz2 lo2 hi2 h_bst_rsz2lo2hi2_b,
     [vfun (_: unit) h =>
       let: (x, retv) := vprogs in
       let: (sz1, sz2, v, hi1, l, lo2, lo1, r, hi2, unused) := vghosts in
       exists hi lo n1 y,
       exists h_bst_yn1lohi_c,
-      (hi) == ((if (r) == (null) then (if (l) == (null) then 0 else hi1) else hi2)) /\ (lo) == ((if (l) == (null) then (if (r) == (null) then 7 else lo2) else lo1)) /\ (n1) == ((sz1) + (sz2)) /\ h = retv :-> y \+ h_bst_yn1lohi_c /\ bst y n1 lo hi h_bst_yn1lohi_c
+      (hi) == ((if (r) == (null) then (if (l) == (null) then 0 else hi1) else hi2)) /\ (lo) == ((if (l) == (null) then (if (r) == (null) then 7 else lo2) else lo1)) /\ (n1) == ((sz1) + (sz2)) /\ h = retv :-> (y) \+ h_bst_yn1lohi_c /\ bst y n1 lo hi h_bst_yn1lohi_c
     ]).
 
 Program Definition bst_remove_root_no_left : bst_remove_root_no_left_type :=
@@ -123,26 +123,26 @@ try rename h_bst_ysz1sz2r2lo2lo1r2hi2_c into h_bst_ysz1sz2r2lo2r2hi2_c.
 try rename H_bst_ysz1sz2r2lo2lo1r2hi2_c into H_bst_ysz1sz2r2lo2r2hi2_c.
 try rename h_bst_sz1lo1_a into h_bst_sz1_a.
 try rename H_bst_sz1lo1_a into H_bst_sz1_a.
-try rename h_bst_sz1_a into h_bst__a.
-try rename H_bst_sz1_a into H_bst__a.
 try rename h_bst_ysz1sz2r2lo2r2hi2_c into h_bst_ysz2r2lo2r2hi2_c.
 try rename H_bst_ysz1sz2r2lo2r2hi2_c into H_bst_ysz2r2lo2r2hi2_c.
+try rename h_bst_sz1_a into h_bst__a.
+try rename H_bst_sz1_a into H_bst__a.
 ssl_open ((r2) == (null)) H_bst_r2sz2lo2hi2_b.
 move=>[phi_bst_r2sz2lo2hi2_b0] [phi_bst_r2sz2lo2hi2_b1] [phi_bst_r2sz2lo2hi2_b2].
 move=>[sigma_bst_r2sz2lo2hi2_b].
 subst h_bst_r2sz2lo2hi2_b.
-try rename h_bst_ysz2r2lo2r2hi2_c into h_bst_ysz2r2lo2r2_c.
-try rename H_bst_ysz2r2lo2r2hi2_c into H_bst_ysz2r2lo2r2_c.
 try rename h_bst_r2sz2lo2hi2_b into h_bst_r2sz2lo2_b.
 try rename H_bst_r2sz2lo2hi2_b into H_bst_r2sz2lo2_b.
+try rename h_bst_ysz2r2lo2r2hi2_c into h_bst_ysz2r2lo2r2_c.
+try rename H_bst_ysz2r2lo2r2hi2_c into H_bst_ysz2r2lo2r2_c.
 try rename h_bst_ysz2r2lo2r2_c into h_bst_ysz2r2r2_c.
 try rename H_bst_ysz2r2lo2r2_c into H_bst_ysz2r2r2_c.
 try rename h_bst_r2sz2lo2_b into h_bst_r2sz2_b.
 try rename H_bst_r2sz2lo2_b into H_bst_r2sz2_b.
-try rename h_bst_ysz2r2r2_c into h_bst_yr2r2_c.
-try rename H_bst_ysz2r2r2_c into H_bst_yr2r2_c.
 try rename h_bst_r2sz2_b into h_bst_r2_b.
 try rename H_bst_r2sz2_b into H_bst_r2_b.
+try rename h_bst_ysz2r2r2_c into h_bst_yr2r2_c.
+try rename H_bst_ysz2r2r2_c into H_bst_yr2r2_c.
 try rename h_bst_yr2r2_c into h_bst_r2r2_c.
 try rename H_bst_yr2r2_c into H_bst_r2r2_c.
 ssl_dealloc x.
@@ -163,10 +163,10 @@ move=>[phi_bst_r2sz2lo2hi2_b0] [phi_bst_r2sz2lo2hi2_b1] [phi_bst_r2sz2lo2hi2_b2]
 move=>[sigma_bst_r2sz2lo2hi2_b].
 subst h_bst_r2sz2lo2hi2_b.
 move=>[H_bst_lr2sz1r2lo1r2hi1r2_519r2 H_bst_rr2sz2r2lo2r2hi2r2_520r2].
-try rename h_bst_ysz2r2lo2r2hi2_c into h_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c.
-try rename H_bst_ysz2r2lo2r2hi2_c into H_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c.
 try rename h_bst_r2sz2lo2hi2_b into h_bst_r2sz2lo2hi2r2vr2vr2hi2r2_b.
 try rename H_bst_r2sz2lo2hi2_b into H_bst_r2sz2lo2hi2r2vr2vr2hi2r2_b.
+try rename h_bst_ysz2r2lo2r2hi2_c into h_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c.
+try rename H_bst_ysz2r2lo2r2hi2_c into H_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c.
 try rename h_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c into h_bst_ysz2r2vr2lo1r2vr2lo1r2r2hi2r2vr2vr2hi2r2_c.
 try rename H_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c into H_bst_ysz2r2vr2lo1r2vr2lo1r2r2hi2r2vr2vr2hi2r2_c.
 try rename h_bst_r2sz2lo2hi2r2vr2vr2hi2r2_b into h_bst_r2sz2vr2lo1r2vr2lo1r2hi2r2vr2vr2hi2r2_b.
@@ -202,7 +202,7 @@ ssl_write retv.
 ssl_write_post retv.
 ssl_emp;
 exists ((if (r2) == (null) then (if (null) == (null) then 0 else 0) else (if (hi2r2) <= (vr22) then vr22 else hi2r2))), ((if (null) == (null) then (if (r2) == (null) then 7 else (if (vr22) <= (lo1r2) then vr22 else lo1r2)) else 7)), ((0) + (((1) + (sz1r2)) + (sz2r2))), (r2);
-exists (r2 :-> vr22 \+ r2 .+ 1 :-> lr22 \+ r2 .+ 2 :-> rr22 \+ h_bst_lr22sz1r2lo1r2hi1r2_519r2 \+ h_bst_rr22sz2r2lo2r2hi2r2_520r2);
+exists (r2 :-> (vr22) \+ r2 .+ 1 :-> (lr22) \+ r2 .+ 2 :-> (rr22) \+ h_bst_lr22sz1r2lo1r2hi1r2_519r2 \+ h_bst_rr22sz2r2lo2r2hi2r2_520r2);
 sslauto.
 ssl_close 2;
 exists (sz1r2), (sz2r2), (vr22), (hi2r2), (hi1r2), (lo1r2), (lo2r2), (lr22), (rr22), (h_bst_lr22sz1r2lo1r2hi1r2_519r2), (h_bst_rr22sz2r2lo2r2hi2r2_520r2);
