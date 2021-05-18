@@ -1,16 +1,22 @@
 import subprocess
 from time import perf_counter
-from os import listdir
+from os import listdir, getcwd
 from os.path import isfile, join
-import sys
 import csv
 
 
-BENCHMARK_DIR    = "advanced"
+# Directory where benchmark programs are located
+BENCHMARK_DIR    = getcwd()
+# Directory names of the benchmark groups to evaluate
 BENCHMARK_GROUPS = ["bst", "dll", "srtl"]
+# Name of output statistics CSV file
 STAT_FILE        = "advanced-HTT.csv"
+# Name of output diff file
+DIFF_FILE        = "advanced-HTT.diff"
+# Directory where original SuSLik-generated certificates are stored
+ORIGINAL_DIR     = "/home/artifact/projects/suslik/certify/HTT/certification-benchmarks-advanced"
 
-
+# Check the proof size and spec size of a Coq (.v) file
 def coqwc(fpath, cwd):
 	res = subprocess.run(["coqwc", fpath], cwd=cwd, text=True, capture_output=True)
 	if res.returncode != 0:
@@ -23,6 +29,7 @@ def coqwc(fpath, cwd):
 		return None
 
 
+# Compile a Coq (.v) file
 def coqc(fpath, cwd):
 	t1 = perf_counter()
 	code = subprocess.call(["make", fpath], cwd=cwd)
@@ -34,9 +41,22 @@ def coqc(fpath, cwd):
 	else:
 		return None
 
+# Generate a diff file comparing Coq (.v) files in two directories
+def gen_diff(dir1, dir2, out_file):
+	cmd = ["diff", "-r", "-x", "*.glob", "-x", "*.vo*", "-x", ".*.aux", "-x", ".lia*", "-x", "Makefile", dir1, dir2]
+	return subprocess.call(cmd, stdout=out_file)
+
 
 def main():
+	with open(DIFF_FILE, "w") as f:
+		print("Comparing manually edited certificates to SuSLik-generated ones...")
+		if gen_diff(BENCHMARK_DIR, ORIGINAL_DIR, f) == 0:
+			print(f"Diff file generated at {DIFF_FILE}!")
+		else:
+			print(f"No diff file generated! Expected SuSLik-generated certificates in {ORIGINAL_DIR}.")
+
 	with open(STAT_FILE, "w", newline="") as csvfile:
+		print("\nRunning benchmarks...\n")
 		writer = csv.writer(csvfile)
 		header = ["Benchmark Group", "File Name", "Spec Size", "Proof Size", "Proof Checking Time (sec)"]
 		writer.writerow(header)
@@ -84,6 +104,8 @@ def main():
 				csvfile.flush()
 
 			print("\n")
+
+		print(f"\nFinished running benchmarks! Results written to {STAT_FILE}.")
 
 if __name__ == '__main__':
 	main()
