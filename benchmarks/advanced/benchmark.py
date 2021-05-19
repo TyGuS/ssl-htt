@@ -44,7 +44,17 @@ def coqc(fpath, cwd):
 
 # Generate a diff file comparing Coq (.v) files in two directories
 def gen_diff(dir1, dir2, out_file):
-	cmd = ["diff", "-r", "-x", "*.glob", "-x", "*.vo*", "-x", ".*.aux", "-x", ".lia*", "-x", "Makefile", dir1, dir2]
+	cmd = [
+		"diff", "-r",
+		"-x", "*.csv",
+		"-x", "*.diff",
+		"-x", "*.glob",
+		"-x", "*.vo*",
+		"-x", ".*.aux",
+		"-x", ".lia*",
+		"-x", "Makefile",
+		dir1, dir2
+	]
 	return subprocess.call(cmd, stdout=out_file)
 
 
@@ -68,10 +78,12 @@ def main():
 		diff_file_path = join(opts.outputDir, DIFF_FILE)
 		with open(diff_file_path, "w") as f:
 			print("Comparing manually edited certificates to SuSLik-generated ones...")
-			if gen_diff(BENCHMARK_DIR, opts.diffSource, f) == 0:
-				print(f"Diff file generated at {diff_file_path}!")
+			if gen_diff(BENCHMARK_DIR, opts.diffSource, f) == 2:
+				print(f"No diff file generated! Make sure SuSLik-generated certificates are present in:")
+				print(f"  {opts.diffSource}")
 			else:
-				print(f"No diff file generated! Expected SuSLik-generated certificates in {opts.diffSource}.")
+				print(f"Diff file generated at:")
+				print(f"  {diff_file_path}")
 
 	if not opts.nostat:
 		stat_file_path = join(opts.outputDir, STAT_FILE)
