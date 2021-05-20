@@ -128,18 +128,18 @@ try rename h_bst_ysz1sz2r2lo2lo1r2hi2_c into h_bst_ysz1sz2r2lo2r2hi2_c.
 try rename H_bst_ysz1sz2r2lo2lo1r2hi2_c into H_bst_ysz1sz2r2lo2r2hi2_c.
 try rename h_bst_sz1lo1_a into h_bst_sz1_a.
 try rename H_bst_sz1lo1_a into H_bst_sz1_a.
-try rename h_bst_ysz1sz2r2lo2r2hi2_c into h_bst_ysz2r2lo2r2hi2_c.
-try rename H_bst_ysz1sz2r2lo2r2hi2_c into H_bst_ysz2r2lo2r2hi2_c.
 try rename h_bst_sz1_a into h_bst__a.
 try rename H_bst_sz1_a into H_bst__a.
+try rename h_bst_ysz1sz2r2lo2r2hi2_c into h_bst_ysz2r2lo2r2hi2_c.
+try rename H_bst_ysz1sz2r2lo2r2hi2_c into H_bst_ysz2r2lo2r2hi2_c.
 ssl_open ((r2) == (null)) H_bst_r2sz2lo2hi2_b.
 move=>[phi_bst_r2sz2lo2hi2_b0] [phi_bst_r2sz2lo2hi2_b1] [phi_bst_r2sz2lo2hi2_b2].
 move=>[sigma_bst_r2sz2lo2hi2_b].
 subst h_bst_r2sz2lo2hi2_b.
-try rename h_bst_r2sz2lo2hi2_b into h_bst_r2sz2lo2_b.
-try rename H_bst_r2sz2lo2hi2_b into H_bst_r2sz2lo2_b.
 try rename h_bst_ysz2r2lo2r2hi2_c into h_bst_ysz2r2lo2r2_c.
 try rename H_bst_ysz2r2lo2r2hi2_c into H_bst_ysz2r2lo2r2_c.
+try rename h_bst_r2sz2lo2hi2_b into h_bst_r2sz2lo2_b.
+try rename H_bst_r2sz2lo2hi2_b into H_bst_r2sz2lo2_b.
 try rename h_bst_ysz2r2lo2r2_c into h_bst_ysz2r2r2_c.
 try rename H_bst_ysz2r2lo2r2_c into H_bst_ysz2r2r2_c.
 try rename h_bst_r2sz2lo2_b into h_bst_r2sz2_b.
@@ -163,19 +163,19 @@ ssl_close 1;
 sslauto.
 ex_elim sz1r2 sz2r2 vr2 hi2r2 hi1r2.
 ex_elim lo1r2 lo2r2 lr2 rr2.
-ex_elim h_bst_lr2sz1r2lo1r2hi1r2_519r2 h_bst_rr2sz2r2lo2r2hi2r2_520r2.
+ex_elim h_bst_lr2sz1r2lo1r2hi1r2_513r2 h_bst_rr2sz2r2lo2r2hi2r2_514r2.
 move=>[phi_bst_r2sz2lo2hi2_b0] [phi_bst_r2sz2lo2hi2_b1] [phi_bst_r2sz2lo2hi2_b2] [phi_bst_r2sz2lo2hi2_b3] [phi_bst_r2sz2lo2hi2_b4] [phi_bst_r2sz2lo2hi2_b5] [phi_bst_r2sz2lo2hi2_b6] [phi_bst_r2sz2lo2hi2_b7] [phi_bst_r2sz2lo2hi2_b8].
 move=>[sigma_bst_r2sz2lo2hi2_b].
 subst h_bst_r2sz2lo2hi2_b.
-move=>[H_bst_lr2sz1r2lo1r2hi1r2_519r2 H_bst_rr2sz2r2lo2r2hi2r2_520r2].
-try rename h_bst_r2sz2lo2hi2_b into h_bst_r2sz2lo2hi2r2vr2vr2hi2r2_b.
-try rename H_bst_r2sz2lo2hi2_b into H_bst_r2sz2lo2hi2r2vr2vr2hi2r2_b.
+move=>[H_bst_lr2sz1r2lo1r2hi1r2_513r2 H_bst_rr2sz2r2lo2r2hi2r2_514r2].
 try rename h_bst_ysz2r2lo2r2hi2_c into h_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c.
 try rename H_bst_ysz2r2lo2r2hi2_c into H_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c.
-try rename h_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c into h_bst_ysz2r2vr2lo1r2vr2lo1r2r2hi2r2vr2vr2hi2r2_c.
-try rename H_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c into H_bst_ysz2r2vr2lo1r2vr2lo1r2r2hi2r2vr2vr2hi2r2_c.
+try rename h_bst_r2sz2lo2hi2_b into h_bst_r2sz2lo2hi2r2vr2vr2hi2r2_b.
+try rename H_bst_r2sz2lo2hi2_b into H_bst_r2sz2lo2hi2r2vr2vr2hi2r2_b.
 try rename h_bst_r2sz2lo2hi2r2vr2vr2hi2r2_b into h_bst_r2sz2vr2lo1r2vr2lo1r2hi2r2vr2vr2hi2r2_b.
 try rename H_bst_r2sz2lo2hi2r2vr2vr2hi2r2_b into H_bst_r2sz2vr2lo1r2vr2lo1r2hi2r2vr2vr2hi2r2_b.
+try rename h_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c into h_bst_ysz2r2vr2lo1r2vr2lo1r2r2hi2r2vr2vr2hi2r2_c.
+try rename H_bst_ysz2r2lo2r2hi2r2vr2vr2hi2r2_c into H_bst_ysz2r2vr2lo1r2vr2lo1r2r2hi2r2vr2vr2hi2r2_c.
 try rename h_bst_r2sz2vr2lo1r2vr2lo1r2hi2r2vr2vr2hi2r2_b into h_bst_r2sz1r2sz2r2vr2lo1r2vr2lo1r2hi2r2vr2vr2hi2r2_b.
 try rename H_bst_r2sz2vr2lo1r2vr2lo1r2hi2r2vr2vr2hi2r2_b into H_bst_r2sz1r2sz2r2vr2lo1r2vr2lo1r2hi2r2vr2vr2hi2r2_b.
 try rename h_bst_ysz2r2vr2lo1r2vr2lo1r2r2hi2r2vr2vr2hi2r2_c into h_bst_ysz1r2sz2r2r2vr2lo1r2vr2lo1r2r2hi2r2vr2vr2hi2r2_c.
@@ -188,16 +188,16 @@ try rename h_bst_r2sz1r2sz2r2vr2lo1r2vr2lo1r2hi2r2vr2vr2hi2r2_b into h_bst_r2sz1
 try rename H_bst_r2sz1r2sz2r2vr2lo1r2vr2lo1r2hi2r2vr2vr2hi2r2_b into H_bst_r2sz1r2sz2r2vr22lo1r2vr22lo1r2hi2r2vr22vr22hi2r2_b.
 ssl_read (r2 .+ 1).
 try rename lr2 into lr22.
-try rename h_bst_lr2sz1r2lo1r2hi1r2_519r2 into h_bst_lr22sz1r2lo1r2hi1r2_519r2.
-try rename H_bst_lr2sz1r2lo1r2hi1r2_519r2 into H_bst_lr22sz1r2lo1r2hi1r2_519r2.
+try rename h_bst_lr2sz1r2lo1r2hi1r2_513r2 into h_bst_lr22sz1r2lo1r2hi1r2_513r2.
+try rename H_bst_lr2sz1r2lo1r2hi1r2_513r2 into H_bst_lr22sz1r2lo1r2hi1r2_513r2.
 ssl_read (r2 .+ 2).
 try rename rr2 into rr22.
-try rename h_bst_rr2sz2r2lo2r2hi2r2_520r2 into h_bst_rr22sz2r2lo2r2hi2r2_520r2.
-try rename H_bst_rr2sz2r2lo2r2hi2r2_520r2 into H_bst_rr22sz2r2lo2r2hi2r2_520r2.
-try rename h_bst_l1ysz11ylo11yhi11y_519y into h_bst_lr22sz1r2lo1r2hi1r2_519r2.
-try rename H_bst_l1ysz11ylo11yhi11y_519y into H_bst_lr22sz1r2lo1r2hi1r2_519r2.
-try rename h_bst_r1ysz21ylo21yhi21y_520y into h_bst_rr22sz2r2lo2r2hi2r2_520r2.
-try rename H_bst_r1ysz21ylo21yhi21y_520y into H_bst_rr22sz2r2lo2r2hi2r2_520r2.
+try rename h_bst_rr2sz2r2lo2r2hi2r2_514r2 into h_bst_rr22sz2r2lo2r2hi2r2_514r2.
+try rename H_bst_rr2sz2r2lo2r2hi2r2_514r2 into H_bst_rr22sz2r2lo2r2hi2r2_514r2.
+try rename h_bst_l1ysz11ylo11yhi11y_513y into h_bst_lr22sz1r2lo1r2hi1r2_513r2.
+try rename H_bst_l1ysz11ylo11yhi11y_513y into H_bst_lr22sz1r2lo1r2hi1r2_513r2.
+try rename h_bst_r1ysz21ylo21yhi21y_514y into h_bst_rr22sz2r2lo2r2hi2r2_514r2.
+try rename H_bst_r1ysz21ylo21yhi21y_514y into H_bst_rr22sz2r2lo2r2hi2r2_514r2.
 try rename h_bst_ysz1r2sz2r2r2vr22lo1r2vr22lo1r2r2hi2r2vr22vr22hi2r2_c into h_bst_r2sz1r2sz2r2r2vr22lo1r2vr22lo1r2r2hi2r2vr22vr22hi2r2_c.
 try rename H_bst_ysz1r2sz2r2r2vr22lo1r2vr22lo1r2r2hi2r2vr22vr22hi2r2_c into H_bst_r2sz1r2sz2r2r2vr22lo1r2vr22lo1r2r2hi2r2vr22vr22hi2r2_c.
 ssl_dealloc x.
@@ -207,19 +207,19 @@ ssl_write retv.
 ssl_write_post retv.
 ssl_emp;
 exists ((if (r2) == (null) then (if (null) == (null) then 0 else 0) else (if (hi2r2) <= (vr22) then vr22 else hi2r2))), ((if (null) == (null) then (if (r2) == (null) then 7 else (if (vr22) <= (lo1r2) then vr22 else lo1r2)) else 7)), ((0) + (((1) + (sz1r2)) + (sz2r2))), (r2);
-exists (r2 :-> (vr22) \+ r2 .+ 1 :-> (lr22) \+ r2 .+ 2 :-> (rr22) \+ h_bst_lr22sz1r2lo1r2hi1r2_519r2 \+ h_bst_rr22sz2r2lo2r2hi2r2_520r2);
+exists (r2 :-> (vr22) \+ r2 .+ 1 :-> (lr22) \+ r2 .+ 2 :-> (rr22) \+ h_bst_lr22sz1r2lo1r2hi1r2_513r2 \+ h_bst_rr22sz2r2lo2r2hi2r2_514r2);
 sslauto.
 ssl_close 2;
-exists (sz1r2), (sz2r2), (vr22), (hi2r2), (hi1r2), (lo1r2), (lo2r2), (lr22), (rr22), (h_bst_lr22sz1r2lo1r2hi1r2_519r2), (h_bst_rr22sz2r2lo2r2hi2r2_520r2);
+exists (sz1r2), (sz2r2), (vr22), (hi2r2), (hi1r2), (lo1r2), (lo2r2), (lr22), (rr22), (h_bst_lr22sz1r2lo1r2hi1r2_513r2), (h_bst_rr22sz2r2lo2r2hi2r2_514r2);
 sslauto.
 ssl_frame_unfold.
 ssl_frame_unfold.
 ex_elim sz10 sz20 v0 hi20 hi10.
 ex_elim lo10 lo20 l0 r0.
-ex_elim h_bst_l0sz10lo10hi10_5190 h_bst_r0sz20lo20hi20_5200.
+ex_elim h_bst_l0sz10lo10hi10_5130 h_bst_r0sz20lo20hi20_5140.
 move=>[phi_bst_sz1lo1hi1_a0] [phi_bst_sz1lo1hi1_a1] [phi_bst_sz1lo1hi1_a2] [phi_bst_sz1lo1hi1_a3] [phi_bst_sz1lo1hi1_a4] [phi_bst_sz1lo1hi1_a5] [phi_bst_sz1lo1hi1_a6] [phi_bst_sz1lo1hi1_a7] [phi_bst_sz1lo1hi1_a8].
 move=>[sigma_bst_sz1lo1hi1_a].
 subst h_bst_sz1lo1hi1_a.
-move=>[H_bst_l0sz10lo10hi10_5190 H_bst_r0sz20lo20hi20_5200].
+move=>[H_bst_l0sz10lo10hi10_5130 H_bst_r0sz20lo20hi20_5140].
 ssl_inconsistency.
 Qed.
