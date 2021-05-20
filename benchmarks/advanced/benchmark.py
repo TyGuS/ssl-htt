@@ -1,21 +1,20 @@
 import subprocess
 from time import perf_counter
-from os import listdir
-from os.path import isfile, join
+import os
+from os.path import isfile, join, dirname, realpath
 import csv
 import argparse
 
 
 # Directory where benchmark programs are located
-BENCHMARK_DIR    = "/home/artifact/projects/ssl-htt/benchmarks/advanced"
+BENCHMARK_DIR    = dirname(realpath(__file__))
 # Directory names of the benchmark groups to evaluate
 BENCHMARK_GROUPS = ["bst", "dll", "srtl"]
 # Name of output statistics CSV file
 STAT_FILE        = "advanced-HTT.csv"
 # Name of output diff file
 DIFF_FILE        = "advanced-HTT.diff"
-# Directory where original SuSLik-generated certificates are stored
-ORIGINAL_DIR     = "/home/artifact/projects/suslik/certify/HTT/certification-benchmarks-advanced"
+
 
 # Check the proof size and spec size of a Coq (.v) file
 def coqwc(fpath, cwd):
@@ -53,6 +52,7 @@ def gen_diff(dir1, dir2, out_file):
 		"-x", ".*.aux",
 		"-x", ".lia*",
 		"-x", "Makefile",
+		"-x", "*.csv",
 		dir1, dir2
 	]
 	return subprocess.call(cmd, stdout=out_file)
@@ -64,11 +64,20 @@ def cmdline():
 		                help="Skip diff file generation")
 	parser.add_argument("--nostat", action="store_true",
 		                help="Skip proof compilation/generation of stats CSV file")
-	parser.add_argument("--diffSource", action="store", default=ORIGINAL_DIR,
+	parser.add_argument("--diffSource", action="store", default=None,
 		                help="The directory containing the generated advanced benchmark HTT certificates")
 	parser.add_argument("--outputDir", action="store", default=BENCHMARK_DIR,
 		                help="The directory where output files should be stored")
 	return parser.parse_args()
+
+
+def mkdirs(filename):
+	if not os.path.exists(dirname(filename)):
+		try:
+			os.makedirs(dirname(filename))
+		except OSError as exc:
+			if exc.errno != errno.EEXIST:
+				raise
 
 
 def main():
@@ -76,17 +85,28 @@ def main():
 
 	if not opts.nodiff:
 		diff_file_path = join(opts.outputDir, DIFF_FILE)
-		with open(diff_file_path, "w") as f:
-			print("Comparing manually edited certificates to SuSLik-generated ones...")
-			if gen_diff(BENCHMARK_DIR, opts.diffSource, f) == 2:
-				print(f"No diff file generated! Make sure SuSLik-generated certificates are present in:")
-				print(f"  {opts.diffSource}")
+		suslik_home = os.environ.get("SUSLIK_HOME")
+		if opts.diffSource is None and suslik_home is None:
+			print("No diff file generated! Environment variable $SUSLIK_HOME not set.")
+			print("Please set it or specify a source directory with the --diffSource option.")
+		else:
+			if opts.diffSource is None:
+				diff_source = join(suslik_home, "certify/HTT/certification-benchmarks-advanced")
 			else:
-				print(f"Diff file generated at:")
-				print(f"  {diff_file_path}")
+				diff_source = opts.diffSource
+			mkdirs(diff_file_path)
+			with open(diff_file_path, "w") as f:
+				print("Comparing manually edited certificates to SuSLik-generated ones...")
+				if gen_diff(BENCHMARK_DIR, diff_source, f) == 2:
+					print(f"No diff file generated! Make sure SuSLik-generated certificates are present in:")
+					print(f"  {diff_source}")
+				else:
+					print(f"Diff file generated at:")
+					print(f"  {diff_file_path}")
 
 	if not opts.nostat:
 		stat_file_path = join(opts.outputDir, STAT_FILE)
+		mkdirs(stat_file_path)
 		with open(stat_file_path, "w", newline="") as csvfile:
 			print("\nRunning benchmarks...\n")
 			writer = csv.writer(csvfile)
@@ -95,7 +115,7 @@ def main():
 
 			for group in BENCHMARK_GROUPS:
 				cwd = join(BENCHMARK_DIR, group)
-				files = [f for f in listdir(cwd) if isfile(join(cwd, f))]
+				files = [f for f in os.listdir(cwd) if isfile(join(cwd, f))]
 
 				print("=========================================")
 				print(f"  Benchmark Group: {group}")
