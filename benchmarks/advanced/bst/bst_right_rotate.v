@@ -41,7 +41,12 @@ Lemma pure3 (lo2 : nat) (hi1l2 : nat) (lo2l2 : nat) (hi2l2 : nat) (v2 : nat) (vl
   exact (leq_trans H8 H2).
 Qed.
 Hint Resolve pure3: ssl_pure.
-Lemma pure4 (lo2 : nat) (hi1l2 : nat) (lo2l2 : nat) (hi2l2 : nat) (v2 : nat) (vl22 : nat) : (v2) <= (lo2) -> (v2) <= (7) -> (hi1l2) <= (vl22) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> (vl22) <= (7) -> (0) <= (vl22) -> (hi2l2) <= (v2). intros; hammer. Qed.
+Lemma pure4 (lo2 : nat) (hi1l2 : nat) (lo2l2 : nat) (hi2l2 : nat) (v2 : nat) (vl22 : nat) : (v2) <= (lo2) -> (v2) <= (7) -> (hi1l2) <= (vl22) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> (vl22) <= (7) -> (0) <= (vl22) -> (hi2l2) <= (v2).
+  (* intros; hammer. *)
+  intros.
+  destruct (hi2l2 <= vl22) eqn:H7; last by done.
+  exact (leq_trans H7 H2).
+Qed.
 Hint Resolve pure4: ssl_pure.
 
 Definition bst_right_rotate_type :=

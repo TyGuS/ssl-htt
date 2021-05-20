@@ -34,9 +34,17 @@ Lemma pure3 : (0) = (0). intros; hammer. Qed.
 Hint Resolve pure3: ssl_pure.
 Lemma pure4 (sz1l2 : nat) (sz2l2 : nat) : (0) <= (sz2l2) -> (0) <= (sz1l2) -> (0) <= (((1) + (sz1l2)) + (sz2l2)) -> (((1) + (sz1l2)) + (sz2l2)) = (((1) + (sz1l2)) + (sz2l2)). intros; hammer. Qed.
 Hint Resolve pure4: ssl_pure.
-Lemma pure5 (hi1l2 : nat) (retv : ptr) (lo2l2 : nat) (hi2l2 : nat) (l2 : ptr) (v2 : nat) (x : ptr) (lo1l2 : nat) (vl22 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (hi1l2) <= (vl22) -> ~~ ((l2) == (null)) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> ~~ ((l2) == (retv)) -> (vl22) <= (7) -> ~~ ((retv) == (x)) -> (0) <= (vl22) -> ~~ ((l2) == (x)) -> ((if (l2) == (null) then (if (null) == (null) then 7 else 7) else (if (vl22) <= (lo1l2) then vl22 else lo1l2))) = ((if (vl22) <= (lo1l2) then vl22 else lo1l2)). intros; hammer. Qed.
+Lemma pure5 (hi1l2 : nat) (retv : ptr) (lo2l2 : nat) (hi2l2 : nat) (l2 : ptr) (v2 : nat) (x : ptr) (lo1l2 : nat) (vl22 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (hi1l2) <= (vl22) -> ~~ ((l2) == (null)) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> ~~ ((l2) == (retv)) -> (vl22) <= (7) -> ~~ ((retv) == (x)) -> (0) <= (vl22) -> ~~ ((l2) == (x)) -> ((if (l2) == (null) then (if (null) == (null) then 7 else 7) else (if (vl22) <= (lo1l2) then vl22 else lo1l2))) = ((if (vl22) <= (lo1l2) then vl22 else lo1l2)).
+  (* intros; hammer. *)
+  intros=>//=.
+  destruct (vl22 <= lo1l2) eqn:H12; sauto.
+Qed.
 Hint Resolve pure5: ssl_pure.
-Lemma pure6 (hi1l2 : nat) (retv : ptr) (lo2l2 : nat) (hi2l2 : nat) (l2 : ptr) (v2 : nat) (x : ptr) (vl22 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (hi1l2) <= (vl22) -> ~~ ((l2) == (null)) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> ~~ ((l2) == (retv)) -> (vl22) <= (7) -> ~~ ((retv) == (x)) -> (0) <= (vl22) -> ~~ ((l2) == (x)) -> ((if (null) == (null) then (if (l2) == (null) then 0 else (if (hi2l2) <= (vl22) then vl22 else hi2l2)) else 0)) = ((if (hi2l2) <= (vl22) then vl22 else hi2l2)). intros; hammer. Qed.
+Lemma pure6 (hi1l2 : nat) (retv : ptr) (lo2l2 : nat) (hi2l2 : nat) (l2 : ptr) (v2 : nat) (x : ptr) (vl22 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (hi1l2) <= (vl22) -> ~~ ((l2) == (null)) -> ((if (hi2l2) <= (vl22) then vl22 else hi2l2)) <= (v2) -> (0) <= (v2) -> (vl22) <= (lo2l2) -> ~~ ((l2) == (retv)) -> (vl22) <= (7) -> ~~ ((retv) == (x)) -> (0) <= (vl22) -> ~~ ((l2) == (x)) -> ((if (null) == (null) then (if (l2) == (null) then 0 else (if (hi2l2) <= (vl22) then vl22 else hi2l2)) else 0)) = ((if (hi2l2) <= (vl22) then vl22 else hi2l2)).
+  (* intros; hammer. *)
+  intros=>//=.
+  destruct (hi2l2 <= vl22) eqn:H12; sauto.
+Qed.
 Hint Resolve pure6: ssl_pure.
 
 Definition bst_remove_root_no_right_type :=
