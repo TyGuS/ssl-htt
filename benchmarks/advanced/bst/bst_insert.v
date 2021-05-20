@@ -8,6 +8,7 @@ From SSL
 Require Import core.
 From Hammer Require Import Hammer.
 (* Configure Hammer *)
+Set Hammer ATPLimit 60.
 Unset Hammer Eprover.
 Unset Hammer Vampire.
 Add Search Blacklist "fcsl.".
@@ -61,7 +62,11 @@ Lemma pure11 (sz2x : nat) (sz1x : nat) : (0) <= (sz2x) -> (0) <= (sz1x) -> (0) <
 Hint Resolve pure11: ssl_pure.
 Lemma pure12 (sz1x : nat) (sz2x : nat) : (0) <= (sz2x) -> (0) <= (sz1x) -> (0) <= (((1) + (sz1x)) + (sz2x)) -> ((((1) + (sz1x)) + (sz2x)) + (1)) = (((1) + (sz1x)) + ((sz2x) + (1))). intros; hammer. Qed.
 Hint Resolve pure12: ssl_pure.
-Lemma pure13 (lo2x : nat) (vx2 : nat) (k2 : nat) (hi1x : nat) (lo1x : nat) : (vx2) <= (lo2x) -> (0) <= (vx2) -> (hi1x) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((k2) <= (vx2)) -> (k2) <= (7) -> ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))) = ((if (vx2) <= (lo1x) then vx2 else lo1x)). intros; hammer. Qed.
+Lemma pure13 (lo2x : nat) (vx2 : nat) (k2 : nat) (hi1x : nat) (lo1x : nat) : (vx2) <= (lo2x) -> (0) <= (vx2) -> (hi1x) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((k2) <= (vx2)) -> (k2) <= (7) -> ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))) = ((if (vx2) <= (lo1x) then vx2 else lo1x)).
+  (* intros; hammer. *)
+  intros.
+  destruct (vx2 <= lo1x) eqn:H6; sauto.
+Qed.
 Hint Resolve pure13: ssl_pure.
 Lemma pure14 (lo2x : nat) (vx2 : nat) (k2 : nat) (hi1x : nat) (hi2x : nat) : (vx2) <= (lo2x) -> (0) <= (vx2) -> (hi1x) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((k2) <= (vx2)) -> (k2) <= (7) -> ((if ((if (hi2x) <= (vx2) then vx2 else hi2x)) <= (k2) then k2 else (if (hi2x) <= (vx2) then vx2 else hi2x))) = ((if ((if (hi2x) <= (k2) then k2 else hi2x)) <= (vx2) then vx2 else (if (hi2x) <= (k2) then k2 else hi2x))).
   (* intros; hammer. *)

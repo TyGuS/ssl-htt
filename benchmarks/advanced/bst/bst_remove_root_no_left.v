@@ -8,6 +8,7 @@ From SSL
 Require Import core.
 From Hammer Require Import Hammer.
 (* Configure Hammer *)
+Set Hammer ATPLimit 60.
 Unset Hammer Eprover.
 Unset Hammer Vampire.
 Add Search Blacklist "fcsl.".
@@ -35,7 +36,11 @@ Lemma pure4 (sz1r2 : nat) (sz2r2 : nat) : (0) <= (((1) + (sz1r2)) + (sz2r2)) -> 
 Hint Resolve pure4: ssl_pure.
 Lemma pure5 (hi1r2 : nat) (r2 : ptr) (vr22 : nat) (retv : ptr) (v2 : nat) (lo1r2 : nat) (x : ptr) (lo2r2 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (0) <= (v2) -> ~~ ((r2) == (null)) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> ~~ ((r2) == (retv)) -> (vr22) <= (lo2r2) -> ~~ ((retv) == (x)) -> ~~ ((r2) == (x)) -> ((if (null) == (null) then (if (r2) == (null) then 7 else (if (vr22) <= (lo1r2) then vr22 else lo1r2)) else 7)) = ((if (vr22) <= (lo1r2) then vr22 else lo1r2)). intros; hammer. Qed.
 Hint Resolve pure5: ssl_pure.
-Lemma pure6 (hi1r2 : nat) (r2 : ptr) (vr22 : nat) (retv : ptr) (v2 : nat) (lo1r2 : nat) (x : ptr) (hi2r2 : nat) (lo2r2 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (0) <= (v2) -> ~~ ((r2) == (null)) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> ~~ ((r2) == (retv)) -> (vr22) <= (lo2r2) -> ~~ ((retv) == (x)) -> ~~ ((r2) == (x)) -> ((if (r2) == (null) then (if (null) == (null) then 0 else 0) else (if (hi2r2) <= (vr22) then vr22 else hi2r2))) = ((if (hi2r2) <= (vr22) then vr22 else hi2r2)). intros; hammer. Qed.
+Lemma pure6 (hi1r2 : nat) (r2 : ptr) (vr22 : nat) (retv : ptr) (v2 : nat) (lo1r2 : nat) (x : ptr) (hi2r2 : nat) (lo2r2 : nat) : (v2) <= (7) -> ~~ ((x) == (null)) -> ~~ ((retv) == (null)) -> (0) <= (v2) -> ~~ ((r2) == (null)) -> (0) <= (vr22) -> (v2) <= ((if (vr22) <= (lo1r2) then vr22 else lo1r2)) -> (vr22) <= (7) -> (hi1r2) <= (vr22) -> ~~ ((r2) == (retv)) -> (vr22) <= (lo2r2) -> ~~ ((retv) == (x)) -> ~~ ((r2) == (x)) -> ((if (r2) == (null) then (if (null) == (null) then 0 else 0) else (if (hi2r2) <= (vr22) then vr22 else hi2r2))) = ((if (hi2r2) <= (vr22) then vr22 else hi2r2)).
+  (* intros; hammer. *)
+  intros=>//=.
+  destruct (hi2r2 <= vr22) eqn:H12; sauto.
+Qed.
 Hint Resolve pure6: ssl_pure.
 
 Definition bst_remove_root_no_left_type :=

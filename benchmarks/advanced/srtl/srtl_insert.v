@@ -8,6 +8,7 @@ From SSL
 Require Import core.
 From Hammer Require Import Hammer.
 (* Configure Hammer *)
+Set Hammer ATPLimit 60.
 Unset Hammer Eprover.
 Unset Hammer Vampire.
 Add Search Blacklist "fcsl.".
@@ -83,7 +84,11 @@ Qed.
 Hint Resolve pure14: ssl_pure.
 Lemma pure15 (len1x : nat) : (0) <= (len1x) -> (0) <= ((1) + (len1x)) -> (((1) + (len1x)) + (1)) = ((1) + ((1) + (len1x))). intros; hammer. Qed.
 Hint Resolve pure15: ssl_pure.
-Lemma pure16 (hi1x : nat) (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))) = ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))). intros; hammer. Qed.
+Lemma pure16 (hi1x : nat) (vx2 : nat) (k2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))) = ((if ((if (hi1x) <= (vx2) then vx2 else hi1x)) <= (k2) then k2 else (if (hi1x) <= (vx2) then vx2 else hi1x))).
+  (* intros; hammer. *)
+  intros.
+  destruct (hi1x <= vx2) eqn:H5; sauto.
+Qed.
 Hint Resolve pure16: ssl_pure.
 Lemma pure17 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)).
   (* intros; hammer. *)
@@ -92,7 +97,10 @@ Lemma pure17 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx
   rewrite -ltnNge in H3; by apply ltnW.
 Qed.
 Hint Resolve pure17: ssl_pure.
-Lemma pure18 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))) = ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))). intros; hammer. Qed.
+Lemma pure18 (k2 : nat) (vx2 : nat) (lo1x : nat) : (vx2) <= (lo1x) -> (0) <= (vx2) -> (vx2) <= (7) -> (0) <= (k2) -> ~~ ((vx2) <= (k2)) -> (k2) <= (7) -> ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))) = ((if (k2) <= ((if (vx2) <= (lo1x) then vx2 else lo1x)) then k2 else (if (vx2) <= (lo1x) then vx2 else lo1x))).
+  intros.
+  destruct (vx2 <= lo1x) eqn:H5; sauto.
+Qed.
 Hint Resolve pure18: ssl_pure.
 
 Definition srtl_insert_type :=
