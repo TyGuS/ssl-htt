@@ -32,7 +32,7 @@ Hint Resolve pure5: ssl_pure.
 Lemma pure6 (y : nat) (x : nat) : ~~ ((x) <= (y)) -> (y) <= (y). intros; hammer. Qed.
 Hint Resolve pure6: ssl_pure.
 
-Definition min2_type :=
+Definition min_type :=
   forall (vprogs : ptr * nat * nat),
   STsep (
     fun h =>
@@ -44,8 +44,8 @@ Definition min2_type :=
       (m) <= (x) /\ (m) <= (y) /\ h = r :-> m
     ]).
 
-Program Definition min2 : min2_type :=
-  Fix (fun (min2 : min2_type) vprogs =>
+Program Definition min : min_type :=
+  Fix (fun (min : min_type) vprogs =>
     let: (r, x, y) := vprogs in
     Do (
       if (x) <= (y)
