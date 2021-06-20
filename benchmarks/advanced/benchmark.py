@@ -9,7 +9,7 @@ import argparse
 # Directory where benchmark programs are located
 BENCHMARK_DIR    = dirname(realpath(__file__))
 # Directory names of the benchmark groups to evaluate
-BENCHMARK_GROUPS = ["bst", "dll", "srtl"]
+BENCHMARK_GROUPS = ["dll", "bst", "srtl"]
 # Name of output statistics CSV file
 STAT_FILE        = "advanced-HTT.csv"
 # Name of output diff file
@@ -115,7 +115,7 @@ def main():
 
 			for group in BENCHMARK_GROUPS:
 				cwd = join(BENCHMARK_DIR, group)
-				files = [f for f in os.listdir(cwd) if isfile(join(cwd, f))]
+				files = sorted([f for f in os.listdir(cwd) if isfile(join(cwd, f))])
 
 				print("=========================================")
 				print(f"  Benchmark Group: {group}")
