@@ -8,6 +8,7 @@ From SSL
 Require Import core.
 From Hammer Require Import Hammer.
 (* Configure Hammer *)
+Set Hammer ATPLimit 60.
 Unset Hammer Eprover.
 Unset Hammer Vampire.
 Add Search Blacklist "fcsl.".
@@ -32,21 +33,21 @@ Definition swap2_type :=
     fun h =>
       let: (x, y) := vprogs in
       let: (a, b) := vghosts in
-      h = x :-> a \+ y :-> b,
+      h = x :-> (a) \+ y :-> (b),
     [vfun (_: unit) h =>
       let: (x, y) := vprogs in
       let: (a, b) := vghosts in
-      h = x :-> b \+ y :-> a
+      h = x :-> (b) \+ y :-> (a)
     ]).
 
 Program Definition swap2 : swap2_type :=
   Fix (fun (swap2 : swap2_type) vprogs =>
     let: (x, y) := vprogs in
     Do (
-      a2 <-- @read ptr x;
-      b2 <-- @read ptr y;
-      x ::= b2;;
-      y ::= a2;;
+      a1 <-- @read ptr x;
+      b1 <-- @read ptr y;
+      y ::= a1;;
+      x ::= b1;;
       ret tt
     )).
 Obligation Tactic := intro; move=>[x y]; ssl_program_simpl.
@@ -57,13 +58,13 @@ move=>[sigma_self].
 subst h_self.
 ssl_ghostelim_post.
 ssl_read x.
-try rename a into a2.
+try rename a into a1.
 ssl_read y.
-try rename b into b2.
-ssl_write x.
-ssl_write_post x.
+try rename b into b1.
 ssl_write y.
 ssl_write_post y.
+ssl_write x.
+ssl_write_post x.
 ssl_emp;
 sslauto.
 Qed.

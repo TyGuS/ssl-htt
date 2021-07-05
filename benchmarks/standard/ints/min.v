@@ -8,6 +8,7 @@ From SSL
 Require Import core.
 From Hammer Require Import Hammer.
 (* Configure Hammer *)
+Set Hammer ATPLimit 60.
 Unset Hammer Eprover.
 Unset Hammer Vampire.
 Add Search Blacklist "fcsl.".
@@ -25,23 +26,23 @@ Add Search Blacklist "mathcomp.ssreflect.tuple".
 
 Require Import common.
 
-Lemma pure4 (x : nat) (y : nat) : (x) <= (y) -> (x) <= (x). intros; hammer. Qed.
-Hint Resolve pure4: ssl_pure.
-Lemma pure5 (y : nat) (x : nat) : ~~ ((x) <= (y)) -> (y) <= (x). intros; hammer. Qed.
-Hint Resolve pure5: ssl_pure.
-Lemma pure6 (y : nat) (x : nat) : ~~ ((x) <= (y)) -> (y) <= (y). intros; hammer. Qed.
-Hint Resolve pure6: ssl_pure.
+Lemma pure1 (x : nat) (y : nat) : (x) <= (y) -> (x) <= (x). intros; hammer. Qed.
+Hint Resolve pure1: ssl_pure.
+Lemma pure2 (y : nat) (x : nat) : ~~ ((x) <= (y)) -> (y) <= (x). intros; hammer. Qed.
+Hint Resolve pure2: ssl_pure.
+Lemma pure3 (y : nat) (x : nat) : ~~ ((x) <= (y)) -> (y) <= (y). intros; hammer. Qed.
+Hint Resolve pure3: ssl_pure.
 
 Definition min_type :=
   forall (vprogs : ptr * nat * nat),
   STsep (
     fun h =>
       let: (r, x, y) := vprogs in
-      h = r :-> null,
+      h = r :-> (null),
     [vfun (_: unit) h =>
       let: (r, x, y) := vprogs in
       exists m,
-      (m) <= (x) /\ (m) <= (y) /\ h = r :-> m
+      (m) <= (x) /\ (m) <= (y) /\ h = r :-> (m)
     ]).
 
 Program Definition min : min_type :=

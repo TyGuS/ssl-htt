@@ -8,6 +8,7 @@ From SSL
 Require Import core.
 From Hammer Require Import Hammer.
 (* Configure Hammer *)
+Set Hammer ATPLimit 60.
 Unset Hammer Eprover.
 Unset Hammer Vampire.
 Add Search Blacklist "fcsl.".
@@ -37,11 +38,11 @@ Definition max_type :=
   STsep (
     fun h =>
       let: (r, x, y) := vprogs in
-      h = r :-> 0,
+      h = r :-> (0),
     [vfun (_: unit) h =>
       let: (r, x, y) := vprogs in
       exists m,
-      (x) <= (m) /\ (y) <= (m) /\ h = r :-> m
+      (x) <= (m) /\ (y) <= (m) /\ h = r :-> (m)
     ]).
 
 Program Definition max : max_type :=

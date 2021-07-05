@@ -8,6 +8,7 @@ From SSL
 Require Import core.
 From Hammer Require Import Hammer.
 (* Configure Hammer *)
+Set Hammer ATPLimit 60.
 Unset Hammer Eprover.
 Unset Hammer Vampire.
 Add Search Blacklist "fcsl.".
@@ -25,12 +26,12 @@ Add Search Blacklist "mathcomp.ssreflect.tuple".
 
 Require Import common.
 
-Lemma pure36 : (@nil nat) = (@nil nat). intros; hammer. Qed.
-Hint Resolve pure36: ssl_pure.
-Lemma pure37 (vx22 : nat) (s1x2 : seq nat) (s2x2 : seq nat) : ((([:: vx22]) ++ (s1x2)) ++ (s2x2)) = ((([:: vx22]) ++ (s1x2)) ++ (s2x2)). intros; hammer. Qed.
-Hint Resolve pure37: ssl_pure.
-Lemma pure38 (vx22 : nat) (s1x2 : seq nat) (s2x2 : seq nat) : ((([:: vx22]) ++ (s1x2)) ++ (s2x2)) = ((([:: vx22]) ++ (s1x2)) ++ (s2x2)). intros; hammer. Qed.
-Hint Resolve pure38: ssl_pure.
+Lemma pure1 : (@nil nat) = (@nil nat). intros; hammer. Qed.
+Hint Resolve pure1: ssl_pure.
+Lemma pure2 (vx11 : nat) (s1x1 : seq nat) (s2x1 : seq nat) : ((([:: vx11]) ++ (s1x1)) ++ (s2x1)) = ((([:: vx11]) ++ (s1x1)) ++ (s2x1)). intros; hammer. Qed.
+Hint Resolve pure2: ssl_pure.
+Lemma pure3 (vx11 : nat) (s1x1 : seq nat) (s2x1 : seq nat) : ((([:: vx11]) ++ (s1x1)) ++ (s2x1)) = ((([:: vx11]) ++ (s1x1)) ++ (s2x1)). intros; hammer. Qed.
+Hint Resolve pure3: ssl_pure.
 
 Definition tree_copy_type :=
   forall (vprogs : ptr),
@@ -40,38 +41,38 @@ Definition tree_copy_type :=
       let: (r) := vprogs in
       let: (x, s) := vghosts in
       exists h_tree_xs_a,
-      h = r :-> x \+ h_tree_xs_a /\ tree x s h_tree_xs_a,
+      h = r :-> (x) \+ h_tree_xs_a /\ tree x s h_tree_xs_a,
     [vfun (_: unit) h =>
       let: (r) := vprogs in
       let: (x, s) := vghosts in
       exists y,
       exists h_tree_xs_a h_tree_ys_a,
-      h = r :-> y \+ h_tree_xs_a \+ h_tree_ys_a /\ tree x s h_tree_xs_a /\ tree y s h_tree_ys_a
+      h = r :-> (y) \+ h_tree_xs_a \+ h_tree_ys_a /\ tree x s h_tree_xs_a /\ tree y s h_tree_ys_a
     ]).
 
 Program Definition tree_copy : tree_copy_type :=
   Fix (fun (tree_copy : tree_copy_type) vprogs =>
     let: (r) := vprogs in
     Do (
-      x2 <-- @read ptr r;
-      if (x2) == (null)
+      x1 <-- @read ptr r;
+      if (x1) == (null)
       then
         ret tt
       else
-        vx22 <-- @read nat x2;
-        lx22 <-- @read ptr (x2 .+ 1);
-        rx22 <-- @read ptr (x2 .+ 2);
-        r ::= lx22;;
+        vx11 <-- @read nat x1;
+        lx11 <-- @read ptr (x1 .+ 1);
+        rx11 <-- @read ptr (x1 .+ 2);
+        r ::= lx11;;
         tree_copy (r);;
-        y12 <-- @read ptr r;
-        r ::= rx22;;
+        y11 <-- @read ptr r;
+        r ::= rx11;;
         tree_copy (r);;
-        y22 <-- @read ptr r;
+        y21 <-- @read ptr r;
         y3 <-- allocb null 3;
         r ::= y3;;
-        (y3 .+ 1) ::= y12;;
-        (y3 .+ 2) ::= y22;;
-        y3 ::= vx22;;
+        (y3 .+ 1) ::= y11;;
+        (y3 .+ 2) ::= y21;;
+        y3 ::= vx11;;
         ret tt
     )).
 Obligation Tactic := intro; move=>r; ssl_program_simpl.
@@ -84,17 +85,17 @@ subst h_self.
 move=>H_tree_xs_a.
 ssl_ghostelim_post.
 ssl_read r.
-try rename x into x2.
-try rename h_tree_xs_a into h_tree_x2s_a.
-try rename H_tree_xs_a into H_tree_x2s_a.
-ssl_open ((x2) == (null)) H_tree_x2s_a.
-move=>[phi_tree_x2s_a0].
-move=>[sigma_tree_x2s_a].
-subst h_tree_x2s_a.
+try rename x into x1.
+try rename h_tree_xs_a into h_tree_x1s_a.
+try rename H_tree_xs_a into H_tree_x1s_a.
+ssl_open ((x1) == (null)) H_tree_x1s_a.
+move=>[phi_tree_x1s_a0].
+move=>[sigma_tree_x1s_a].
+subst h_tree_x1s_a.
 try rename h_tree_ys_a into h_tree_y_a.
 try rename H_tree_ys_a into H_tree_y_a.
-try rename h_tree_x2s_a into h_tree_x2_a.
-try rename H_tree_x2s_a into H_tree_x2_a.
+try rename h_tree_x1s_a into h_tree_x1_a.
+try rename H_tree_x1s_a into H_tree_x1_a.
 try rename h_tree_y_a into h_tree__a.
 try rename H_tree_y_a into H_tree__a.
 ssl_emp;
@@ -106,80 +107,80 @@ ssl_close 1;
 sslauto.
 ssl_close 1;
 sslauto.
-ex_elim vx2 s1x2 s2x2 lx2 rx2.
-ex_elim h_tree_lx2s1x2_554x2 h_tree_rx2s2x2_555x2.
-move=>[phi_tree_x2s_a0].
-move=>[sigma_tree_x2s_a].
-subst h_tree_x2s_a.
-move=>[H_tree_lx2s1x2_554x2 H_tree_rx2s2x2_555x2].
-try rename h_tree_x2s_a into h_tree_x2vx2s1x2s2x2_a.
-try rename H_tree_x2s_a into H_tree_x2vx2s1x2s2x2_a.
-try rename h_tree_ys_a into h_tree_yvx2s1x2s2x2_a.
-try rename H_tree_ys_a into H_tree_yvx2s1x2s2x2_a.
-ssl_read x2.
-try rename vx2 into vx22.
-try rename h_tree_x2vx2s1x2s2x2_a into h_tree_x2vx22s1x2s2x2_a.
-try rename H_tree_x2vx2s1x2s2x2_a into H_tree_x2vx22s1x2s2x2_a.
-try rename h_tree_yvx2s1x2s2x2_a into h_tree_yvx22s1x2s2x2_a.
-try rename H_tree_yvx2s1x2s2x2_a into H_tree_yvx22s1x2s2x2_a.
-ssl_read (x2 .+ 1).
-try rename lx2 into lx22.
-try rename h_tree_lx2s1x2_554x2 into h_tree_lx22s1x2_554x2.
-try rename H_tree_lx2s1x2_554x2 into H_tree_lx22s1x2_554x2.
-ssl_read (x2 .+ 2).
-try rename rx2 into rx22.
-try rename h_tree_rx2s2x2_555x2 into h_tree_rx22s2x2_555x2.
-try rename H_tree_rx2s2x2_555x2 into H_tree_rx22s2x2_555x2.
-try rename h_tree_x1s1_a1 into h_tree_lx22s1x2_554x2.
-try rename H_tree_x1s1_a1 into H_tree_lx22s1x2_554x2.
+ex_elim vx1 s1x1 s2x1 lx1 rx1.
+ex_elim h_tree_lx1s1x1_0x1 h_tree_rx1s2x1_1x1.
+move=>[phi_tree_x1s_a0].
+move=>[sigma_tree_x1s_a].
+subst h_tree_x1s_a.
+move=>[H_tree_lx1s1x1_0x1 H_tree_rx1s2x1_1x1].
+try rename h_tree_x1s_a into h_tree_x1vx1s1x1s2x1_a.
+try rename H_tree_x1s_a into H_tree_x1vx1s1x1s2x1_a.
+try rename h_tree_ys_a into h_tree_yvx1s1x1s2x1_a.
+try rename H_tree_ys_a into H_tree_yvx1s1x1s2x1_a.
+ssl_read x1.
+try rename vx1 into vx11.
+try rename h_tree_x1vx1s1x1s2x1_a into h_tree_x1vx11s1x1s2x1_a.
+try rename H_tree_x1vx1s1x1s2x1_a into H_tree_x1vx11s1x1s2x1_a.
+try rename h_tree_yvx1s1x1s2x1_a into h_tree_yvx11s1x1s2x1_a.
+try rename H_tree_yvx1s1x1s2x1_a into H_tree_yvx11s1x1s2x1_a.
+ssl_read (x1 .+ 1).
+try rename lx1 into lx11.
+try rename h_tree_lx1s1x1_0x1 into h_tree_lx11s1x1_0x1.
+try rename H_tree_lx1s1x1_0x1 into H_tree_lx11s1x1_0x1.
+ssl_read (x1 .+ 2).
+try rename rx1 into rx11.
+try rename h_tree_rx1s2x1_1x1 into h_tree_rx11s2x1_1x1.
+try rename H_tree_rx1s2x1_1x1 into H_tree_rx11s2x1_1x1.
+try rename h_tree_x2s1_a1 into h_tree_lx11s1x1_0x1.
+try rename H_tree_x2s1_a1 into H_tree_lx11s1x1_0x1.
 ssl_write r.
-ssl_call_pre (r :-> lx22 \+ h_tree_lx22s1x2_554x2).
-ssl_call (lx22, s1x2).
-exists (h_tree_lx22s1x2_554x2);
+ssl_call_pre (r :-> (lx11) \+ h_tree_lx11s1x1_0x1).
+ssl_call (lx11, s1x1).
+exists (h_tree_lx11s1x1_0x1);
 sslauto.
 ssl_frame_unfold.
 move=>h_call0.
 ex_elim y1.
-ex_elim h_tree_lx22s1x2_554x2 h_tree_y1s1x2_554x2.
+ex_elim h_tree_lx11s1x1_0x1 h_tree_y1s1x1_0x1.
 move=>[sigma_call0].
 subst h_call0.
-move=>[H_tree_lx22s1x2_554x2 H_tree_y1s1x2_554x2].
+move=>[H_tree_lx11s1x1_0x1 H_tree_y1s1x1_0x1].
 store_valid.
 ssl_read r.
-try rename y1 into y12.
-try rename h_tree_y1s1x2_554x2 into h_tree_y12s1x2_554x2.
-try rename H_tree_y1s1x2_554x2 into H_tree_y12s1x2_554x2.
-try rename h_tree_x3s2_a2 into h_tree_rx22s2x2_555x2.
-try rename H_tree_x3s2_a2 into H_tree_rx22s2x2_555x2.
+try rename y1 into y11.
+try rename h_tree_y1s1x1_0x1 into h_tree_y11s1x1_0x1.
+try rename H_tree_y1s1x1_0x1 into H_tree_y11s1x1_0x1.
+try rename h_tree_x3s2_a2 into h_tree_rx11s2x1_1x1.
+try rename H_tree_x3s2_a2 into H_tree_rx11s2x1_1x1.
 ssl_write r.
-ssl_call_pre (r :-> rx22 \+ h_tree_rx22s2x2_555x2).
-ssl_call (rx22, s2x2).
-exists (h_tree_rx22s2x2_555x2);
+ssl_call_pre (r :-> (rx11) \+ h_tree_rx11s2x1_1x1).
+ssl_call (rx11, s2x1).
+exists (h_tree_rx11s2x1_1x1);
 sslauto.
 ssl_frame_unfold.
 move=>h_call1.
 ex_elim y2.
-ex_elim h_tree_rx22s2x2_555x2 h_tree_y2s2x2_555x2.
+ex_elim h_tree_rx11s2x1_1x1 h_tree_y2s2x1_1x1.
 move=>[sigma_call1].
 subst h_call1.
-move=>[H_tree_rx22s2x2_555x2 H_tree_y2s2x2_555x2].
+move=>[H_tree_rx11s2x1_1x1 H_tree_y2s2x1_1x1].
 store_valid.
 ssl_read r.
-try rename y2 into y22.
-try rename h_tree_y2s2x2_555x2 into h_tree_y22s2x2_555x2.
-try rename H_tree_y2s2x2_555x2 into H_tree_y22s2x2_555x2.
-try rename h_tree_lx21s11x2_554x21 into h_tree_lx22s1x2_554x2.
-try rename H_tree_lx21s11x2_554x21 into H_tree_lx22s1x2_554x2.
-try rename h_tree_r3x2s21x2_555x21 into h_tree_rx22s2x2_555x2.
-try rename H_tree_r3x2s21x2_555x21 into H_tree_rx22s2x2_555x2.
-try rename h_tree_lys11y_554y into h_tree_y12s1x2_554x2.
-try rename H_tree_lys11y_554y into H_tree_y12s1x2_554x2.
-try rename h_tree_r3ys21y_555y into h_tree_y22s2x2_555x2.
-try rename H_tree_r3ys21y_555y into H_tree_y22s2x2_555x2.
+try rename y2 into y21.
+try rename h_tree_y2s2x1_1x1 into h_tree_y21s2x1_1x1.
+try rename H_tree_y2s2x1_1x1 into H_tree_y21s2x1_1x1.
+try rename h_tree_lx12s11x1_0x11 into h_tree_lx11s1x1_0x1.
+try rename H_tree_lx12s11x1_0x11 into H_tree_lx11s1x1_0x1.
+try rename h_tree_r3x1s21x1_1x11 into h_tree_rx11s2x1_1x1.
+try rename H_tree_r3x1s21x1_1x11 into H_tree_rx11s2x1_1x1.
+try rename h_tree_lys11y_0y into h_tree_y11s1x1_0x1.
+try rename H_tree_lys11y_0y into H_tree_y11s1x1_0x1.
+try rename h_tree_r3ys21y_1y into h_tree_y21s2x1_1x1.
+try rename H_tree_r3ys21y_1y into H_tree_y21s2x1_1x1.
 ssl_alloc y3.
 try rename y into y3.
-try rename h_tree_yvx22s1x2s2x2_a into h_tree_y3vx22s1x2s2x2_a.
-try rename H_tree_yvx22s1x2s2x2_a into H_tree_y3vx22s1x2s2x2_a.
+try rename h_tree_yvx11s1x1s2x1_a into h_tree_y3vx11s1x1s2x1_a.
+try rename H_tree_yvx11s1x1s2x1_a into H_tree_y3vx11s1x1s2x1_a.
 ssl_write r.
 ssl_write_post r.
 ssl_write (y3 .+ 1).
@@ -190,16 +191,16 @@ ssl_write y3.
 ssl_write_post y3.
 ssl_emp;
 exists (y3);
-exists (x2 :-> vx22 \+ x2 .+ 1 :-> lx22 \+ x2 .+ 2 :-> rx22 \+ h_tree_lx22s1x2_554x2 \+ h_tree_rx22s2x2_555x2);
-exists (y3 :-> vx22 \+ y3 .+ 1 :-> y12 \+ y3 .+ 2 :-> y22 \+ h_tree_y12s1x2_554x2 \+ h_tree_y22s2x2_555x2);
+exists (x1 :-> (vx11) \+ x1 .+ 1 :-> (lx11) \+ x1 .+ 2 :-> (rx11) \+ h_tree_lx11s1x1_0x1 \+ h_tree_rx11s2x1_1x1);
+exists (y3 :-> (vx11) \+ y3 .+ 1 :-> (y11) \+ y3 .+ 2 :-> (y21) \+ h_tree_y11s1x1_0x1 \+ h_tree_y21s2x1_1x1);
 sslauto.
 ssl_close 2;
-exists (vx22), (s1x2), (s2x2), (lx22), (rx22), (h_tree_lx22s1x2_554x2), (h_tree_rx22s2x2_555x2);
+exists (vx11), (s1x1), (s2x1), (lx11), (rx11), (h_tree_lx11s1x1_0x1), (h_tree_rx11s2x1_1x1);
 sslauto.
 shelve.
 shelve.
 ssl_close 2;
-exists (vx22), (s1x2), (s2x2), (y12), (y22), (h_tree_y12s1x2_554x2), (h_tree_y22s2x2_555x2);
+exists (vx11), (s1x1), (s2x1), (y11), (y21), (h_tree_y11s1x1_0x1), (h_tree_y21s2x1_1x1);
 sslauto.
 shelve.
 shelve.

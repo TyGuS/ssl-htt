@@ -8,6 +8,7 @@ From SSL
 Require Import core.
 From Hammer Require Import Hammer.
 (* Configure Hammer *)
+Set Hammer ATPLimit 60.
 Unset Hammer Eprover.
 Unset Hammer Vampire.
 Add Search Blacklist "fcsl.".
@@ -28,5 +29,5 @@ Inductive dll (x : ptr) (z : ptr) (s : seq nat) (h : heap) : Prop :=
   (s) == (@nil nat) /\ h = empty
 | dll_2 of ~~ ((x) == (null)) of
   exists (v : nat) (s1 : seq nat) (w : ptr),
-  exists h_dll_wxs1_533,
-  (s) == (([:: v]) ++ (s1)) /\ h = x :-> v \+ x .+ 1 :-> w \+ x .+ 2 :-> z \+ h_dll_wxs1_533 /\ dll w x s1 h_dll_wxs1_533.
+  exists h_dll_wxs1_0,
+  (s) == (([:: v]) ++ (s1)) /\ h = x :-> (v) \+ x .+ 1 :-> (w) \+ x .+ 2 :-> (z) \+ h_dll_wxs1_0 /\ dll w x s1 h_dll_wxs1_0.
