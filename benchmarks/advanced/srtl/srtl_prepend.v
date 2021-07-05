@@ -28,7 +28,7 @@ Require Import common.
 
 Lemma pure1 (n : nat) : (0) <= (n) -> ((n) + (1)) = ((1) + (n)). intros; hammer. Qed.
 Hint Resolve pure1: ssl_pure.
-Lemma pure2 (k : nat) (lo : nat) : (k) <= (lo) -> (k) <= (7) -> (0) <= (k) -> (k) = ((if (k) <= (lo) then k else lo)). intros; hammer. Qed.
+Lemma pure2 (k : nat) (lo : nat) : (k) <= (lo) -> (0) <= (k) -> (k) <= (7) -> (k) = ((if (k) <= (lo) then k else lo)). intros; hammer. Qed.
 Hint Resolve pure2: ssl_pure.
 
 Definition srtl_prepend_type :=
@@ -38,65 +38,65 @@ Definition srtl_prepend_type :=
     fun h =>
       let: (x, k, r) := vprogs in
       let: (n, lo, hi, a) := vghosts in
-      exists h_srtl_xnlohi_515,
-      (0) <= (k) /\ (0) <= (n) /\ (k) <= (7) /\ (k) <= (lo) /\ h = r :-> (a) \+ h_srtl_xnlohi_515 /\ srtl x n lo hi h_srtl_xnlohi_515,
+      exists h_srtl_xnlohi_2,
+      (0) <= (k) /\ (0) <= (n) /\ (k) <= (7) /\ (k) <= (lo) /\ h = r :-> (a) \+ h_srtl_xnlohi_2 /\ srtl x n lo hi h_srtl_xnlohi_2,
     [vfun (_: unit) h =>
       let: (x, k, r) := vprogs in
       let: (n, lo, hi, a) := vghosts in
       exists n1 y hi1,
-      exists h_srtl_yn1khi1_516,
-      (n1) == ((n) + (1)) /\ h = r :-> (y) \+ h_srtl_yn1khi1_516 /\ srtl y n1 k hi1 h_srtl_yn1khi1_516
+      exists h_srtl_yn1khi1_3,
+      (n1) == ((n) + (1)) /\ h = r :-> (y) \+ h_srtl_yn1khi1_3 /\ srtl y n1 k hi1 h_srtl_yn1khi1_3
     ]).
 
 Program Definition srtl_prepend : srtl_prepend_type :=
   Fix (fun (srtl_prepend : srtl_prepend_type) vprogs =>
     let: (x, k, r) := vprogs in
     Do (
-      a2 <-- @read ptr r;
-      y2 <-- allocb null 2;
-      r ::= y2;;
-      (y2 .+ 1) ::= x;;
-      y2 ::= k;;
+      a1 <-- @read ptr r;
+      y1 <-- allocb null 2;
+      r ::= y1;;
+      (y1 .+ 1) ::= x;;
+      y1 ::= k;;
       ret tt
     )).
 Obligation Tactic := intro; move=>[[x k] r]; ssl_program_simpl.
 Next Obligation.
 ssl_ghostelim_pre.
 move=>[[[n lo] hi] a].
-ex_elim h_srtl_xnlohi_515.
+ex_elim h_srtl_xnlohi_2.
 move=>[phi_self0] [phi_self1] [phi_self2] [phi_self3].
 move=>[sigma_self].
 subst h_self.
-move=>H_srtl_xnlohi_515.
+move=>H_srtl_xnlohi_2.
 ssl_ghostelim_post.
-try rename h_srtl_yn1khi1_516 into h_srtl_ynkhi1_516.
-try rename H_srtl_yn1khi1_516 into H_srtl_ynkhi1_516.
+try rename h_srtl_yn1khi1_3 into h_srtl_ynkhi1_3.
+try rename H_srtl_yn1khi1_3 into H_srtl_ynkhi1_3.
 ssl_read r.
-try rename a into a2.
-try rename h_srtl_ynkhi1_516 into h_srtl_ynkhi11yvyvyhi11y_516.
-try rename H_srtl_ynkhi1_516 into H_srtl_ynkhi11yvyvyhi11y_516.
-try rename h_srtl_nxtylen1ylo1yhi11y_514y into h_srtl_xnlohi_515.
-try rename H_srtl_nxtylen1ylo1yhi11y_514y into H_srtl_xnlohi_515.
-try rename h_srtl_ynkhi11yvyvyhi11y_516 into h_srtl_ynkhivyvyhi_516.
-try rename H_srtl_ynkhi11yvyvyhi11y_516 into H_srtl_ynkhivyvyhi_516.
-ssl_alloc y2.
-try rename y into y2.
-try rename h_srtl_ynkhivyvyhi_516 into h_srtl_y2nkhivyvyhi_516.
-try rename H_srtl_ynkhivyvyhi_516 into H_srtl_y2nkhivyvyhi_516.
+try rename a into a1.
+try rename h_srtl_ynkhi1_3 into h_srtl_ynkhi11yvyvyhi11y_3.
+try rename H_srtl_ynkhi1_3 into H_srtl_ynkhi11yvyvyhi11y_3.
+try rename h_srtl_nxtylen1ylo1yhi11y_1y into h_srtl_xnlohi_2.
+try rename H_srtl_nxtylen1ylo1yhi11y_1y into H_srtl_xnlohi_2.
+try rename h_srtl_ynkhi11yvyvyhi11y_3 into h_srtl_ynkhivyvyhi_3.
+try rename H_srtl_ynkhi11yvyvyhi11y_3 into H_srtl_ynkhivyvyhi_3.
+ssl_alloc y1.
+try rename y into y1.
+try rename h_srtl_ynkhivyvyhi_3 into h_srtl_y1nkhivyvyhi_3.
+try rename H_srtl_ynkhivyvyhi_3 into H_srtl_y1nkhivyvyhi_3.
 ssl_write r.
 ssl_write_post r.
-ssl_write (y2 .+ 1).
-ssl_write_post (y2 .+ 1).
-try rename h_srtl_y2nkhivyvyhi_516 into h_srtl_y2nkhikkhi_516.
-try rename H_srtl_y2nkhivyvyhi_516 into H_srtl_y2nkhikkhi_516.
-ssl_write y2.
-ssl_write_post y2.
+ssl_write (y1 .+ 1).
+ssl_write_post (y1 .+ 1).
+try rename h_srtl_y1nkhivyvyhi_3 into h_srtl_y1nkhikkhi_3.
+try rename H_srtl_y1nkhivyvyhi_3 into H_srtl_y1nkhikkhi_3.
+ssl_write y1.
+ssl_write_post y1.
 ssl_emp;
-exists ((n) + (1)), (y2), ((if (hi) <= (k) then k else hi));
-exists (y2 :-> (k) \+ y2 .+ 1 :-> (x) \+ h_srtl_xnlohi_515);
+exists ((n) + (1)), (y1), ((if (hi) <= (k) then k else hi));
+exists (y1 :-> (k) \+ y1 .+ 1 :-> (x) \+ h_srtl_xnlohi_2);
 sslauto.
 ssl_close 2;
-exists (n), (k), (hi), (lo), (x), (h_srtl_xnlohi_515);
+exists (n), (k), (hi), (lo), (x), (h_srtl_xnlohi_2);
 sslauto.
 ssl_frame_unfold.
 Qed.

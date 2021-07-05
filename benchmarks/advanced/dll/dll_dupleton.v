@@ -72,24 +72,24 @@ Definition dll_dupleton_type :=
       let: (x, y, r) := vprogs in
       let: (a) := vghosts in
       exists elems z,
-      exists h_dll_zelems_515,
-      @perm_eq nat_eqType (elems) ([:: x; y]) /\ h = r :-> (z) \+ h_dll_zelems_515 /\ dll z null elems h_dll_zelems_515
+      exists h_dll_zelems_2,
+      @perm_eq nat_eqType (elems) ([:: x; y]) /\ h = r :-> (z) \+ h_dll_zelems_2 /\ dll z null elems h_dll_zelems_2
     ]).
 
 Program Definition dll_dupleton : dll_dupleton_type :=
   Fix (fun (dll_dupleton : dll_dupleton_type) vprogs =>
     let: (x, y, r) := vprogs in
     Do (
-      a2 <-- @read ptr r;
-      z2 <-- allocb null 3;
-      wz2 <-- allocb null 3;
-      r ::= z2;;
-      (z2 .+ 1) ::= wz2;;
-      (z2 .+ 2) ::= null;;
-      (wz2 .+ 1) ::= null;;
-      (wz2 .+ 2) ::= z2;;
-      z2 ::= y;;
-      wz2 ::= x;;
+      a1 <-- @read ptr r;
+      z1 <-- allocb null 3;
+      wz1 <-- allocb null 3;
+      r ::= z1;;
+      (z1 .+ 1) ::= wz1;;
+      (z1 .+ 2) ::= null;;
+      (wz1 .+ 1) ::= null;;
+      (wz1 .+ 2) ::= z1;;
+      wz1 ::= x;;
+      z1 ::= y;;
       ret tt
     )).
 Obligation Tactic := intro; move=>[[x y] r]; ssl_program_simpl.
@@ -99,52 +99,52 @@ move=>a.
 move=>[sigma_self].
 subst h_self.
 ssl_ghostelim_post.
-try rename h_dll_zelems_515 into h_dll_zxy_515.
-try rename H_dll_zelems_515 into H_dll_zxy_515.
+try rename h_dll_zelems_2 into h_dll_zxy_2.
+try rename H_dll_zelems_2 into H_dll_zxy_2.
 ssl_read r.
-try rename a into a2.
-try rename h_dll_wzzs1z_513z into h_dll_wzzvwzs1wz_513z.
-try rename H_dll_wzzs1z_513z into H_dll_wzzvwzs1wz_513z.
-try rename h_dll_wwzwzs1wz_513wz into h_dll_wwzwz_513wz.
-try rename H_dll_wwzwzs1wz_513wz into H_dll_wwzwz_513wz.
-try rename h_dll_wzzvwzs1wz_513z into h_dll_wzzvwz_513z.
-try rename H_dll_wzzvwzs1wz_513z into H_dll_wzzvwz_513z.
-try rename h_dll_wwzwz_513wz into h_dll_wz_513wz.
-try rename H_dll_wwzwz_513wz into H_dll_wz_513wz.
-ssl_alloc z2.
-try rename z into z2.
-try rename h_dll_wzzvwz_513z into h_dll_wzz2vwz_513z.
-try rename H_dll_wzzvwz_513z into H_dll_wzz2vwz_513z.
-try rename h_dll_zxy_515 into h_dll_z2xy_515.
-try rename H_dll_zxy_515 into H_dll_z2xy_515.
-ssl_alloc wz2.
-try rename wz into wz2.
-try rename h_dll_wz_513wz into h_dll_wz2_513wz.
-try rename H_dll_wz_513wz into H_dll_wz2_513wz.
-try rename h_dll_wzz2vwz_513z into h_dll_wz2z2vwz_513z.
-try rename H_dll_wzz2vwz_513z into H_dll_wz2z2vwz_513z.
+try rename a into a1.
+try rename h_dll_wzzs1z_0z into h_dll_wzzvwzs1wz_0z.
+try rename H_dll_wzzs1z_0z into H_dll_wzzvwzs1wz_0z.
+try rename h_dll_wwzwzs1wz_0wz into h_dll_wwzwz_0wz.
+try rename H_dll_wwzwzs1wz_0wz into H_dll_wwzwz_0wz.
+try rename h_dll_wzzvwzs1wz_0z into h_dll_wzzvwz_0z.
+try rename H_dll_wzzvwzs1wz_0z into H_dll_wzzvwz_0z.
+try rename h_dll_wwzwz_0wz into h_dll_wz_0wz.
+try rename H_dll_wwzwz_0wz into H_dll_wz_0wz.
+ssl_alloc z1.
+try rename z into z1.
+try rename h_dll_zxy_2 into h_dll_z1xy_2.
+try rename H_dll_zxy_2 into H_dll_z1xy_2.
+try rename h_dll_wzzvwz_0z into h_dll_wzz1vwz_0z.
+try rename H_dll_wzzvwz_0z into H_dll_wzz1vwz_0z.
+ssl_alloc wz1.
+try rename wz into wz1.
+try rename h_dll_wzz1vwz_0z into h_dll_wz1z1vwz_0z.
+try rename H_dll_wzz1vwz_0z into H_dll_wz1z1vwz_0z.
+try rename h_dll_wz_0wz into h_dll_wz1_0wz.
+try rename H_dll_wz_0wz into H_dll_wz1_0wz.
 ssl_write r.
 ssl_write_post r.
-ssl_write (z2 .+ 1).
-ssl_write_post (z2 .+ 1).
-ssl_write (z2 .+ 2).
-ssl_write_post (z2 .+ 2).
-ssl_write (wz2 .+ 1).
-ssl_write_post (wz2 .+ 1).
-ssl_write (wz2 .+ 2).
-ssl_write_post (wz2 .+ 2).
-try rename h_dll_wz2z2vwz_513z into h_dll_wz2z2x_513z.
-try rename H_dll_wz2z2vwz_513z into H_dll_wz2z2x_513z.
-ssl_write z2.
-ssl_write_post z2.
-ssl_write wz2.
-ssl_write_post wz2.
+ssl_write (z1 .+ 1).
+ssl_write_post (z1 .+ 1).
+ssl_write (z1 .+ 2).
+ssl_write_post (z1 .+ 2).
+ssl_write (wz1 .+ 1).
+ssl_write_post (wz1 .+ 1).
+ssl_write (wz1 .+ 2).
+ssl_write_post (wz1 .+ 2).
+try rename h_dll_wz1z1vwz_0z into h_dll_wz1z1x_0z.
+try rename H_dll_wz1z1vwz_0z into H_dll_wz1z1x_0z.
+ssl_write wz1.
+ssl_write_post wz1.
+ssl_write z1.
+ssl_write_post z1.
 ssl_emp;
-exists ([:: x; y]), (z2);
-exists (z2 :-> (y) \+ z2 .+ 1 :-> (wz2) \+ z2 .+ 2 :-> (null) \+ wz2 :-> (x) \+ wz2 .+ 1 :-> (null) \+ wz2 .+ 2 :-> (z2));
+exists ([:: x; y]), (z1);
+exists (z1 :-> (y) \+ z1 .+ 1 :-> (wz1) \+ z1 .+ 2 :-> (null) \+ wz1 :-> (x) \+ wz1 .+ 1 :-> (null) \+ wz1 .+ 2 :-> (z1));
 sslauto.
 ssl_close 2;
-exists (y), (([:: x]) ++ (@nil nat)), (wz2), (wz2 :-> (x) \+ wz2 .+ 1 :-> (null) \+ wz2 .+ 2 :-> (z2));
+exists (y), (([:: x]) ++ (@nil nat)), (wz1), (wz1 :-> (x) \+ wz1 .+ 1 :-> (null) \+ wz1 .+ 2 :-> (z1));
 sslauto.
 ssl_close 2;
 exists (x), (@nil nat), (null), (empty);

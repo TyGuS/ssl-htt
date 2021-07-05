@@ -29,8 +29,8 @@ Inductive sll (x : ptr) (len : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
   (hi) == (0) /\ (len) == (0) /\ (lo) == (7) /\ h = empty
 | sll_2 of ~~ ((x) == (null)) of
   exists (len1 : nat) (v : nat) (hi1 : nat) (lo1 : nat) (nxt : ptr),
-  exists h_sll_nxtlen1lo1hi1_513,
-  (0) <= (len1) /\ (0) <= (v) /\ (hi) == ((if (hi1) <= (v) then v else hi1)) /\ (len) == ((1) + (len1)) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (v) <= (7) /\ h = x :-> (v) \+ x .+ 1 :-> (nxt) \+ h_sll_nxtlen1lo1hi1_513 /\ sll nxt len1 lo1 hi1 h_sll_nxtlen1lo1hi1_513.
+  exists h_sll_nxtlen1lo1hi1_0,
+  (0) <= (len1) /\ (0) <= (v) /\ (hi) == ((if (hi1) <= (v) then v else hi1)) /\ (len) == ((1) + (len1)) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (v) <= (7) /\ h = x :-> (v) \+ x .+ 1 :-> (nxt) \+ h_sll_nxtlen1lo1hi1_0 /\ sll nxt len1 lo1 hi1 h_sll_nxtlen1lo1hi1_0.
 
 
 Inductive srtl (x : ptr) (len : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
@@ -38,5 +38,5 @@ Inductive srtl (x : ptr) (len : nat) (lo : nat) (hi : nat) (h : heap) : Prop :=
   (hi) == (0) /\ (len) == (0) /\ (lo) == (7) /\ h = empty
 | srtl_2 of ~~ ((x) == (null)) of
   exists (len1 : nat) (v : nat) (hi1 : nat) (lo1 : nat) (nxt : ptr),
-  exists h_srtl_nxtlen1lo1hi1_514,
-  (0) <= (len1) /\ (0) <= (v) /\ (hi) == ((if (hi1) <= (v) then v else hi1)) /\ (len) == ((1) + (len1)) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (v) <= (7) /\ (v) <= (lo1) /\ h = x :-> (v) \+ x .+ 1 :-> (nxt) \+ h_srtl_nxtlen1lo1hi1_514 /\ srtl nxt len1 lo1 hi1 h_srtl_nxtlen1lo1hi1_514.
+  exists h_srtl_nxtlen1lo1hi1_1,
+  (0) <= (len1) /\ (0) <= (v) /\ (hi) == ((if (hi1) <= (v) then v else hi1)) /\ (len) == ((1) + (len1)) /\ (lo) == ((if (v) <= (lo1) then v else lo1)) /\ (v) <= (7) /\ (v) <= (lo1) /\ h = x :-> (v) \+ x .+ 1 :-> (nxt) \+ h_srtl_nxtlen1lo1hi1_1 /\ srtl nxt len1 lo1 hi1 h_srtl_nxtlen1lo1hi1_1.

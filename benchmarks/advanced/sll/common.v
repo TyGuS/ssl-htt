@@ -29,14 +29,5 @@ Inductive sll (x : ptr) (s : seq nat) (h : heap) : Prop :=
   @perm_eq nat_eqType (s) (@nil nat) /\ h = empty
 | sll_2 of ~~ ((x) == (null)) of
   exists (v : nat) (s1 : seq nat) (nxt : ptr),
-  exists h_sll_nxts1_1,
-  @perm_eq nat_eqType (s) (([:: v]) ++ (s1)) /\ h = x :-> (v) \+ x .+ 1 :-> (nxt) \+ h_sll_nxts1_1 /\ sll nxt s1 h_sll_nxts1_1.
-
-
-Inductive dll (x : ptr) (z : ptr) (s : seq nat) (h : heap) : Prop :=
-| dll_1 of (x) == (null) of
-  @perm_eq nat_eqType (s) (@nil nat) /\ h = empty
-| dll_2 of ~~ ((x) == (null)) of
-  exists (v : nat) (s1 : seq nat) (w : ptr),
-  exists h_dll_wxs1_0,
-  @perm_eq nat_eqType (s) (([:: v]) ++ (s1)) /\ h = x :-> (v) \+ x .+ 1 :-> (w) \+ x .+ 2 :-> (z) \+ h_dll_wxs1_0 /\ dll w x s1 h_dll_wxs1_0.
+  exists h_sll_nxts1_0,
+  @perm_eq nat_eqType (s) (([:: v]) ++ (s1)) /\ h = x :-> (v) \+ x .+ 1 :-> (nxt) \+ h_sll_nxts1_0 /\ sll nxt s1 h_sll_nxts1_0.

@@ -9,7 +9,7 @@ import argparse
 # Directory where benchmark programs are located
 BENCHMARK_DIR    = dirname(realpath(__file__))
 # Directory names of the benchmark groups to evaluate
-BENCHMARK_GROUPS = ["dll", "bst", "srtl"]
+BENCHMARK_GROUPS = ["sll", "dll", "bst", "srtl"]
 # Name of output statistics CSV file
 STAT_FILE        = "advanced-HTT.csv"
 # Name of output diff file
